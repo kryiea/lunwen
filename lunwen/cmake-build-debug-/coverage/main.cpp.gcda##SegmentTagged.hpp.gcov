@@ -1,0 +1,33 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/SegmentTagged.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_SEGMENTTAGGED_H
+        -:    2:#define CPPJIEBA_SEGMENTTAGGED_H
+        -:    3:
+        -:    4:#include "SegmentBase.hpp"
+        -:    5:
+        -:    6:namespace cppjieba {
+        -:    7:
+        -:    8:class SegmentTagged : public SegmentBase{
+        -:    9: public:
+function _ZN8cppjieba13SegmentTaggedC2Ev called 2 returned 100% blocks executed 100%
+        2:   10:  SegmentTagged() {
+        2:   10-block  0
+call    0 returned 2
+        2:   11:  }
+function _ZN8cppjieba13SegmentTaggedD2Ev called 2 returned 100% blocks executed 100%
+        2:   12:  virtual ~SegmentTagged() {
+        2:   13:  }
+        2:   13-block  0
+call    0 returned 2
+        -:   14:
+        -:   15:  virtual bool Tag(const string& src, vector<pair<string, string> >& res) const = 0;
+        -:   16:
+        -:   17:  virtual const DictTrie* GetDictTrie() const = 0;
+        -:   18:
+        -:   19:}; // class SegmentTagged
+        -:   20:
+        -:   21:} // cppjieba
+        -:   22:
+        -:   23:#endif

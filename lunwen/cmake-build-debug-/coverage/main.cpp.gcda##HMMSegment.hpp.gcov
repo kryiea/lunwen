@@ -1,0 +1,502 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/HMMSegment.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIBEA_HMMSEGMENT_H
+        -:    2:#define CPPJIBEA_HMMSEGMENT_H
+        -:    3:
+        -:    4:#include <iostream>
+        -:    5:#include <fstream>
+        -:    6:#include <memory.h>
+        -:    7:#include <cassert>
+        -:    8:#include "HMMModel.hpp"
+        -:    9:#include "SegmentBase.hpp"
+        -:   10:
+        -:   11:namespace cppjieba {
+        -:   12:class HMMSegment: public SegmentBase {
+        -:   13: public:
+function _ZN8cppjieba10HMMSegmentC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 62%
+        1:   14:  HMMSegment(const string& filePath)
+        1:   15:  : model_(new HMMModel(filePath)), isNeedDestroy_(true) {
+        1:   15-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   15-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+    $$$$$:   15-block  2
+call    7 never executed
+        1:   16:  }
+        1:   16-block  0
+    $$$$$:   16-block  1
+call    0 never executed
+        -:   17:  HMMSegment(const HMMModel* model) 
+        -:   18:  : model_(model), isNeedDestroy_(false) {
+        -:   19:  }
+       1*:   20:  ~HMMSegment() {
+        1:   21:    if (isNeedDestroy_) {
+        1:   22:      delete model_;
+        -:   23:    }
+       1*:   24:  }
+------------------
+_ZN8cppjieba10HMMSegmentD0Ev:
+function _ZN8cppjieba10HMMSegmentD0Ev called 0 returned 0% blocks executed 0%
+    #####:   20:  ~HMMSegment() {
+        -:   21:    if (isNeedDestroy_) {
+        -:   22:      delete model_;
+        -:   23:    }
+    #####:   24:  }
+    %%%%%:   24-block  0
+call    0 never executed
+call    1 never executed
+------------------
+_ZN8cppjieba10HMMSegmentD1Ev:
+function _ZN8cppjieba10HMMSegmentD1Ev called 1 returned 100% blocks executed 100%
+        1:   20:  ~HMMSegment() {
+        1:   21:    if (isNeedDestroy_) {
+        1:   21-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 0
+        1:   22:      delete model_;
+        1:   22-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 0
+        1:   22-block  1
+call    2 returned 1
+call    3 returned 1
+        -:   23:    }
+        1:   24:  }
+        1:   24-block  0
+call    0 returned 1
+------------------
+        -:   25:
+function _ZNK8cppjieba10HMMSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorIS6_SaIS6_EE called 0 returned 0% blocks executed 0%
+    #####:   26:  void Cut(const string& sentence, 
+        -:   27:        vector<string>& words) const {
+    #####:   28:    vector<Word> tmp;
+    %%%%%:   28-block  0
+call    0 never executed
+    #####:   29:    Cut(sentence, tmp);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   30:    GetStringsFromWords(tmp, words);
+    %%%%%:   30-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   31:  }
+    %%%%%:   31-block  0
+call    0 never executed
+    $$$$$:   31-block  1
+call    1 never executed
+function _ZNK8cppjieba10HMMSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorINS_4WordESaISA_EE called 0 returned 0% blocks executed 0%
+    #####:   32:  void Cut(const string& sentence, 
+        -:   33:        vector<Word>& words) const {
+    #####:   34:    PreFilter pre_filter(symbols_, sentence);
+    %%%%%:   34-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   35:    PreFilter::Range range;
+    #####:   36:    vector<WordRange> wrs;
+    %%%%%:   36-block  0
+call    0 never executed
+    #####:   37:    wrs.reserve(sentence.size()/2);
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   38:    while (pre_filter.HasNext()) {
+    %%%%%:   38-block  0
+    %%%%%:   38-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   38-block  2
+branch  3 never executed
+branch  4 never executed
+    #####:   39:      range = pre_filter.Next();
+    %%%%%:   39-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   40:      Cut(range.begin, range.end, wrs);
+    %%%%%:   40-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   41:    }
+    #####:   42:    words.clear();
+    %%%%%:   42-block  0
+call    0 never executed
+    #####:   43:    words.reserve(wrs.size());
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   44:    GetWordsFromWordRanges(sentence, wrs, words);
+    %%%%%:   44-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   45:  }
+    %%%%%:   45-block  0
+call    0 never executed
+call    1 never executed
+    $$$$$:   45-block  1
+call    2 never executed
+    $$$$$:   45-block  2
+call    3 never executed
+function _ZNK8cppjieba10HMMSegment3CutEPKNS_7RuneStrES3_RSt6vectorINS_9WordRangeESaIS5_EE called 25640 returned 100% blocks executed 100%
+    25640:   46:  void Cut(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end, vector<WordRange>& res) const {
+    25640:   47:    RuneStrArray::const_iterator left = begin;
+    25640:   48:    RuneStrArray::const_iterator right = begin;
+   408382:   49:    while (right != end) {
+    25640:   49-block  0
+   408382:   49-block  1
+branch  0 taken 382742
+branch  1 taken 25640 (fallthrough)
+   382742:   50:      if (right->rune < 0x80) {
+   382742:   50-block  0
+branch  0 taken 1828 (fallthrough)
+branch  1 taken 380914
+     1828:   51:        if (left != right) {
+     1828:   51-block  0
+branch  0 taken 608 (fallthrough)
+branch  1 taken 1220
+      608:   52:          InternalCut(left, right, res);
+      608:   52-block  0
+call    0 returned 608
+branch  1 taken 608 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   53:        }
+     1828:   54:        left = right;
+        -:   55:        do {
+     1828:   56:          right = SequentialLetterRule(left, end);
+     1828:   56-block  0
+call    0 returned 1828
+     1828:   57:          if (right != left) {
+branch  0 taken 66 (fallthrough)
+branch  1 taken 1762
+       66:   58:            break;
+       66:   58-block  0
+        -:   59:          }
+     1762:   60:          right = NumbersRule(left, end);
+     1762:   60-block  0
+call    0 returned 1762
+     1762:   61:          if (right != left) {
+branch  0 taken 284 (fallthrough)
+branch  1 taken 1478
+      284:   62:            break;
+      284:   62-block  0
+        -:   63:          }
+     1478:   64:          right ++;
+     1478:   64-block  0
+        -:   65:        } while (false);
+     1828:   66:        WordRange wr(left, right - 1);
+     1828:   66-block  0
+call    0 returned 1828
+     1828:   67:        res.push_back(wr);
+call    0 returned 1828
+branch  1 taken 1828 (fallthrough)
+branch  2 taken 0 (throw)
+     1828:   68:        left = right;
+     1828:   68-block  0
+        -:   69:      } else {
+   380914:   70:        right++;
+   380914:   70-block  0
+        -:   71:      }
+        -:   72:    }
+    25640:   73:    if (left != right) {
+    25640:   73-block  0
+branch  0 taken 25304 (fallthrough)
+branch  1 taken 336
+    25304:   74:      InternalCut(left, right, res);
+    25304:   74-block  0
+call    0 returned 25304
+        -:   75:    }
+    25640:   76:  }
+    25640:   76-block  0
+        -:   77: private:
+        -:   78:  // sequential letters rule
+function _ZNK8cppjieba10HMMSegment20SequentialLetterRuleEPKNS_7RuneStrES3_ called 1828 returned 100% blocks executed 100%
+     1828:   79:  RuneStrArray::const_iterator SequentialLetterRule(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end) const {
+     1828:   80:    Rune x = begin->rune;
+     1828:   81:    if (('a' <= x && x <= 'z') || ('A' <= x && x <= 'Z')) {
+     1828:   81-block  0
+branch  0 taken 60 (fallthrough)
+branch  1 taken 1768
+       60:   81-block  1
+branch  2 taken 0 (fallthrough)
+branch  3 taken 60
+     1768:   81-block  2
+branch  4 taken 6 (fallthrough)
+branch  5 taken 1762
+        6:   81-block  3
+branch  6 taken 6 (fallthrough)
+branch  7 taken 0
+       66:   82:      begin ++;
+        -:   83:    } else {
+     1762:   84:      return begin;
+     1762:   84-block  0
+        -:   85:    }
+      426:   86:    while (begin != end) {
+       66:   86-block  0
+      426:   86-block  1
+branch  0 taken 410
+branch  1 taken 16 (fallthrough)
+      410:   87:      x = begin->rune;
+      410:   88:      if (('a' <= x && x <= 'z') || ('A' <= x && x <= 'Z') || ('0' <= x && x <= '9')) {
+      410:   88-block  0
+branch  0 taken 350 (fallthrough)
+branch  1 taken 60
+      350:   88-block  1
+branch  2 taken 22 (fallthrough)
+branch  3 taken 328
+       82:   88-block  2
+branch  4 taken 34 (fallthrough)
+branch  5 taken 48
+       34:   88-block  3
+branch  6 taken 22 (fallthrough)
+branch  7 taken 12
+       70:   88-block  4
+branch  8 taken 46 (fallthrough)
+branch  9 taken 24
+       46:   88-block  5
+branch 10 taken 20 (fallthrough)
+branch 11 taken 26
+      360:   89:        begin ++;
+      360:   89-block  0
+        -:   90:      } else {
+        -:   91:        break;
+        -:   92:      }
+        -:   93:    }
+       66:   94:    return begin;
+       66:   94-block  0
+        -:   95:  }
+        -:   96:  //
+function _ZNK8cppjieba10HMMSegment11NumbersRuleEPKNS_7RuneStrES3_ called 1762 returned 100% blocks executed 100%
+     1762:   97:  RuneStrArray::const_iterator NumbersRule(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end) const {
+     1762:   98:    Rune x = begin->rune;
+     1762:   99:    if ('0' <= x && x <= '9') {
+     1762:   99-block  0
+branch  0 taken 1350 (fallthrough)
+branch  1 taken 412
+     1350:   99-block  1
+branch  2 taken 284 (fallthrough)
+branch  3 taken 1066
+      284:  100:      begin ++;
+        -:  101:    } else {
+     1478:  102:      return begin;
+     1478:  102-block  0
+        -:  103:    }
+      676:  104:    while (begin != end) {
+      284:  104-block  0
+      676:  104-block  1
+branch  0 taken 652
+branch  1 taken 24 (fallthrough)
+      652:  105:      x = begin->rune;
+      652:  106:      if ( ('0' <= x && x <= '9') || x == '.') {
+      652:  106-block  0
+branch  0 taken 552 (fallthrough)
+branch  1 taken 100
+      552:  106-block  1
+branch  2 taken 160 (fallthrough)
+branch  3 taken 392
+      260:  106-block  2
+branch  4 taken 0 (fallthrough)
+branch  5 taken 260
+      392:  107:        begin++;
+      392:  107-block  0
+        -:  108:      } else {
+        -:  109:        break;
+        -:  110:      }
+        -:  111:    }
+      284:  112:    return begin;
+      284:  112-block  0
+        -:  113:  }
+function _ZNK8cppjieba10HMMSegment11InternalCutEPKNS_7RuneStrES3_RSt6vectorINS_9WordRangeESaIS5_EE called 25912 returned 100% blocks executed 82%
+    25912:  114:  void InternalCut(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end, vector<WordRange>& res) const {
+    25912:  115:    vector<size_t> status;
+    25912:  115-block  0
+call    0 returned 25912
+    25912:  116:    Viterbi(begin, end, status);
+call    0 returned 25912
+branch  1 taken 25912 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  117:
+    25912:  118:    RuneStrArray::const_iterator left = begin;
+        -:  119:    RuneStrArray::const_iterator right;
+   406826:  120:    for (size_t i = 0; i < status.size(); i++) {
+    25912:  120-block  0
+   380914:  120-block  1
+   406826:  120-block  2
+call    0 returned 406826
+branch  1 taken 380914
+branch  2 taken 25912 (fallthrough)
+   380914:  121:      if (status[i] % 2) { //if (HMMModel::E == status[i] || HMMModel::S == status[i])
+   380914:  121-block  0
+call    0 returned 380914
+branch  1 taken 310280 (fallthrough)
+branch  2 taken 70634
+   310280:  122:        right = begin + i + 1;
+   310280:  123:        WordRange wr(left, right - 1);
+   310280:  123-block  0
+call    0 returned 310280
+   310280:  124:        res.push_back(wr);
+call    0 returned 310280
+branch  1 taken 310280 (fallthrough)
+branch  2 taken 0 (throw)
+   310280:  125:        left = right;
+   310280:  125-block  0
+        -:  126:      }
+        -:  127:    }
+    25912:  128:  }
+    25912:  128-block  0
+call    0 returned 25912
+    $$$$$:  128-block  1
+call    1 never executed
+        -:  129:
+function _ZNK8cppjieba10HMMSegment7ViterbiEPKNS_7RuneStrES3_RSt6vectorIySaIyEE called 25912 returned 100% blocks executed 82%
+    25912:  130:  void Viterbi(RuneStrArray::const_iterator begin, 
+        -:  131:        RuneStrArray::const_iterator end, 
+        -:  132:        vector<size_t>& status) const {
+    25912:  133:    size_t Y = HMMModel::STATUS_SUM;
+    25912:  134:    size_t X = end - begin;
+        -:  135:
+    25912:  136:    size_t XYSize = X * Y;
+        -:  137:    size_t now, old, stat;
+        -:  138:    double tmp, endE, endS;
+        -:  139:
+    25912:  140:    vector<int> path(XYSize);
+    25912:  140-block  0
+call    0 returned 25912
+call    1 returned 25912
+branch  2 taken 25912 (fallthrough)
+branch  3 taken 0 (throw)
+    $$$$$:  140-block  1
+    25912:  141:    vector<double> weight(XYSize);
+call    0 returned 25912
+call    1 returned 25912
+branch  2 taken 25912 (fallthrough)
+branch  3 taken 0 (throw)
+    $$$$$:  141-block  0
+        -:  142:
+        -:  143:    //start
+   129560:  144:    for (size_t y = 0; y < Y; y++) {
+   129560:  144-block  0
+branch  0 taken 103648
+branch  1 taken 25912 (fallthrough)
+   103648:  145:      weight[0 + y * X] = model_->startProb[y] + model_->GetEmitProb(model_->emitProbVec[y], begin->rune, MIN_DOUBLE);
+   103648:  145-block  0
+call    0 returned 103648
+call    1 returned 103648
+branch  2 taken 103648 (fallthrough)
+branch  3 taken 0 (throw)
+   103648:  145-block  1
+call    4 returned 103648
+   103648:  146:      path[0 + y * X] = -1;
+call    0 returned 103648
+        -:  147:    }
+        -:  148:
+        -:  149:    double emitProb;
+        -:  150:
+   380914:  151:    for (size_t x = 1; x < X; x++) {
+    25912:  151-block  0
+   355002:  151-block  1
+   380914:  151-block  2
+branch  0 taken 355002
+branch  1 taken 25912 (fallthrough)
+  1775010:  152:      for (size_t y = 0; y < Y; y++) {
+   355002:  152-block  0
+  1420008:  152-block  1
+  1775010:  152-block  2
+branch  0 taken 1420008
+branch  1 taken 355002 (fallthrough)
+  1420008:  153:        now = x + y*X;
+  1420008:  154:        weight[now] = MIN_DOUBLE;
+  1420008:  154-block  0
+call    0 returned 1420008
+  1420008:  155:        path[now] = HMMModel::E; // warning
+call    0 returned 1420008
+  1420008:  156:        emitProb = model_->GetEmitProb(model_->emitProbVec[y], (begin+x)->rune, MIN_DOUBLE);
+call    0 returned 1420008
+call    1 returned 1420008
+branch  2 taken 1420008 (fallthrough)
+branch  3 taken 0 (throw)
+  7100040:  157:        for (size_t preY = 0; preY < Y; preY++) {
+  1420008:  157-block  0
+  5680032:  157-block  1
+  7100040:  157-block  2
+branch  0 taken 5680032
+branch  1 taken 1420008 (fallthrough)
+  5680032:  158:          old = x - 1 + preY * X;
+  5680032:  159:          tmp = weight[old] + model_->transProb[preY][y] + emitProb;
+  5680032:  159-block  0
+call    0 returned 5680032
+  5680032:  160:          if (tmp > weight[now]) {
+call    0 returned 5680032
+branch  1 taken 1940576 (fallthrough)
+branch  2 taken 3739456
+  1940576:  161:            weight[now] = tmp;
+  1940576:  161-block  0
+call    0 returned 1940576
+  1940576:  162:            path[now] = preY;
+call    0 returned 1940576
+        -:  163:          }
+        -:  164:        }
+        -:  165:      }
+        -:  166:    }
+        -:  167:
+    25912:  168:    endE = weight[X-1+HMMModel::E*X];
+    25912:  168-block  0
+call    0 returned 25912
+    25912:  169:    endS = weight[X-1+HMMModel::S*X];
+call    0 returned 25912
+    25912:  170:    stat = 0;
+    25912:  171:    if (endE >= endS) {
+branch  0 taken 4320 (fallthrough)
+branch  1 taken 21592
+     4320:  172:      stat = HMMModel::E;
+     4320:  172-block  0
+        -:  173:    } else {
+    21592:  174:      stat = HMMModel::S;
+    21592:  174-block  0
+        -:  175:    }
+        -:  176:
+    25912:  177:    status.resize(X);
+    25912:  177-block  0
+call    0 returned 25912
+branch  1 taken 25912 (fallthrough)
+branch  2 taken 0 (throw)
+   406826:  178:    for (int x = X -1 ; x >= 0; x--) {
+    25912:  178-block  0
+   406826:  178-block  1
+branch  0 taken 380914
+branch  1 taken 25912 (fallthrough)
+   380914:  179:      status[x] = stat;
+   380914:  179-block  0
+call    0 returned 380914
+   380914:  180:      stat = path[x + stat*X];
+call    0 returned 380914
+        -:  181:    }
+    25912:  182:  }
+    25912:  182-block  0
+call    0 returned 25912
+call    1 returned 25912
+    $$$$$:  182-block  1
+call    2 never executed
+    $$$$$:  182-block  2
+call    3 never executed
+        -:  183:
+        -:  184:  const HMMModel* model_;
+        -:  185:  bool isNeedDestroy_;
+        -:  186:}; // class HMMSegment
+        -:  187:
+        -:  188:} // namespace cppjieba
+        -:  189:
+        -:  190:#endif

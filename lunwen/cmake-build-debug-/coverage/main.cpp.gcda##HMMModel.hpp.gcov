@@ -1,0 +1,759 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/HMMModel.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_HMMMODEL_H
+        -:    2:#define CPPJIEBA_HMMMODEL_H
+        -:    3:
+        -:    4:#include "limonp/StringUtil.hpp"
+        -:    5:#include "Trie.hpp"
+        -:    6:
+        -:    7:namespace cppjieba {
+        -:    8:
+        -:    9:using namespace limonp;
+        -:   10:typedef unordered_map<Rune, double> EmitProbMap;
+        -:   11:
+        -:   12:struct HMMModel {
+        -:   13:  /*
+        -:   14:   * STATUS:
+        -:   15:   * 0: HMMModel::B, 1: HMMModel::E, 2: HMMModel::M, 3:HMMModel::S
+        -:   16:   * */
+        -:   17:  enum {B = 0, E = 1, M = 2, S = 3, STATUS_SUM = 4};
+        -:   18:
+function _ZN8cppjieba8HMMModelC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 48%
+        1:   19:  HMMModel(const string& modelPath) {
+        1:   19-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+        1:   20:    memset(startProb, 0, sizeof(startProb));
+        1:   21:    memset(transProb, 0, sizeof(transProb));
+        1:   22:    statMap[0] = 'B';
+        1:   23:    statMap[1] = 'E';
+        1:   24:    statMap[2] = 'M';
+        1:   25:    statMap[3] = 'S';
+        1:   26:    emitProbVec.push_back(&emitProbB);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   26-block  0
+        1:   27:    emitProbVec.push_back(&emitProbE);
+        1:   27-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   27-block  1
+        1:   28:    emitProbVec.push_back(&emitProbM);
+        1:   28-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   28-block  1
+        1:   29:    emitProbVec.push_back(&emitProbS);
+        1:   29-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   29-block  1
+        1:   30:    LoadModel(modelPath);
+        1:   30-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   31:  }
+        1:   31-block  0
+    $$$$$:   31-block  1
+call    0 never executed
+    $$$$$:   31-block  2
+call    1 never executed
+    $$$$$:   31-block  3
+call    2 never executed
+    $$$$$:   31-block  4
+call    3 never executed
+    $$$$$:   31-block  5
+call    4 never executed
+function _ZN8cppjieba8HMMModelD1Ev called 1 returned 100% blocks executed 100%
+        1:   32:  ~HMMModel() {
+        1:   33:  }
+        1:   33-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+function _ZN8cppjieba8HMMModel9LoadModelERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 31%
+        1:   34:  void LoadModel(const string& filePath) {
+        1:   35:    ifstream ifile(filePath.c_str());
+        1:   35-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+       1*:   36:    XCHECK(ifile.is_open()) << "open " << filePath << " failed";
+        1:   36-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   36-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   36-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   36-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   36-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   36-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:   36-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:   36-block  7
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+    %%%%%:   36-block  8
+call   24 never executed
+    $$$$$:   36-block  9
+call   25 never executed
+    $$$$$:   36-block 10
+        1:   37:    string line;
+        1:   37-block  0
+call    0 returned 1
+        1:   38:    vector<string> tmp;
+call    0 returned 1
+        1:   39:    vector<string> tmp2;
+call    0 returned 1
+        -:   40:    //Load startProb
+       1*:   41:    XCHECK(GetLine(ifile, line));
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   41-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   41-block  1
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   41-block  2
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   41-block  3
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   41-block  4
+call   15 never executed
+    $$$$$:   41-block  5
+call   16 never executed
+    $$$$$:   41-block  6
+        1:   42:    Split(line, tmp, " ");
+        1:   42-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   42-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   42-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   42-block  3
+call    9 never executed
+    $$$$$:   42-block  4
+    $$$$$:   42-block  5
+call   10 never executed
+    $$$$$:   42-block  6
+       1*:   43:    XCHECK(tmp.size() == STATUS_SUM);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   43-block  0
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   43-block  1
+call    6 never executed
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:   43-block  2
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:   43-block  3
+call   13 never executed
+    $$$$$:   43-block  4
+call   14 never executed
+    $$$$$:   43-block  5
+        5:   44:    for (size_t j = 0; j< tmp.size(); j++) {
+        1:   44-block  0
+        5:   44-block  1
+call    0 returned 5
+branch  1 taken 4
+branch  2 taken 1 (fallthrough)
+        4:   45:      startProb[j] = atof(tmp[j].c_str());
+        4:   45-block  0
+call    0 returned 4
+call    1 returned 4
+call    2 returned 4
+        -:   46:    }
+        -:   47:
+        -:   48:    //Load transProb
+        5:   49:    for (size_t i = 0; i < STATUS_SUM; i++) {
+        1:   49-block  0
+        4:   49-block  1
+        5:   49-block  2
+branch  0 taken 4
+branch  1 taken 1 (fallthrough)
+       4*:   50:      XCHECK(GetLine(ifile, line));
+        4:   50-block  0
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   50-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 4
+    %%%%%:   50-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   50-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   50-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   50-block  5
+call   15 never executed
+    $$$$$:   50-block  6
+call   16 never executed
+    $$$$$:   50-block  7
+        4:   51:      Split(line, tmp, " ");
+        4:   51-block  0
+call    0 returned 4
+call    1 returned 4
+branch  2 taken 4 (fallthrough)
+branch  3 taken 0 (throw)
+        4:   51-block  1
+call    4 returned 4
+branch  5 taken 4 (fallthrough)
+branch  6 taken 0 (throw)
+        4:   51-block  2
+call    7 returned 4
+call    8 returned 4
+    $$$$$:   51-block  3
+call    9 never executed
+    $$$$$:   51-block  4
+    $$$$$:   51-block  5
+call   10 never executed
+    $$$$$:   51-block  6
+       4*:   52:      XCHECK(tmp.size() == STATUS_SUM);
+call    0 returned 4
+branch  1 taken 0 (fallthrough)
+branch  2 taken 4
+    %%%%%:   52-block  0
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   52-block  1
+call    6 never executed
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:   52-block  2
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:   52-block  3
+call   13 never executed
+    $$$$$:   52-block  4
+call   14 never executed
+    $$$$$:   52-block  5
+       20:   53:      for (size_t j =0; j < STATUS_SUM; j++) {
+        4:   53-block  0
+       20:   53-block  1
+branch  0 taken 16
+branch  1 taken 4 (fallthrough)
+       16:   54:        transProb[i][j] = atof(tmp[j].c_str());
+       16:   54-block  0
+call    0 returned 16
+call    1 returned 16
+call    2 returned 16
+        -:   55:      }
+        -:   56:    }
+        -:   57:
+        -:   58:    //Load emitProbB
+       1*:   59:    XCHECK(GetLine(ifile, line));
+        1:   59-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   59-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   59-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   59-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   59-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   59-block  5
+call   15 never executed
+    $$$$$:   59-block  6
+call   16 never executed
+    $$$$$:   59-block  7
+       1*:   60:    XCHECK(LoadEmitProb(line, emitProbB));
+        1:   60-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   60-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   60-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   60-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   60-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   60-block  5
+call   15 never executed
+    $$$$$:   60-block  6
+call   16 never executed
+    $$$$$:   60-block  7
+        -:   61:
+        -:   62:    //Load emitProbE
+       1*:   63:    XCHECK(GetLine(ifile, line));
+        1:   63-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   63-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   63-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   63-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   63-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   63-block  5
+call   15 never executed
+    $$$$$:   63-block  6
+call   16 never executed
+    $$$$$:   63-block  7
+       1*:   64:    XCHECK(LoadEmitProb(line, emitProbE));
+        1:   64-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   64-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   64-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   64-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   64-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   64-block  5
+call   15 never executed
+    $$$$$:   64-block  6
+call   16 never executed
+    $$$$$:   64-block  7
+        -:   65:
+        -:   66:    //Load emitProbM
+       1*:   67:    XCHECK(GetLine(ifile, line));
+        1:   67-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   67-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   67-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   67-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   67-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   67-block  5
+call   15 never executed
+    $$$$$:   67-block  6
+call   16 never executed
+    $$$$$:   67-block  7
+       1*:   68:    XCHECK(LoadEmitProb(line, emitProbM));
+        1:   68-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   68-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   68-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   68-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   68-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   68-block  5
+call   15 never executed
+    $$$$$:   68-block  6
+call   16 never executed
+    $$$$$:   68-block  7
+        -:   69:
+        -:   70:    //Load emitProbS
+       1*:   71:    XCHECK(GetLine(ifile, line));
+        1:   71-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   71-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   71-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   71-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   71-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   71-block  5
+call   15 never executed
+    $$$$$:   71-block  6
+call   16 never executed
+    $$$$$:   71-block  7
+       1*:   72:    XCHECK(LoadEmitProb(line, emitProbS));
+        1:   72-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   72-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   72-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   72-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   72-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   72-block  5
+call   15 never executed
+    $$$$$:   72-block  6
+call   16 never executed
+    $$$$$:   72-block  7
+        1:   73:  }
+        1:   73-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+    $$$$$:   73-block  1
+call    4 never executed
+    $$$$$:   73-block  2
+call    5 never executed
+    $$$$$:   73-block  3
+call    6 never executed
+    $$$$$:   73-block  4
+call    7 never executed
+function _ZNK8cppjieba8HMMModel11GetEmitProbEPKSt13unordered_mapIjdSt4hashIjESt8equal_toIjESaISt4pairIKjdEEEjd called 1523656 returned 100% blocks executed 100%
+  1523656:   74:  double GetEmitProb(const EmitProbMap* ptMp, Rune key, 
+        -:   75:        double defVal)const {
+  1523656:   76:    EmitProbMap::const_iterator cit = ptMp->find(key);
+  1523656:   76-block  0
+call    0 returned 1523656
+branch  1 taken 1523656 (fallthrough)
+branch  2 taken 0 (throw)
+  1523656:   77:    if (cit == ptMp->end()) {
+  1523656:   77-block  0
+call    0 returned 1523656
+call    1 returned 1523656
+branch  2 taken 53260 (fallthrough)
+branch  3 taken 1470396
+    53260:   78:      return defVal;
+    53260:   78-block  0
+        -:   79:    }
+  1470396:   80:    return cit->second;
+  1470396:   80-block  0
+call    0 returned 1470396
+        -:   81:  }
+function _ZN8cppjieba8HMMModel7GetLineERSt14basic_ifstreamIcSt11char_traitsIcEERNSt7__cxx1112basic_stringIcS3_SaIcEEE called 9 returned 100% blocks executed 71%
+        9:   82:  bool GetLine(ifstream& ifile, string& line) {
+       34:   83:    while (getline(ifile, line)) {
+        9:   83-block  0
+       34:   83-block  1
+call    0 returned 34
+call    1 returned 34
+branch  2 taken 34
+branch  3 taken 0 (fallthrough)
+       34:   84:      Trim(line);
+       34:   84-block  0
+call    0 returned 34
+      34*:   85:      if (line.empty()) {
+call    0 returned 34
+branch  1 taken 0 (fallthrough)
+branch  2 taken 34
+    #####:   86:        continue;
+    %%%%%:   86-block  0
+        -:   87:      }
+       34:   88:      if (StartsWith(line, "#")) {
+       34:   88-block  0
+call    0 returned 34
+call    1 returned 34
+branch  2 taken 34 (fallthrough)
+branch  3 taken 0 (throw)
+       34:   88-block  1
+call    4 returned 34
+branch  5 taken 34 (fallthrough)
+branch  6 taken 0 (throw)
+       34:   88-block  2
+call    7 returned 34
+call    8 returned 34
+branch  9 taken 25 (fallthrough)
+branch 10 taken 9
+    $$$$$:   88-block  3
+call   11 never executed
+    $$$$$:   88-block  4
+    $$$$$:   88-block  5
+call   12 never executed
+       25:   89:        continue;
+       25:   89-block  0
+        -:   90:      }
+        9:   91:      return true;
+        9:   91-block  0
+        -:   92:    }
+    #####:   93:    return false;
+    %%%%%:   93-block  0
+        -:   94:  }
+function _ZN8cppjieba8HMMModel12LoadEmitProbERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt13unordered_mapIjdSt4hashIjESt8equal_toIjESaISt4pairIKjdEEE called 4 returned 100% blocks executed 53%
+        4:   95:  bool LoadEmitProb(const string& line, EmitProbMap& mp) {
+        4:   96:    if (line.empty()) {
+        4:   96-block  0
+call    0 returned 4
+branch  1 taken 0 (fallthrough)
+branch  2 taken 4
+    #####:   97:      return false;
+    %%%%%:   97-block  0
+        -:   98:    }
+        4:   99:    vector<string> tmp, tmp2;
+        4:   99-block  0
+call    0 returned 4
+call    1 returned 4
+        4:  100:    Unicode unicode;
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:  101:    Split(line, tmp, ",");
+        4:  101-block  0
+call    0 returned 4
+call    1 returned 4
+branch  2 taken 4 (fallthrough)
+branch  3 taken 0 (throw)
+        4:  101-block  1
+call    4 returned 4
+branch  5 taken 4 (fallthrough)
+branch  6 taken 0 (throw)
+        4:  101-block  2
+call    7 returned 4
+call    8 returned 4
+    $$$$$:  101-block  3
+call    9 never executed
+    $$$$$:  101-block  4
+    $$$$$:  101-block  5
+call   10 never executed
+    $$$$$:  101-block  6
+    35228:  102:    for (size_t i = 0; i < tmp.size(); i++) {
+    35228:  102-block  0
+call    0 returned 35228
+branch  1 taken 35224
+branch  2 taken 4 (fallthrough)
+    35224:  103:      Split(tmp[i], tmp2, ":");
+    35224:  103-block  0
+call    0 returned 35224
+call    1 returned 35224
+branch  2 taken 35224 (fallthrough)
+branch  3 taken 0 (throw)
+    35224:  103-block  1
+call    4 returned 35224
+call    5 returned 35224
+branch  6 taken 35224 (fallthrough)
+branch  7 taken 0 (throw)
+    35224:  103-block  2
+call    8 returned 35224
+call    9 returned 35224
+    $$$$$:  103-block  3
+call   10 never executed
+    $$$$$:  103-block  4
+    $$$$$:  103-block  5
+call   11 never executed
+    $$$$$:  103-block  6
+    35224:  104:      if (2 != tmp2.size()) {
+call    0 returned 35224
+branch  1 taken 0 (fallthrough)
+branch  2 taken 35224
+    #####:  105:        XLOG(ERROR) << "emitProb illegal.";
+    %%%%%:  105-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  105-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  105-block  2
+call    7 never executed
+    $$$$$:  105-block  3
+call    8 never executed
+    $$$$$:  105-block  4
+    #####:  106:        return false;
+        -:  107:      }
+   35224*:  108:      if (!DecodeRunesInString(tmp2[0], unicode) || unicode.size() != 1) {
+    35224:  108-block  0
+call    0 returned 35224
+call    1 returned 35224
+branch  2 taken 35224 (fallthrough)
+branch  3 taken 0 (throw)
+    35224:  108-block  1
+branch  4 taken 35224 (fallthrough)
+branch  5 taken 0
+    35224:  108-block  2
+call    6 returned 35224
+branch  7 taken 0 (fallthrough)
+branch  8 taken 35224
+    %%%%%:  108-block  3
+    35224:  108-block  4
+    35224:  108-block  5
+branch  9 taken 0 (fallthrough)
+branch 10 taken 35224
+    #####:  109:        XLOG(ERROR) << "TransCode failed.";
+    %%%%%:  109-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  109-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  109-block  2
+call    7 never executed
+    $$$$$:  109-block  3
+call    8 never executed
+    $$$$$:  109-block  4
+    #####:  110:        return false;
+        -:  111:      }
+    35224:  112:      mp[unicode[0]] = atof(tmp2[1].c_str());
+    35224:  112-block  0
+call    0 returned 35224
+call    1 returned 35224
+call    2 returned 35224
+call    3 returned 35224
+call    4 returned 35224
+branch  5 taken 35224 (fallthrough)
+branch  6 taken 0 (throw)
+    35224:  112-block  1
+        -:  113:    }
+        4:  114:    return true;
+        4:  114-block  0
+        4:  115:  }
+        4:  115-block  0
+call    0 returned 4
+call    1 returned 4
+call    2 returned 4
+    $$$$$:  115-block  1
+call    3 never executed
+    $$$$$:  115-block  2
+call    4 never executed
+    $$$$$:  115-block  3
+call    5 never executed
+        -:  116:
+        -:  117:  char statMap[STATUS_SUM];
+        -:  118:  double startProb[STATUS_SUM];
+        -:  119:  double transProb[STATUS_SUM][STATUS_SUM];
+        -:  120:  EmitProbMap emitProbB;
+        -:  121:  EmitProbMap emitProbE;
+        -:  122:  EmitProbMap emitProbM;
+        -:  123:  EmitProbMap emitProbS;
+        -:  124:  vector<EmitProbMap* > emitProbVec;
+        -:  125:}; // struct HMMModel
+        -:  126:
+        -:  127:} // namespace cppjieba
+        -:  128:
+        -:  129:#endif

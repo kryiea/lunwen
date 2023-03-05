@@ -1,0 +1,341 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/MixSegment.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_MIXSEGMENT_H
+        -:    2:#define CPPJIEBA_MIXSEGMENT_H
+        -:    3:
+        -:    4:#include <cassert>
+        -:    5:#include "MPSegment.hpp"
+        -:    6:#include "HMMSegment.hpp"
+        -:    7:#include "limonp/StringUtil.hpp"
+        -:    8:#include "PosTagger.hpp"
+        -:    9:
+        -:   10:namespace cppjieba {
+        -:   11:class MixSegment: public SegmentTagged {
+        -:   12: public:
+function _ZN8cppjieba10MixSegmentC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_S8_ called 1 returned 100% blocks executed 67%
+        1:   13:  MixSegment(const string& mpSegDict, const string& hmmSegDict, 
+        -:   14:        const string& userDict = "") 
+        2:   15:    : mpSeg_(mpSegDict, userDict), 
+        1:   16:      hmmSeg_(hmmSegDict) {
+        1:   16-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   16-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   16-block  2
+call    7 returned 1
+        1:   17:  }
+    $$$$$:   17-block  0
+call    0 never executed
+    $$$$$:   17-block  1
+call    1 never executed
+        -:   18:  MixSegment(const DictTrie* dictTrie, const HMMModel* model) 
+        -:   19:    : mpSeg_(dictTrie), hmmSeg_(model) {
+        -:   20:  }
+       1*:   21:  ~MixSegment() {
+       1*:   22:  }
+------------------
+_ZN8cppjieba10MixSegmentD0Ev:
+function _ZN8cppjieba10MixSegmentD0Ev called 0 returned 0% blocks executed 0%
+    #####:   21:  ~MixSegment() {
+    #####:   22:  }
+    %%%%%:   22-block  0
+call    0 never executed
+call    1 never executed
+------------------
+_ZN8cppjieba10MixSegmentD1Ev:
+function _ZN8cppjieba10MixSegmentD1Ev called 1 returned 100% blocks executed 100%
+        1:   21:  ~MixSegment() {
+        1:   22:  }
+        1:   22-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+------------------
+        -:   23:
+function _ZNK8cppjieba10MixSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorIS6_SaIS6_EE called 4 returned 100% blocks executed 100%
+        4:   24:  void Cut(const string& sentence, vector<string>& words) const {
+        4:   25:    Cut(sentence, words, true);
+        4:   25-block  0
+call    0 returned 4
+        4:   26:  }
+function _ZNK8cppjieba10MixSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorIS6_SaIS6_EEb called 4 returned 100% blocks executed 75%
+        4:   27:  void Cut(const string& sentence, vector<string>& words, bool hmm) const {
+        4:   28:    vector<Word> tmp;
+        4:   28-block  0
+call    0 returned 4
+        4:   29:    Cut(sentence, tmp, hmm);
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   30:    GetStringsFromWords(tmp, words);
+        4:   30-block  0
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   31:  }
+        4:   31-block  0
+call    0 returned 4
+    $$$$$:   31-block  1
+call    1 never executed
+function _ZNK8cppjieba10MixSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorINS_4WordESaISA_EEb called 4 returned 100% blocks executed 81%
+        4:   32:  void Cut(const string& sentence, vector<Word>& words, bool hmm = true) const {
+        4:   33:    PreFilter pre_filter(symbols_, sentence);
+        4:   33-block  0
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   34:    PreFilter::Range range;
+        4:   35:    vector<WordRange> wrs;
+        4:   35-block  0
+call    0 returned 4
+        4:   36:    wrs.reserve(sentence.size() / 2);
+call    0 returned 4
+call    1 returned 4
+branch  2 taken 4 (fallthrough)
+branch  3 taken 0 (throw)
+    14940:   37:    while (pre_filter.HasNext()) {
+        4:   37-block  0
+    14940:   37-block  1
+call    0 returned 14940
+branch  1 taken 14940 (fallthrough)
+branch  2 taken 0 (throw)
+    14940:   37-block  2
+branch  3 taken 14936
+branch  4 taken 4 (fallthrough)
+    14936:   38:      range = pre_filter.Next();
+    14936:   38-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+    14936:   39:      Cut(range.begin, range.end, wrs, hmm);
+    14936:   39-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   40:    }
+        4:   41:    words.clear();
+        4:   41-block  0
+call    0 returned 4
+        4:   42:    words.reserve(wrs.size());
+call    0 returned 4
+call    1 returned 4
+branch  2 taken 4 (fallthrough)
+branch  3 taken 0 (throw)
+        4:   43:    GetWordsFromWordRanges(sentence, wrs, words);
+        4:   43-block  0
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   44:  }
+        4:   44-block  0
+call    0 returned 4
+call    1 returned 4
+    $$$$$:   44-block  1
+call    2 never executed
+    $$$$$:   44-block  2
+call    3 never executed
+        -:   45:
+function _ZNK8cppjieba10MixSegment3CutEPKNS_7RuneStrES3_RSt6vectorINS_9WordRangeESaIS5_EEb called 14936 returned 100% blocks executed 85%
+    14936:   46:  void Cut(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end, vector<WordRange>& res, bool hmm) const {
+    14936:   47:    if (!hmm) {
+    14936:   47-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 14936
+    #####:   48:      mpSeg_.Cut(begin, end, res);
+    %%%%%:   48-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   49:      return;
+    %%%%%:   49-block  0
+        -:   50:    }
+    14936:   51:    vector<WordRange> words;
+    14936:   51-block  0
+call    0 returned 14936
+   14936*:   52:    assert(end >= begin);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 14936
+    %%%%%:   52-block  0
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    14936:   52-block  1
+    %%%%%:   52-block  2
+    14936:   53:    words.reserve(end - begin);
+    14936:   53-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+    14936:   54:    mpSeg_.Cut(begin, end, words);
+    14936:   54-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   55:
+    14936:   56:    vector<WordRange> hmmRes;
+    14936:   56-block  0
+call    0 returned 14936
+    14936:   57:    hmmRes.reserve(end - begin);
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+    73078:   58:    for (size_t i = 0; i < words.size(); i++) {
+    14936:   58-block  0
+    58142:   58-block  1
+    73078:   58-block  2
+call    0 returned 73078
+branch  1 taken 58142
+branch  2 taken 14936 (fallthrough)
+        -:   59:      //if mp Get a word, it's ok, put it into result
+    58142:   60:      if (words[i].left != words[i].right || (words[i].left == words[i].right && mpSeg_.IsUserDictSingleChineseWord(words[i].left->rune))) {
+    58142:   60-block  0
+call    0 returned 58142
+call    1 returned 58142
+branch  2 taken 25640 (fallthrough)
+branch  3 taken 32502
+    25640:   60-block  1
+call    4 returned 25640
+call    5 returned 25640
+branch  6 taken 25640 (fallthrough)
+branch  7 taken 0
+    25640:   60-block  2
+call    8 returned 25640
+call    9 returned 25640
+branch 10 taken 25640 (fallthrough)
+branch 11 taken 0 (throw)
+    25640:   60-block  3
+branch 12 taken 0 (fallthrough)
+branch 13 taken 25640
+    32502:   60-block  4
+    25640:   60-block  5
+    58142:   60-block  6
+branch 14 taken 32502 (fallthrough)
+branch 15 taken 25640
+    32502:   61:        res.push_back(words[i]);
+    32502:   61-block  0
+call    0 returned 32502
+call    1 returned 32502
+branch  2 taken 32502 (fallthrough)
+branch  3 taken 0 (throw)
+    32502:   62:        continue;
+    32502:   62-block  0
+        -:   63:      }
+        -:   64:
+        -:   65:      // if mp Get a single one and it is not in userdict, collect it in sequence
+    25640:   66:      size_t j = i;
+   409134:   67:      while (j < words.size() && words[j].left == words[j].right && !mpSeg_.IsUserDictSingleChineseWord(words[j].left->rune)) {
+    25640:   67-block  0
+   409134:   67-block  1
+call    0 returned 409134
+branch  1 taken 399416 (fallthrough)
+branch  2 taken 9718
+   399416:   67-block  2
+call    3 returned 399416
+call    4 returned 399416
+branch  5 taken 383494 (fallthrough)
+branch  6 taken 15922
+   383494:   67-block  3
+call    7 returned 383494
+call    8 returned 383494
+branch  9 taken 383494 (fallthrough)
+branch 10 taken 0 (throw)
+   383494:   67-block  4
+branch 11 taken 383494 (fallthrough)
+branch 12 taken 0
+   383494:   67-block  5
+    25640:   67-block  6
+   409134:   67-block  7
+branch 13 taken 383494
+branch 14 taken 25640 (fallthrough)
+   383494:   68:        j++;
+   383494:   68-block  0
+        -:   69:      }
+        -:   70:
+        -:   71:      // Cut the sequence with hmm
+   25640*:   72:      assert(j - 1 >= i);
+    25640:   72-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 25640
+    %%%%%:   72-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    25640:   72-block  2
+    %%%%%:   72-block  3
+        -:   73:      // TODO
+    25640:   74:      hmmSeg_.Cut(words[i].left, words[j - 1].left + 1, hmmRes);
+    25640:   74-block  0
+call    0 returned 25640
+call    1 returned 25640
+call    2 returned 25640
+branch  3 taken 25640 (fallthrough)
+branch  4 taken 0 (throw)
+        -:   75:      //put hmm result to result
+   337748:   76:      for (size_t k = 0; k < hmmRes.size(); k++) {
+    25640:   76-block  0
+   312108:   76-block  1
+   337748:   76-block  2
+call    0 returned 337748
+branch  1 taken 312108
+branch  2 taken 25640 (fallthrough)
+   312108:   77:        res.push_back(hmmRes[k]);
+   312108:   77-block  0
+call    0 returned 312108
+call    1 returned 312108
+branch  2 taken 312108 (fallthrough)
+branch  3 taken 0 (throw)
+        -:   78:      }
+        -:   79:
+        -:   80:      //clear tmp vars
+    25640:   81:      hmmRes.clear();
+    25640:   81-block  0
+call    0 returned 25640
+        -:   82:
+        -:   83:      //let i jump over this piece
+    25640:   84:      i = j - 1;
+        -:   85:    }
+    14936:   86:  }
+    14936:   86-block  0
+call    0 returned 14936
+call    1 returned 14936
+    $$$$$:   86-block  1
+call    2 never executed
+    $$$$$:   86-block  2
+call    3 never executed
+        -:   87:
+function _ZNK8cppjieba10MixSegment11GetDictTrieEv called 0 returned 0% blocks executed 0%
+    #####:   88:  const DictTrie* GetDictTrie() const {
+    #####:   89:    return mpSeg_.GetDictTrie();
+    %%%%%:   89-block  0
+call    0 never executed
+        -:   90:  }
+        -:   91:
+function _ZNK8cppjieba10MixSegment3TagERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorISt4pairIS6_S6_ESaISB_EE called 0 returned 0% blocks executed 0%
+    #####:   92:  bool Tag(const string& src, vector<pair<string, string> >& res) const {
+    #####:   93:    return tagger_.Tag(src, res, *this);
+    %%%%%:   93-block  0
+call    0 never executed
+        -:   94:  }
+        -:   95:
+        -:   96:  string LookupTag(const string &str) const {
+        -:   97:    return tagger_.LookupTag(str, *this);
+        -:   98:  }
+        -:   99:
+        -:  100: private:
+        -:  101:  MPSegment mpSeg_;
+        -:  102:  HMMSegment hmmSeg_;
+        -:  103:  PosTagger tagger_;
+        -:  104:
+        -:  105:}; // class MixSegment
+        -:  106:
+        -:  107:} // namespace cppjieba
+        -:  108:
+        -:  109:#endif

@@ -1,0 +1,109 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/PreFilter.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_PRE_FILTER_H
+        -:    2:#define CPPJIEBA_PRE_FILTER_H
+        -:    3:
+        -:    4:#include "Trie.hpp"
+        -:    5:#include "limonp/Logging.hpp"
+        -:    6:
+        -:    7:namespace cppjieba {
+        -:    8:
+        -:    9:class PreFilter {
+        -:   10: public:
+        -:   11:  //TODO use WordRange instead of Range
+        -:   12:  struct Range {
+        -:   13:    RuneStrArray::const_iterator begin;
+        -:   14:    RuneStrArray::const_iterator end;
+        -:   15:  }; // struct Range
+        -:   16:
+function _ZN8cppjieba9PreFilterC1ERKSt13unordered_setIjSt4hashIjESt8equal_toIjESaIjEERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 4 returned 100% blocks executed 40%
+        4:   17:  PreFilter(const unordered_set<Rune>& symbols, 
+        -:   18:        const string& sentence)
+        4:   19:    : symbols_(symbols) {
+        4:   19-block  0
+call    0 returned 4
+        4:   20:    if (!DecodeRunesInString(sentence, sentence_)) {
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   20-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 4
+    #####:   21:      XLOG(ERROR) << "decode failed. "; 
+    %%%%%:   21-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   21-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:   21-block  2
+call    7 never executed
+    $$$$$:   21-block  3
+call    8 never executed
+    $$$$$:   21-block  4
+        -:   22:    }
+        4:   23:    cursor_ = sentence_.begin();
+        4:   23-block  0
+call    0 returned 4
+        4:   24:  }
+    $$$$$:   24-block  0
+call    0 never executed
+function _ZN8cppjieba9PreFilterD1Ev called 4 returned 100% blocks executed 100%
+        4:   25:  ~PreFilter() {
+        4:   26:  }
+        4:   26-block  0
+call    0 returned 4
+function _ZNK8cppjieba9PreFilter7HasNextEv called 14940 returned 100% blocks executed 100%
+    14940:   27:  bool HasNext() const {
+    14940:   28:    return cursor_ != sentence_.end();
+    14940:   28-block  0
+call    0 returned 14940
+        -:   29:  }
+function _ZN8cppjieba9PreFilter4NextEv called 14936 returned 100% blocks executed 100%
+    14936:   30:  Range Next() {
+        -:   31:    Range range;
+    14936:   32:    range.begin = cursor_;
+   459958:   33:    while (cursor_ != sentence_.end()) {
+    14936:   33-block  0
+   459958:   33-block  1
+call    0 returned 459958
+branch  1 taken 459954
+branch  2 taken 4 (fallthrough)
+   459954:   34:      if (IsIn(symbols_, cursor_->rune)) {
+   459954:   34-block  0
+call    0 returned 459954
+branch  1 taken 14932 (fallthrough)
+branch  2 taken 445022
+    14932:   35:        if (range.begin == cursor_) {
+    14932:   35-block  0
+branch  0 taken 7466 (fallthrough)
+branch  1 taken 7466
+     7466:   36:          cursor_ ++;
+     7466:   36-block  0
+        -:   37:        }
+    14932:   38:        range.end = cursor_;
+    14932:   39:        return range;
+    14932:   39-block  0
+        -:   40:      }
+   445022:   41:      cursor_ ++;
+   445022:   41-block  0
+        -:   42:    }
+        4:   43:    range.end = sentence_.end();
+        4:   43-block  0
+call    0 returned 4
+        4:   44:    return range;
+        -:   45:  }
+        -:   46: private:
+        -:   47:  RuneStrArray::const_iterator cursor_;
+        -:   48:  RuneStrArray sentence_;
+        -:   49:  const unordered_set<Rune>& symbols_;
+        -:   50:}; // class PreFilter
+        -:   51:
+        -:   52:} // namespace cppjieba
+        -:   53:
+        -:   54:#endif // CPPJIEBA_PRE_FILTER_H

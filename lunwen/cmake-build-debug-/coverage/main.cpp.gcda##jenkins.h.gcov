@@ -1,0 +1,323 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/simhash/jenkins.h
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef SIMHASH_HASHES_JENKINS_H
+        -:    2:#define SIMHASH_HASHES_JENKINS_H
+        -:    3:
+        -:    4:/* This code was taken from http://www.burtleburtle.net/bob/c/lookup3.c, and
+        -:    5: * under a public domain licence on May 25, 2012, reproduced below:
+        -:    6: * -----------------------------------------------------------------------------
+        -:    7: * lookup3.c, by Bob Jenkins, May 2006, Public Domain.
+        -:    8: * 
+        -:    9: * These are functions for producing 32-bit hashes for hash table lookup.
+        -:   10: * hashword(), hashlittle(), hashlittle2(), hashbig(), mix(), and final() 
+        -:   11: * are externally useful functions.  Routines to test the hash are included 
+        -:   12: * if SELF_TEST is defined.  You can use this free for any purpose.  It's in
+        -:   13: * the public domain.  It has no warranty.
+        -:   14: * 
+        -:   15: * You probably want to use hashlittle().  hashlittle() and hashbig()
+        -:   16: * hash byte arrays.  hashlittle() is is faster than hashbig() on
+        -:   17: * little-endian machines.  Intel and AMD are little-endian machines.
+        -:   18: * On second thought, you probably want hashlittle2(), which is identical to
+        -:   19: * hashlittle() except it returns two 32-bit hashes for the price of one.  
+        -:   20: * You could implement hashbig2() if you wanted but I haven't bothered here.
+        -:   21: * 
+        -:   22: * If you want to find a hash of, say, exactly 7 integers, do
+        -:   23: * a = i1;  b = i2;  c = i3;
+        -:   24: * mix(a,b,c);
+        -:   25: * a += i4; b += i5; c += i6;
+        -:   26: * mix(a,b,c);
+        -:   27: * a += i7;
+        -:   28: * final(a,b,c);
+        -:   29: * then use c as the hash value.  If you have a variable length array of
+        -:   30: * 4-byte integers to hash, use hashword().  If you have a byte array (like
+        -:   31: * a character string), use hashlittle().  If you have several byte arrays, or
+        -:   32: * a mix of things, see the comments above hashlittle().  
+        -:   33: * 
+        -:   34: * Why is this so big?  I read 12 bytes at a time into 3 4-byte integers, 
+        -:   35: * then mix those integers.  This is fast (you can do a lot more thorough
+        -:   36: * mixing with 12*3 instructions on 3 integers than you can with 3 instructions
+        -:   37: * on 1 byte), but shoehorning those bytes into integers efficiently is messy.
+        -:   38: * -----------------------------------------------------------------------------
+        -:   39: */
+        -:   40:
+        -:   41:#include <cstring>      /* defined size_t */
+        -:   42:#include <stdint.h>     /* defines uint32_t etc */
+        -:   43:#include <sys/param.h>  /* attempt to define endianness */
+        -:   44:#ifdef linux
+        -:   45:# include <endian.h>    /* attempt to define endianness */
+        -:   46:#endif
+        -:   47:
+        -:   48:#define rot(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
+        -:   49:
+        -:   50:#define mix(a,b,c) \
+        -:   51:{ \
+        -:   52:  a -= c;  a ^= rot(c, 4);  c += b; \
+        -:   53:  b -= a;  b ^= rot(a, 6);  a += c; \
+        -:   54:  c -= b;  c ^= rot(b, 8);  b += a; \
+        -:   55:  a -= c;  a ^= rot(c,16);  c += b; \
+        -:   56:  b -= a;  b ^= rot(a,19);  a += c; \
+        -:   57:  c -= b;  c ^= rot(b, 4);  b += a; \
+        -:   58:}
+        -:   59:
+        -:   60:#define final(a,b,c) \
+        -:   61:{ \
+        -:   62:  c ^= b; c -= rot(b,14); \
+        -:   63:  a ^= c; a -= rot(c,11); \
+        -:   64:  b ^= a; b -= rot(a,25); \
+        -:   65:  c ^= b; c -= rot(b,16); \
+        -:   66:  a ^= c; a -= rot(c,4);  \
+        -:   67:  b ^= a; b -= rot(a,14); \
+        -:   68:  c ^= b; c -= rot(b,24); \
+        -:   69:}
+        -:   70:
+        -:   71:/*
+        -:   72: * My best guess at if you are big-endian or little-endian.  This may
+        -:   73: * need adjustment.
+        -:   74: */
+        -:   75:#if (defined(__BYTE_ORDER) && defined(__LITTLE_ENDIAN) && \
+        -:   76:     __BYTE_ORDER == __LITTLE_ENDIAN) || \
+        -:   77:    (defined(i386) || defined(__i386__) || defined(__i486__) || \
+        -:   78:     defined(__i586__) || defined(__i686__) || defined(vax) || defined(MIPSEL))
+        -:   79:# define HASH_LITTLE_ENDIAN 1
+        -:   80:# define HASH_BIG_ENDIAN 0
+        -:   81:#elif (defined(__BYTE_ORDER) && defined(__BIG_ENDIAN) && \
+        -:   82:       __BYTE_ORDER == __BIG_ENDIAN) || \
+        -:   83:      (defined(sparc) || defined(POWERPC) || defined(mc68000) || defined(sel))
+        -:   84:# define HASH_LITTLE_ENDIAN 0
+        -:   85:# define HASH_BIG_ENDIAN 1
+        -:   86:#else
+        -:   87:# define HASH_LITTLE_ENDIAN 0
+        -:   88:# define HASH_BIG_ENDIAN 0
+        -:   89:#endif
+        -:   90:
+        -:   91://#warning "Jenkins"
+        -:   92:
+        -:   93:
+        -:   94:#include <iostream>
+        -:   95:
+        -:   96:namespace simhash {
+        -:   97:	struct jenkins {
+function _ZNK7simhash7jenkinsclEPKcyy called 1001 returned 100% blocks executed 100%
+     1001:   98:		uint64_t operator()(const char* data, size_t len, uint64_t s) const {
+     1001:   99:			uint32_t a = static_cast<uint32_t>(s >> 32);
+     1001:  100:			uint32_t b = static_cast<uint32_t>(s & 0xffffffff);
+     1001:  101:			hashlittle2(static_cast<void*>(const_cast<char*>(data)),
+     1001:  101-block  0
+call    0 returned 1001
+        -:  102:				len, &a, &b);
+     1001:  103:			return (static_cast<uint64_t>(a) << 32) | static_cast<uint64_t>(b);
+        -:  104:		}
+        -:  105:
+        -:  106:		/*
+        -:  107:		 * hashlittle2: return 2 32-bit hash values
+        -:  108:		 *
+        -:  109:		 * This is identical to hashlittle(), except it returns two 32-bit hash
+        -:  110:		 * values instead of just one.  This is good enough for hash table
+        -:  111:		 * lookup with 2^^64 buckets, or if you want a second hash if you're 
+        -:  112:		 * not happy with the first, or if you want a probably-unique 64-bit 
+        -:  113:		 * ID for the key.  *pc is better mixed than *pb, so use *pc first.  
+        -:  114:		 * If you want a 64-bit value do something like:
+        -:  115:		 *     "*pc + (((uint64_t)*pb) <<32)".
+        -:  116:		 */
+function _ZNK7simhash7jenkins11hashlittle2EPKvyPjS3_ called 1001 returned 100% blocks executed 95%
+     1001:  117:		void hashlittle2(
+        -:  118:		    const void *key,         /* the key to hash */
+        -:  119:		    size_t      length,      /* length of the key */
+        -:  120:		    uint32_t   *pc,          // IN: primary initval, OUT: primary hash 
+        -:  121:		    uint32_t   *pb) const {  // IN: secondary initval, OUT: secondary 
+        -:  122:			uint32_t a,b,c;      /* internal state */
+        -:  123:
+        -:  124:			union { const void *ptr; size_t i; } u;     /* needed for Mac Powerbook G4 */
+        -:  125:
+        -:  126:			/* Set up the internal state */
+     1001:  127:			a = b = c = 0xdeadbeef + ((uint32_t)length) + *pc;
+     1001:  128:			c += *pb;
+        -:  129:
+     1001:  130:			u.ptr = key;
+     1001:  130-block  0
+        -:  131:			if (HASH_LITTLE_ENDIAN && ((u.i & 0x3) == 0)) {
+        -:  132:				const uint32_t *k = (const uint32_t *)key;         /* read 32-bit chunks */
+        -:  133:#ifdef VALGRIND
+        -:  134:				const uint8_t  *k8;
+        -:  135:#endif
+        -:  136:
+        -:  137:				/*------ all but last block: aligned reads and affect 32 bits of (a,b,c) */
+        -:  138:				while (length > 12) {
+        -:  139:					a += k[0];
+        -:  140:					b += k[1];
+        -:  141:					c += k[2];
+        -:  142:					mix(a,b,c);
+        -:  143:					length -= 12;
+        -:  144:					k += 3;
+        -:  145:				}
+        -:  146:
+        -:  147:			    /*----------------------------- handle the last (probably partial) block */
+        -:  148:			    /* 
+        -:  149:			     * "k[2]&0xffffff" actually reads beyond the end of the string, but
+        -:  150:			     * then masks off the part it's not allowed to read.  Because the
+        -:  151:			     * string is aligned, the masked-off tail is in the same word as the
+        -:  152:			     * rest of the string.  Every machine with memory protection I've seen
+        -:  153:			     * does it on word boundaries, so is OK with this.  But VALGRIND will
+        -:  154:			     * still catch it and complain.  The masking trick does make the hash
+        -:  155:			     * noticably faster for short strings (like English words).
+        -:  156:			     */
+        -:  157:#ifndef VALGRIND
+        -:  158:			    switch(length) {
+        -:  159:				    case 12: c+=k[2]; b+=k[1]; a+=k[0]; break;
+        -:  160:				    case 11: c+=k[2]&0xffffff; b+=k[1]; a+=k[0]; break;
+        -:  161:				    case 10: c+=k[2]&0xffff; b+=k[1]; a+=k[0]; break;
+        -:  162:				    case 9 : c+=k[2]&0xff; b+=k[1]; a+=k[0]; break;
+        -:  163:				    case 8 : b+=k[1]; a+=k[0]; break;
+        -:  164:				    case 7 : b+=k[1]&0xffffff; a+=k[0]; break;
+        -:  165:				    case 6 : b+=k[1]&0xffff; a+=k[0]; break;
+        -:  166:				    case 5 : b+=k[1]&0xff; a+=k[0]; break;
+        -:  167:				    case 4 : a+=k[0]; break;
+        -:  168:				    case 3 : a+=k[0]&0xffffff; break;
+        -:  169:				    case 2 : a+=k[0]&0xffff; break;
+        -:  170:				    case 1 : a+=k[0]&0xff; break;
+    #####:  171:				    case 0 : *pc=c; *pb=b; return;  /* zero length strings require no mixing */
+        -:  172:			    }
+        -:  173:#else /* make valgrind happy */
+        -:  174:			    k8 = (const uint8_t *)k;
+        -:  175:			    switch(length) {
+        -:  176:				    case 12: c+=k[2]; b+=k[1]; a+=k[0]; break;
+        -:  177:				    case 11: c+=((uint32_t)k8[10])<<16;  /* fall through */
+        -:  178:				    case 10: c+=((uint32_t)k8[9])<<8;    /* fall through */
+        -:  179:				    case 9 : c+=k8[8];                   /* fall through */
+        -:  180:				    case 8 : b+=k[1]; a+=k[0]; break;
+        -:  181:				    case 7 : b+=((uint32_t)k8[6])<<16;   /* fall through */
+        -:  182:				    case 6 : b+=((uint32_t)k8[5])<<8;    /* fall through */
+        -:  183:				    case 5 : b+=k8[4];                   /* fall through */
+        -:  184:				    case 4 : a+=k[0]; break;
+        -:  185:				    case 3 : a+=((uint32_t)k8[2])<<16;   /* fall through */
+        -:  186:				    case 2 : a+=((uint32_t)k8[1])<<8;    /* fall through */
+        -:  187:				    case 1 : a+=k8[0]; break;
+        -:  188:				    case 0 : *pc=c; *pb=b; return;  /* zero length strings require no mixing */
+        -:  189:			    }
+        -:  190:#endif /* !valgrind */
+        -:  191:			} else if (HASH_LITTLE_ENDIAN && ((u.i & 0x1) == 0)) {
+        -:  192:				const uint16_t *k = (const uint16_t *)key;         /* read 16-bit chunks */
+        -:  193:				const uint8_t  *k8;
+        -:  194:			    /*--------------- all but last block: aligned reads and different mixing */
+        -:  195:			    while (length > 12) {
+        -:  196:					a += k[0] + (((uint32_t)k[1])<<16);
+        -:  197:					b += k[2] + (((uint32_t)k[3])<<16);
+        -:  198:					c += k[4] + (((uint32_t)k[5])<<16);
+        -:  199:					mix(a,b,c);
+        -:  200:					length -= 12;
+        -:  201:					k += 6;
+        -:  202:			    }
+        -:  203:
+        -:  204:			    /*----------------------------- handle the last (probably partial) block */
+        -:  205:			    k8 = (const uint8_t *)k;
+        -:  206:			    switch(length) {
+        -:  207:			    case 12: c+=k[4]+(((uint32_t)k[5])<<16);
+        -:  208:			             b+=k[2]+(((uint32_t)k[3])<<16);
+        -:  209:			             a+=k[0]+(((uint32_t)k[1])<<16);
+        -:  210:			             break;
+        -:  211:			    case 11: c+=((uint32_t)k8[10])<<16;     /* fall through */
+        -:  212:			    case 10: c+=k[4];
+        -:  213:			             b+=k[2]+(((uint32_t)k[3])<<16);
+        -:  214:			             a+=k[0]+(((uint32_t)k[1])<<16);
+        -:  215:			             break;
+        -:  216:			    case 9 : c+=k8[8];                      /* fall through */
+        -:  217:			    case 8 : b+=k[2]+(((uint32_t)k[3])<<16);
+        -:  218:			             a+=k[0]+(((uint32_t)k[1])<<16);
+        -:  219:			             break;
+        -:  220:			    case 7 : b+=((uint32_t)k8[6])<<16;      /* fall through */
+        -:  221:			    case 6 : b+=k[2];
+        -:  222:			             a+=k[0]+(((uint32_t)k[1])<<16);
+        -:  223:			             break;
+        -:  224:			    case 5 : b+=k8[4];                      /* fall through */
+        -:  225:			    case 4 : a+=k[0]+(((uint32_t)k[1])<<16);
+        -:  226:			             break;
+        -:  227:			    case 3 : a+=((uint32_t)k8[2])<<16;      /* fall through */
+        -:  228:			    case 2 : a+=k[0];
+        -:  229:			             break;
+        -:  230:			    case 1 : a+=k8[0];
+        -:  231:			             break;
+        -:  232:			    case 0 : *pc=c; *pb=b; return;  /* zero length strings require no mixing */
+        -:  233:			    }
+        -:  234:			} else {                        /* need to read the key one byte at a time */
+     1001:  235:			    const uint8_t *k = (const uint8_t *)key;
+        -:  236:			    /*--------------- all but the last block: affect some 32 bits of (a,b,c) */
+     1005:  237:			    while (length > 12) {
+     1001:  237-block  0
+     1005:  237-block  1
+branch  0 taken 4
+branch  1 taken 1001 (fallthrough)
+        4:  238:					a += k[0];
+        4:  239:					a += ((uint32_t)k[1])<<8;
+        4:  240:					a += ((uint32_t)k[2])<<16;
+        4:  241:					a += ((uint32_t)k[3])<<24;
+        4:  242:					b += k[4];
+        4:  243:					b += ((uint32_t)k[5])<<8;
+        4:  244:					b += ((uint32_t)k[6])<<16;
+        4:  245:					b += ((uint32_t)k[7])<<24;
+        4:  246:					c += k[8];
+        4:  247:					c += ((uint32_t)k[9])<<8;
+        4:  248:					c += ((uint32_t)k[10])<<16;
+        4:  249:					c += ((uint32_t)k[11])<<24;
+        4:  250:					mix(a,b,c);
+        4:  251:					length -= 12;
+        4:  252:					k += 12;
+        4:  252-block  0
+        -:  253:			    }
+        -:  254:
+        -:  255:			    /*-------------------------------- last block: affect all 32 bits of (c) */
+     1001:  256:			    switch(length) {                 /* all the case statements fall through */
+     1001:  256-block  0
+branch  0 taken 87
+branch  1 taken 0
+branch  2 taken 0
+branch  3 taken 84
+branch  4 taken 0
+branch  5 taken 0
+branch  6 taken 806
+branch  7 taken 2
+branch  8 taken 8
+branch  9 taken 7
+branch 10 taken 7
+branch 11 taken 0
+branch 12 taken 0
+branch 13 taken 0
+       87:  257:			    case 12: c+=((uint32_t)k[11])<<24;
+       87:  257-block  0
+       87:  258:			    case 11: c+=((uint32_t)k[10])<<16;
+       87:  258-block  0
+       87:  259:			    case 10: c+=((uint32_t)k[9])<<8;
+       87:  259-block  0
+      171:  260:			    case 9 : c+=k[8];
+      171:  260-block  0
+      171:  261:			    case 8 : b+=((uint32_t)k[7])<<24;
+      171:  261-block  0
+      171:  262:			    case 7 : b+=((uint32_t)k[6])<<16;
+      171:  262-block  0
+      977:  263:			    case 6 : b+=((uint32_t)k[5])<<8;
+      977:  263-block  0
+      979:  264:			    case 5 : b+=k[4];
+      979:  264-block  0
+      987:  265:			    case 4 : a+=((uint32_t)k[3])<<24;
+      987:  265-block  0
+      994:  266:			    case 3 : a+=((uint32_t)k[2])<<16;
+      994:  266-block  0
+     1001:  267:			    case 2 : a+=((uint32_t)k[1])<<8;
+     1001:  267-block  0
+     1001:  268:			    case 1 : a+=k[0];
+     1001:  269:			             break;
+     1001:  269-block  0
+    #####:  270:			    case 0 : *pc=c; *pb=b; return;  /* zero length strings require no mixing */
+    %%%%%:  270-block  0
+        -:  271:			    }
+        -:  272:			}
+        -:  273:
+     1001:  274:			final(a,b,c);
+     1001:  275:			*pc=c; *pb=b;
+     1001:  275-block  0
+        -:  276:		}
+        -:  277:	};
+        -:  278:}
+        -:  279:
+        -:  280:#endif

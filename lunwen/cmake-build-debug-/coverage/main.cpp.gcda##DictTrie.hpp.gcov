@@ -1,0 +1,839 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/DictTrie.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_DICT_TRIE_HPP
+        -:    2:#define CPPJIEBA_DICT_TRIE_HPP
+        -:    3:
+        -:    4:#include <iostream>
+        -:    5:#include <fstream>
+        -:    6:#include <map>
+        -:    7:#include <string>
+        -:    8:#include <cstring>
+        -:    9:#include <cstdlib>
+        -:   10:#include <stdint.h>
+        -:   11:#include <cmath>
+        -:   12:#include <limits>
+        -:   13:#include "limonp/StringUtil.hpp"
+        -:   14:#include "limonp/Logging.hpp"
+        -:   15:#include "Unicode.hpp"
+        -:   16:#include "Trie.hpp"
+        -:   17:
+        -:   18:namespace cppjieba {
+        -:   19:
+        -:   20:using namespace limonp;
+        -:   21:
+        -:   22:const double MIN_DOUBLE = -3.14e+100;
+        -:   23:const double MAX_DOUBLE = 3.14e+100;
+        -:   24:const size_t DICT_COLUMN_NUM = 3;
+        -:   25:const char* const UNKNOWN_TAG = "";
+        -:   26:
+        -:   27:class DictTrie {
+        -:   28: public:
+        -:   29:  enum UserWordWeightOption {
+        -:   30:    WordWeightMin,
+        -:   31:    WordWeightMedian,
+        -:   32:    WordWeightMax,
+        -:   33:  }; // enum UserWordWeightOption
+        -:   34:
+function _ZN8cppjieba8DictTrieC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_NS0_20UserWordWeightOptionE called 1 returned 100% blocks executed 55%
+        1:   35:  DictTrie(const string& dict_path, const string& user_dict_paths = "", UserWordWeightOption user_word_weight_opt = WordWeightMedian) {
+        1:   35-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   35-block  1
+call    4 returned 1
+        1:   36:    Init(dict_path, user_dict_paths, user_word_weight_opt);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   37:  }
+        1:   37-block  0
+    $$$$$:   37-block  1
+call    0 never executed
+    $$$$$:   37-block  2
+call    1 never executed
+    $$$$$:   37-block  3
+call    2 never executed
+        -:   38:
+function _ZN8cppjieba8DictTrieD1Ev called 1 returned 100% blocks executed 100%
+        1:   39:  ~DictTrie() {
+        1:   40:    delete trie_;
+        1:   40-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 0
+        1:   40-block  1
+call    2 returned 1
+call    3 returned 1
+        1:   41:  }
+        1:   41-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+        -:   42:
+        -:   43:  bool InsertUserWord(const string& word, const string& tag = UNKNOWN_TAG) {
+        -:   44:    DictUnit node_info;
+        -:   45:    if (!MakeNodeInfo(node_info, word, user_word_default_weight_, tag)) {
+        -:   46:      return false;
+        -:   47:    }
+        -:   48:    active_node_infos_.push_back(node_info);
+        -:   49:    trie_->InsertNode(node_info.word, &active_node_infos_.back());
+        -:   50:    return true;
+        -:   51:  }
+        -:   52:
+        -:   53:  bool InsertUserWord(const string& word,int freq, const string& tag = UNKNOWN_TAG) {
+        -:   54:    DictUnit node_info;
+        -:   55:    double weight = freq ? log(1.0 * freq / freq_sum_) : user_word_default_weight_ ;
+        -:   56:    if (!MakeNodeInfo(node_info, word, weight , tag)) {
+        -:   57:      return false;
+        -:   58:    }
+        -:   59:    active_node_infos_.push_back(node_info);
+        -:   60:    trie_->InsertNode(node_info.word, &active_node_infos_.back());
+        -:   61:    return true;
+        -:   62:  }
+        -:   63:
+        -:   64:  bool DeleteUserWord(const string& word, const string& tag = UNKNOWN_TAG) {
+        -:   65:    DictUnit node_info;
+        -:   66:    if (!MakeNodeInfo(node_info, word, user_word_default_weight_, tag)) {
+        -:   67:      return false;
+        -:   68:    }
+        -:   69:    trie_->DeleteNode(node_info.word, &node_info);
+        -:   70:    return true;
+        -:   71:  }
+        -:   72:  
+function _ZNK8cppjieba8DictTrie4FindEPKNS_7RuneStrES3_ called 0 returned 0% blocks executed 0%
+    #####:   73:  const DictUnit* Find(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end) const {
+    #####:   74:    return trie_->Find(begin, end);
+    %%%%%:   74-block  0
+call    0 never executed
+        -:   75:  }
+        -:   76:
+function _ZNK8cppjieba8DictTrie4FindEPKNS_7RuneStrES3_RSt6vectorINS_3DagESaIS5_EEy called 14936 returned 100% blocks executed 100%
+    14936:   77:  void Find(RuneStrArray::const_iterator begin, 
+        -:   78:        RuneStrArray::const_iterator end, 
+        -:   79:        vector<struct Dag>&res,
+        -:   80:        size_t max_word_len = MAX_WORD_LENGTH) const {
+    14936:   81:    trie_->Find(begin, end, res, max_word_len);
+    14936:   81-block  0
+call    0 returned 14936
+    14936:   82:  }
+        -:   83:
+        -:   84:  bool Find(const string& word)
+        -:   85:  {
+        -:   86:    const DictUnit *tmp = NULL;
+        -:   87:    RuneStrArray runes;
+        -:   88:    if (!DecodeRunesInString(word, runes))
+        -:   89:    {
+        -:   90:      XLOG(ERROR) << "Decode failed.";
+        -:   91:    }
+        -:   92:    tmp = Find(runes.begin(), runes.end());
+        -:   93:    if (tmp == NULL)
+        -:   94:    {
+        -:   95:      return false;
+        -:   96:    }
+        -:   97:    else
+        -:   98:    {
+        -:   99:      return true;
+        -:  100:    }
+        -:  101:  }
+        -:  102:
+function _ZNK8cppjieba8DictTrie27IsUserDictSingleChineseWordERKj called 409134 returned 100% blocks executed 100%
+   409134:  103:  bool IsUserDictSingleChineseWord(const Rune& word) const {
+   409134:  104:    return IsIn(user_dict_single_chinese_word_, word);
+   409134:  104-block  0
+call    0 returned 409134
+        -:  105:  }
+        -:  106:
+function _ZNK8cppjieba8DictTrie12GetMinWeightEv called 15704 returned 100% blocks executed 100%
+    15704:  107:  double GetMinWeight() const {
+    15704:  108:    return min_weight_;
+    15704:  108-block  0
+        -:  109:  }
+        -:  110:
+function _ZN8cppjieba8DictTrie17InserUserDictNodeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 0 returned 0% blocks executed 0%
+    #####:  111:  void InserUserDictNode(const string& line) {
+    #####:  112:    vector<string> buf;
+    %%%%%:  112-block  0
+call    0 never executed
+    #####:  113:    DictUnit node_info;
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  114:    Split(line, buf, " ");
+    %%%%%:  114-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  114-block  1
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  114-block  2
+call    7 never executed
+call    8 never executed
+    $$$$$:  114-block  3
+call    9 never executed
+    $$$$$:  114-block  4
+    $$$$$:  114-block  5
+call   10 never executed
+    $$$$$:  114-block  6
+    #####:  115:    if(buf.size() == 1){
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  116:          MakeNodeInfo(node_info, 
+    %%%%%:  116-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  116-block  1
+call    7 never executed
+call    8 never executed
+    $$$$$:  116-block  2
+call    9 never executed
+    $$$$$:  116-block  3
+    $$$$$:  116-block  4
+call   10 never executed
+    $$$$$:  116-block  5
+    #####:  117:                buf[0], 
+    %%%%%:  117-block  0
+call    0 never executed
+        -:  118:                user_word_default_weight_,
+        -:  119:                UNKNOWN_TAG);
+    #####:  120:        } else if (buf.size() == 2) {
+    %%%%%:  120-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  121:          MakeNodeInfo(node_info, 
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  122:                buf[0], 
+call    0 never executed
+        -:  123:                user_word_default_weight_,
+    #####:  124:                buf[1]);
+    %%%%%:  124-block  0
+call    0 never executed
+    #####:  125:        } else if (buf.size() == 3) {
+    %%%%%:  125-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  126:          int freq = atoi(buf[1].c_str());
+    %%%%%:  126-block  0
+call    0 never executed
+call    1 never executed
+call    2 never executed
+    #####:  127:          assert(freq_sum_ > 0.0);
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  127-block  0
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:  127-block  1
+    %%%%%:  127-block  2
+    #####:  128:          double weight = log(1.0 * freq / freq_sum_);
+    #####:  129:          MakeNodeInfo(node_info, buf[0], weight, buf[2]);
+    %%%%%:  129-block  0
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+        -:  130:        }
+    #####:  131:        static_node_infos_.push_back(node_info);
+    %%%%%:  131-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  132:        if (node_info.word.size() == 1) {
+    %%%%%:  132-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  133:          user_dict_single_chinese_word_.insert(node_info.word[0]);
+    %%%%%:  133-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  133-block  1
+        -:  134:        }
+    #####:  135:  }
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    $$$$$:  135-block  1
+call    2 never executed
+    $$$$$:  135-block  2
+call    3 never executed
+        -:  136:  
+        -:  137:  void LoadUserDict(const vector<string>& buf) {
+        -:  138:    for (size_t i = 0; i < buf.size(); i++) {
+        -:  139:      InserUserDictNode(buf[i]);
+        -:  140:    }
+        -:  141:  }
+        -:  142:
+        -:  143:   void LoadUserDict(const set<string>& buf) {
+        -:  144:    std::set<string>::const_iterator iter;
+        -:  145:    for (iter = buf.begin(); iter != buf.end(); iter++){
+        -:  146:      InserUserDictNode(*iter);
+        -:  147:    }
+        -:  148:  }
+        -:  149:
+function _ZN8cppjieba8DictTrie12LoadUserDictERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 0 returned 0% blocks executed 0%
+    #####:  150:  void LoadUserDict(const string& filePaths) {
+    #####:  151:    vector<string> files = limonp::Split(filePaths, "|;");
+    %%%%%:  151-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  151-block  1
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+call    7 never executed
+    $$$$$:  151-block  2
+    $$$$$:  151-block  3
+    #####:  152:    size_t lineno = 0;
+    #####:  153:    for (size_t i = 0; i < files.size(); i++) {
+    %%%%%:  153-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  154:      ifstream ifs(files[i].c_str());
+    %%%%%:  154-block  0
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:  155:      XCHECK(ifs.is_open()) << "open " << files[i] << " failed"; 
+    %%%%%:  155-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  155-block  1
+branch  3 never executed
+branch  4 never executed
+    %%%%%:  155-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:  155-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  155-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  155-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  155-block  6
+call   18 never executed
+call   19 never executed
+branch 20 never executed
+branch 21 never executed
+    %%%%%:  155-block  7
+call   22 never executed
+branch 23 never executed
+branch 24 never executed
+    %%%%%:  155-block  8
+call   25 never executed
+    $$$$$:  155-block  9
+call   26 never executed
+    $$$$$:  155-block 10
+    #####:  156:      string line;
+    %%%%%:  156-block  0
+call    0 never executed
+        -:  157:      
+    #####:  158:      for (; getline(ifs, line); lineno++) {
+    %%%%%:  158-block  0
+    %%%%%:  158-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  158-block  2
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  158-block  3
+branch  6 never executed
+branch  7 never executed
+    #####:  159:        if (line.size() == 0) {
+    %%%%%:  159-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  160:          continue;
+    %%%%%:  160-block  0
+        -:  161:        }
+    #####:  162:        InserUserDictNode(line);
+    %%%%%:  162-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  163:      }
+    #####:  164:    }
+    %%%%%:  164-block  0
+call    0 never executed
+call    1 never executed
+    $$$$$:  164-block  1
+call    2 never executed
+    $$$$$:  164-block  2
+call    3 never executed
+    #####:  165:  }
+    %%%%%:  165-block  0
+call    0 never executed
+    $$$$$:  165-block  1
+call    1 never executed
+        -:  166:
+        -:  167:
+        -:  168: private:
+function _ZN8cppjieba8DictTrie4InitERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_NS0_20UserWordWeightOptionE called 1 returned 100% blocks executed 90%
+        1:  169:  void Init(const string& dict_path, const string& user_dict_paths, UserWordWeightOption user_word_weight_opt) {
+        1:  170:    LoadDict(dict_path);
+        1:  170-block  0
+call    0 returned 1
+        1:  171:    freq_sum_ = CalcFreqSum(static_node_infos_);
+call    0 returned 1
+        1:  172:    CalculateWeight(static_node_infos_, freq_sum_);
+call    0 returned 1
+        1:  173:    SetStaticWordWeights(user_word_weight_opt);
+call    0 returned 1
+        -:  174:
+        1:  175:    if (user_dict_paths.size()) {
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    #####:  176:      LoadUserDict(user_dict_paths);
+    %%%%%:  176-block  0
+call    0 never executed
+        -:  177:    }
+        1:  178:    Shrink(static_node_infos_);
+        1:  178-block  0
+call    0 returned 1
+        1:  179:    CreateTrie(static_node_infos_);
+call    0 returned 1
+        1:  180:  }
+        -:  181:  
+function _ZN8cppjieba8DictTrie10CreateTrieERKSt6vectorINS_8DictUnitESaIS2_EE called 1 returned 100% blocks executed 68%
+        1:  182:  void CreateTrie(const vector<DictUnit>& dictUnits) {
+       1*:  183:    assert(dictUnits.size());
+        1:  183-block  0
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:  183-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        1:  183-block  2
+    %%%%%:  183-block  3
+        1:  184:    vector<Unicode> words;
+        1:  184-block  0
+call    0 returned 1
+        1:  185:    vector<const DictUnit*> valuePointers;
+call    0 returned 1
+   348983:  186:    for (size_t i = 0 ; i < dictUnits.size(); i ++) {
+   348983:  186-block  0
+call    0 returned 348983
+branch  1 taken 348982
+branch  2 taken 1 (fallthrough)
+   348982:  187:      words.push_back(dictUnits[i].word);
+   348982:  187-block  0
+call    0 returned 348982
+call    1 returned 348982
+branch  2 taken 348982 (fallthrough)
+branch  3 taken 0 (throw)
+   348982:  188:      valuePointers.push_back(&dictUnits[i]);
+   348982:  188-block  0
+call    0 returned 348982
+call    1 returned 348982
+branch  2 taken 348982 (fallthrough)
+branch  3 taken 0 (throw)
+   348982:  188-block  1
+    $$$$$:  188-block  2
+        -:  189:    }
+        -:  190:
+        1:  191:    trie_ = new Trie(words, valuePointers);
+        1:  191-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  191-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+    $$$$$:  191-block  2
+call    6 never executed
+        1:  192:  }
+        1:  192-block  0
+call    0 returned 1
+call    1 returned 1
+    $$$$$:  192-block  1
+call    2 never executed
+    $$$$$:  192-block  2
+call    3 never executed
+        -:  193:
+        -:  194:  
+        -:  195:
+        -:  196:
+function _ZN8cppjieba8DictTrie12MakeNodeInfoERNS_8DictUnitERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEdSA_ called 348982 returned 100% blocks executed 40%
+   348982:  197:  bool MakeNodeInfo(DictUnit& node_info,
+        -:  198:        const string& word, 
+        -:  199:        double weight, 
+        -:  200:        const string& tag) {
+   348982:  201:    if (!DecodeRunesInString(word, node_info.word)) {
+   348982:  201-block  0
+call    0 returned 348982
+branch  1 taken 0 (fallthrough)
+branch  2 taken 348982
+    #####:  202:      XLOG(ERROR) << "Decode " << word << " failed.";
+    %%%%%:  202-block  0
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:  202-block  1
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:  202-block  2
+call    8 never executed
+branch  9 never executed
+branch 10 never executed
+    %%%%%:  202-block  3
+call   11 never executed
+    $$$$$:  202-block  4
+call   12 never executed
+    #####:  203:      return false;
+        -:  204:    }
+   348982:  205:    node_info.weight = weight;
+   348982:  206:    node_info.tag = tag;
+   348982:  206-block  0
+call    0 returned 348982
+   348982:  207:    return true;
+        -:  208:  }
+        -:  209:
+function _ZN8cppjieba8DictTrie8LoadDictERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 46%
+        1:  210:  void LoadDict(const string& filePath) {
+        1:  211:    ifstream ifs(filePath.c_str());
+        1:  211-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+       1*:  212:    XCHECK(ifs.is_open()) << "open " << filePath << " failed.";
+        1:  212-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  212-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:  212-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:  212-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  212-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  212-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  212-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  212-block  7
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+    %%%%%:  212-block  8
+call   24 never executed
+    $$$$$:  212-block  9
+call   25 never executed
+    $$$$$:  212-block 10
+        1:  213:    string line;
+        1:  213-block  0
+call    0 returned 1
+        1:  214:    vector<string> buf;
+call    0 returned 1
+        -:  215:
+        1:  216:    DictUnit node_info;
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+   348983:  217:    for (size_t lineno = 0; getline(ifs, line); lineno++) {
+        1:  217-block  0
+   348982:  217-block  1
+   348983:  217-block  2
+call    0 returned 348983
+branch  1 taken 348983 (fallthrough)
+branch  2 taken 0 (throw)
+   348983:  217-block  3
+call    3 returned 348983
+branch  4 taken 348983 (fallthrough)
+branch  5 taken 0 (throw)
+   348983:  217-block  4
+branch  6 taken 348982
+branch  7 taken 1 (fallthrough)
+   348982:  218:      Split(line, buf, " ");
+   348982:  218-block  0
+call    0 returned 348982
+call    1 returned 348982
+branch  2 taken 348982 (fallthrough)
+branch  3 taken 0 (throw)
+   348982:  218-block  1
+call    4 returned 348982
+branch  5 taken 348982 (fallthrough)
+branch  6 taken 0 (throw)
+   348982:  218-block  2
+call    7 returned 348982
+call    8 returned 348982
+    $$$$$:  218-block  3
+call    9 never executed
+    $$$$$:  218-block  4
+    $$$$$:  218-block  5
+call   10 never executed
+    $$$$$:  218-block  6
+  348982*:  219:      XCHECK(buf.size() == DICT_COLUMN_NUM) << "split result illegal, line:" << line;
+call    0 returned 348982
+branch  1 taken 0 (fallthrough)
+branch  2 taken 348982
+    %%%%%:  219-block  0
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  219-block  1
+call    6 never executed
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:  219-block  2
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:  219-block  3
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:  219-block  4
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:  219-block  5
+call   19 never executed
+    $$$$$:  219-block  6
+call   20 never executed
+    $$$$$:  219-block  7
+   697964:  220:      MakeNodeInfo(node_info, 
+call    0 returned 348982
+call    1 returned 348982
+call    2 returned 348982
+branch  3 taken 348982 (fallthrough)
+branch  4 taken 0 (throw)
+   348982:  221:            buf[0], 
+call    0 returned 348982
+   348982:  222:            atof(buf[1].c_str()), 
+call    0 returned 348982
+   348982:  223:            buf[2]);
+   348982:  223-block  0
+call    0 returned 348982
+   348982:  224:      static_node_infos_.push_back(node_info);
+   348982:  224-block  0
+call    0 returned 348982
+branch  1 taken 348982 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  225:    }
+        1:  226:  }
+        1:  226-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+    $$$$$:  226-block  1
+call    4 never executed
+    $$$$$:  226-block  2
+call    5 never executed
+    $$$$$:  226-block  3
+call    6 never executed
+    $$$$$:  226-block  4
+call    7 never executed
+        -:  227:
+function _ZN8cppjieba8DictTrie13WeightCompareERKNS_8DictUnitES3_ called 6036922 returned 100% blocks executed 100%
+  6036922:  228:  static bool WeightCompare(const DictUnit& lhs, const DictUnit& rhs) {
+  6036922:  229:    return lhs.weight < rhs.weight;
+  6036922:  229-block  0
+        -:  230:  }
+        -:  231:
+function _ZN8cppjieba8DictTrie20SetStaticWordWeightsENS0_20UserWordWeightOptionE called 1 returned 100% blocks executed 55%
+        1:  232:  void SetStaticWordWeights(UserWordWeightOption option) {
+       1*:  233:    XCHECK(!static_node_infos_.empty());
+        1:  233-block  0
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:  233-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  233-block  2
+call    6 never executed
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:  233-block  3
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:  233-block  4
+call   13 never executed
+    $$$$$:  233-block  5
+call   14 never executed
+    $$$$$:  233-block  6
+        1:  234:    vector<DictUnit> x = static_node_infos_;
+        1:  234-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  235:    sort(x.begin(), x.end(), WeightCompare);
+        1:  235-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  236:    min_weight_ = x[0].weight;
+        1:  236-block  0
+call    0 returned 1
+        1:  237:    max_weight_ = x[x.size() - 1].weight;
+call    0 returned 1
+call    1 returned 1
+        1:  238:    median_weight_ = x[x.size() / 2].weight;
+call    0 returned 1
+call    1 returned 1
+        1:  239:    switch (option) {
+branch  0 taken 0
+branch  1 taken 1
+branch  2 taken 0
+    #####:  240:     case WordWeightMin:
+    #####:  241:       user_word_default_weight_ = min_weight_;
+    #####:  242:       break;
+    %%%%%:  242-block  0
+        1:  243:     case WordWeightMedian:
+        1:  244:       user_word_default_weight_ = median_weight_;
+        1:  245:       break;
+        1:  245-block  0
+    #####:  246:     default:
+    #####:  247:       user_word_default_weight_ = max_weight_;
+    #####:  248:       break;
+    %%%%%:  248-block  0
+        -:  249:    }
+        1:  250:  }
+        1:  250-block  0
+call    0 returned 1
+    $$$$$:  250-block  1
+call    1 never executed
+        -:  251:
+function _ZNK8cppjieba8DictTrie11CalcFreqSumERKSt6vectorINS_8DictUnitESaIS2_EE called 1 returned 100% blocks executed 100%
+        1:  252:  double CalcFreqSum(const vector<DictUnit>& node_infos) const {
+        1:  253:    double sum = 0.0;
+   348983:  254:    for (size_t i = 0; i < node_infos.size(); i++) {
+        1:  254-block  0
+   348983:  254-block  1
+call    0 returned 348983
+branch  1 taken 348982
+branch  2 taken 1 (fallthrough)
+   348982:  255:      sum += node_infos[i].weight;
+   348982:  255-block  0
+call    0 returned 348982
+        -:  256:    }
+        1:  257:    return sum;
+        1:  257-block  0
+        -:  258:  }
+        -:  259:
+function _ZNK8cppjieba8DictTrie15CalculateWeightERSt6vectorINS_8DictUnitESaIS2_EEd called 1 returned 100% blocks executed 71%
+        1:  260:  void CalculateWeight(vector<DictUnit>& node_infos, double sum) const {
+       1*:  261:    assert(sum > 0.0);
+        1:  261-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:  261-block  1
+call    2 never executed
+        1:  261-block  2
+   348983:  262:    for (size_t i = 0; i < node_infos.size(); i++) {
+        1:  262-block  0
+   348983:  262-block  1
+call    0 returned 348983
+branch  1 taken 348982
+branch  2 taken 1 (fallthrough)
+   348982:  263:      DictUnit& node_info = node_infos[i];
+   348982:  263-block  0
+call    0 returned 348982
+  348982*:  264:      assert(node_info.weight > 0.0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 348982
+    %%%%%:  264-block  0
+call    2 never executed
+   348982:  264-block  1
+   348982:  265:      node_info.weight = log(double(node_info.weight)/sum);
+   348982:  265-block  0
+        -:  266:    }
+        1:  267:  }
+        -:  268:
+function _ZNK8cppjieba8DictTrie6ShrinkERSt6vectorINS_8DictUnitESaIS2_EE called 1 returned 100% blocks executed 82%
+        1:  269:  void Shrink(vector<DictUnit>& units) const {
+        1:  270:    vector<DictUnit>(units.begin(), units.end()).swap(units);
+        1:  270-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  270-block  1
+call    6 returned 1
+call    7 returned 1
+call    8 returned 1
+    $$$$$:  270-block  2
+call    9 never executed
+        1:  271:  }
+        -:  272:
+        -:  273:  vector<DictUnit> static_node_infos_;
+        -:  274:  deque<DictUnit> active_node_infos_; // must not be vector
+        -:  275:  Trie * trie_;
+        -:  276:
+        -:  277:  double freq_sum_;
+        -:  278:  double min_weight_;
+        -:  279:  double max_weight_;
+        -:  280:  double median_weight_;
+        -:  281:  double user_word_default_weight_;
+        -:  282:  unordered_set<Rune> user_dict_single_chinese_word_;
+        -:  283:};
+        -:  284:}
+        -:  285:
+        -:  286:#endif

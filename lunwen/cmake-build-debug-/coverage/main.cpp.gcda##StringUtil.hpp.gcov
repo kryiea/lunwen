@@ -1,0 +1,511 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/limonp/StringUtil.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:/************************************
+        -:    2: * file enc : ascii
+        -:    3: * author   : wuyanyi09@gmail.com
+        -:    4: ************************************/
+        -:    5:#ifndef LIMONP_STR_FUNCTS_H
+        -:    6:#define LIMONP_STR_FUNCTS_H
+        -:    7:#include <fstream>
+        -:    8:#include <iostream>
+        -:    9:#include <string>
+        -:   10:#include <vector>
+        -:   11:#include <algorithm>
+        -:   12:#include <cctype>
+        -:   13:#include <map>
+        -:   14:#include <cassert>
+        -:   15:#include <ctime>
+        -:   16:#include <stdint.h>
+        -:   17:#include <stdio.h>
+        -:   18:#include <stdarg.h>
+        -:   19:#include <memory.h>
+        -:   20:#include <functional>
+        -:   21:#include <locale>
+        -:   22:#include <sstream>
+        -:   23:#include <sys/types.h>
+        -:   24:#include <iterator>
+        -:   25:#include <algorithm>
+        -:   26:#include "StdExtension.hpp"
+        -:   27:
+        -:   28:namespace limonp {
+        -:   29:using namespace std;
+        -:   30:inline string StringFormat(const char* fmt, ...) {
+        -:   31:  int size = 256;
+        -:   32:  std::string str;
+        -:   33:  va_list ap;
+        -:   34:  while (1) {
+        -:   35:    str.resize(size);
+        -:   36:    va_start(ap, fmt);
+        -:   37:    int n = vsnprintf((char *)str.c_str(), size, fmt, ap);
+        -:   38:    va_end(ap);
+        -:   39:    if (n > -1 && n < size) {
+        -:   40:      str.resize(n);
+        -:   41:      return str;
+        -:   42:    }
+        -:   43:    if (n > -1)
+        -:   44:      size = n + 1;
+        -:   45:    else
+        -:   46:      size *= 2;
+        -:   47:  }
+        -:   48:  return str;
+        -:   49:}
+        -:   50:
+        -:   51:template<class T>
+        -:   52:void Join(T begin, T end, string& res, const string& connector) {
+        -:   53:  if(begin == end) {
+        -:   54:    return;
+        -:   55:  }
+        -:   56:  stringstream ss;
+        -:   57:  ss<<*begin;
+        -:   58:  begin++;
+        -:   59:  while(begin != end) {
+        -:   60:    ss << connector << *begin;
+        -:   61:    begin ++;
+        -:   62:  }
+        -:   63:  res = ss.str();
+        -:   64:}
+        -:   65:
+        -:   66:template<class T>
+        -:   67:string Join(T begin, T end, const string& connector) {
+        -:   68:  string res;
+        -:   69:  Join(begin ,end, res, connector);
+        -:   70:  return res;
+        -:   71:}
+        -:   72:
+        -:   73:inline string& Upper(string& str) {
+        -:   74:  transform(str.begin(), str.end(), str.begin(), (int (*)(int))toupper);
+        -:   75:  return str;
+        -:   76:}
+        -:   77:
+        -:   78:inline string& Lower(string& str) {
+        -:   79:  transform(str.begin(), str.end(), str.begin(), (int (*)(int))tolower);
+        -:   80:  return str;
+        -:   81:}
+        -:   82:
+function _ZN6limonp7IsSpaceEj called 68 returned 100% blocks executed 83%
+       68:   83:inline bool IsSpace(unsigned c) {
+        -:   84:  // when passing large int as the argument of isspace, it core dump, so here need a type cast.
+      68*:   85:  return c > 0xff ? false : std::isspace(c & 0xff) != 0;
+       68:   85-block  0
+branch  0 taken 64 (fallthrough)
+branch  1 taken 4
+       64:   85-block  1
+branch  2 taken 0 (fallthrough)
+branch  3 taken 64
+    %%%%%:   85-block  2
+       68:   85-block  3
+       68:   85-block  4
+        -:   86:}
+        -:   87:
+function _ZN6limonp5LTrimERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 34 returned 100% blocks executed 77%
+       34:   88:inline std::string& LTrim(std::string &s) {
+function _ZZN6limonp5LTrimERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEENKUlRKcE_clES8_ called 34 returned 100% blocks executed 100%
+       68:   89:  s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](const char & c) { return !IsSpace(c); }));
+       34:   89-block  0
+call    0 returned 34
+call    1 returned 34
+call    2 returned 34
+call    3 returned 34
+call    4 returned 34
+call    5 returned 34
+call    6 returned 34
+branch  7 taken 34 (fallthrough)
+branch  8 taken 0 (throw)
+    $$$$$:   89-block  1
+    $$$$$:   89-block  2
+    $$$$$:   89-block  3
+       34:   89-block  4
+call    9 returned 34
+       34:   90:  return s;
+       34:   90-block  0
+       34:   90-block  1
+        -:   91:}
+        -:   92:
+function _ZN6limonp5RTrimERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 34 returned 100% blocks executed 65%
+       34:   93:inline std::string& RTrim(std::string &s) {
+function _ZZN6limonp5RTrimERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEENKUlRKcE_clES8_ called 34 returned 100% blocks executed 100%
+       68:   94:  s.erase(std::find_if(s.rbegin(), s.rend(), [](const char & c) { return !IsSpace(c); }).base(), s.end());
+       34:   94-block  0
+call    0 returned 34
+call    1 returned 34
+call    2 returned 34
+call    3 returned 34
+call    4 returned 34
+branch  5 taken 34 (fallthrough)
+branch  6 taken 0 (throw)
+       34:   94-block  1
+call    7 returned 34
+call    8 returned 34
+call    9 returned 34
+branch 10 taken 34 (fallthrough)
+branch 11 taken 0 (throw)
+    $$$$$:   94-block  2
+    $$$$$:   94-block  3
+    $$$$$:   94-block  4
+    $$$$$:   94-block  5
+    $$$$$:   94-block  6
+    $$$$$:   94-block  7
+       34:   94-block  8
+call   12 returned 34
+       34:   95:  return s;
+       34:   95-block  0
+       34:   95-block  1
+        -:   96:}
+        -:   97:
+function _ZN6limonp4TrimERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 34 returned 100% blocks executed 100%
+       34:   98:inline std::string& Trim(std::string &s) {
+       34:   99:  return LTrim(RTrim(s));
+       34:   99-block  0
+call    0 returned 34
+call    1 returned 34
+        -:  100:}
+        -:  101:
+        -:  102:inline std::string& LTrim(std::string & s, char x) {
+        -:  103:    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [&x](const char & c) { return c != x; }));
+        -:  104:  return s;
+        -:  105:}
+        -:  106:
+        -:  107:inline std::string& RTrim(std::string & s, char x) {
+        -:  108:  s.erase(std::find_if(s.rbegin(), s.rend(), [&x](const char & c) { return c != x; }).base(), s.end());
+        -:  109:  return s;
+        -:  110:}
+        -:  111:
+        -:  112:inline std::string& Trim(std::string &s, char x) {
+        -:  113:  return LTrim(RTrim(s, x), x);
+        -:  114:}
+        -:  115:
+function _ZN6limonp5SplitERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorIS5_SaIS5_EES7_y called 643041 returned 100% blocks executed 90%
+   643041:  116:inline void Split(const string& src, vector<string>& res, const string& pattern, size_t maxsplit = string::npos) {
+   643041:  117:  res.clear();
+   643041:  117-block  0
+call    0 returned 643041
+   643041:  118:  size_t Start = 0;
+   643041:  119:  size_t end = 0;
+   643041:  120:  string sub;
+call    0 returned 643041
+  1670290:  121:  while(Start < src.size()) {
+  1670290:  121-block  0
+call    0 returned 1670290
+branch  1 taken 1670290
+branch  2 taken 0 (fallthrough)
+  1670290:  122:    end = src.find_first_of(pattern, Start);
+  1670290:  122-block  0
+call    0 returned 1670290
+  1670290:  123:    if(string::npos == end || res.size() >= maxsplit) {
+branch  0 taken 1027249 (fallthrough)
+branch  1 taken 643041
+  1027249:  123-block  0
+call    2 returned 1027249
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1027249
+   643041:  123-block  1
+  1027249:  123-block  2
+  1670290:  123-block  3
+branch  5 taken 643041 (fallthrough)
+branch  6 taken 1027249
+   643041:  124:      sub = src.substr(Start);
+   643041:  124-block  0
+call    0 returned 643041
+branch  1 taken 643041 (fallthrough)
+branch  2 taken 0 (throw)
+   643041:  124-block  1
+call    3 returned 643041
+call    4 returned 643041
+   643041:  125:      res.push_back(sub);
+call    0 returned 643041
+branch  1 taken 643041 (fallthrough)
+branch  2 taken 0 (throw)
+   643041:  126:      return;
+   643041:  126-block  0
+        -:  127:    }
+  1027249:  128:    sub = src.substr(Start, end - Start);
+  1027249:  128-block  0
+call    0 returned 1027249
+branch  1 taken 1027249 (fallthrough)
+branch  2 taken 0 (throw)
+  1027249:  128-block  1
+call    3 returned 1027249
+call    4 returned 1027249
+  1027249:  129:    res.push_back(sub);
+call    0 returned 1027249
+branch  1 taken 1027249 (fallthrough)
+branch  2 taken 0 (throw)
+  1027249:  130:    Start = end + 1;
+  1027249:  130-block  0
+        -:  131:  }
+    #####:  132:  return;
+    %%%%%:  132-block  0
+   643041:  133:}
+   643041:  133-block  0
+call    0 returned 643041
+    $$$$$:  133-block  1
+call    1 never executed
+        -:  134:
+function _ZN6limonp5SplitERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_y called 0 returned 0% blocks executed 0%
+    #####:  135:inline vector<string> Split(const string& src, const string& pattern, size_t maxsplit = string::npos) {
+    #####:  136:  vector<string> res;
+    %%%%%:  136-block  0
+call    0 never executed
+    #####:  137:  Split(src, res, pattern, maxsplit);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  138:  return res;
+    %%%%%:  138-block  0
+    %%%%%:  138-block  1
+    =====:  139:}
+    $$$$$:  139-block  0
+call    0 never executed
+        -:  140:
+function _ZN6limonp10StartsWithERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_ called 34 returned 100% blocks executed 88%
+       34:  141:inline bool StartsWith(const string& str, const string& prefix) {
+       34:  142:  if(prefix.length() > str.length()) {
+       34:  142-block  0
+call    0 returned 34
+call    1 returned 34
+branch  2 taken 0 (fallthrough)
+branch  3 taken 34
+    #####:  143:    return false;
+    %%%%%:  143-block  0
+        -:  144:  }
+       34:  145:  return 0 == str.compare(0, prefix.length(), prefix);
+       34:  145-block  0
+call    0 returned 34
+call    1 returned 34
+        -:  146:}
+        -:  147:
+        -:  148:inline bool EndsWith(const string& str, const string& suffix) {
+        -:  149:  if(suffix.length() > str.length()) {
+        -:  150:    return false;
+        -:  151:  }
+        -:  152:  return 0 == str.compare(str.length() -  suffix.length(), suffix.length(), suffix);
+        -:  153:}
+        -:  154:
+        -:  155:inline bool IsInStr(const string& str, char ch) {
+        -:  156:  return str.find(ch) != string::npos;
+        -:  157:}
+        -:  158:
+        -:  159:inline uint16_t TwocharToUint16(char high, char low) {
+        -:  160:  return (((uint16_t(high) & 0x00ff ) << 8) | (uint16_t(low) & 0x00ff));
+        -:  161:}
+        -:  162:
+        -:  163:template <class Uint16Container>
+        -:  164:bool Utf8ToUnicode(const char * const str, size_t len, Uint16Container& vec) {
+        -:  165:  if(!str) {
+        -:  166:    return false;
+        -:  167:  }
+        -:  168:  char ch1, ch2;
+        -:  169:  uint16_t tmp;
+        -:  170:  vec.clear();
+        -:  171:  for(size_t i = 0; i < len;) {
+        -:  172:    if(!(str[i] & 0x80)) { // 0xxxxxxx
+        -:  173:      vec.push_back(str[i]);
+        -:  174:      i++;
+        -:  175:    } else if ((uint8_t)str[i] <= 0xdf && i + 1 < len) { // 110xxxxxx
+        -:  176:      ch1 = (str[i] >> 2) & 0x07;
+        -:  177:      ch2 = (str[i+1] & 0x3f) | ((str[i] & 0x03) << 6 );
+        -:  178:      tmp = (((uint16_t(ch1) & 0x00ff ) << 8) | (uint16_t(ch2) & 0x00ff));
+        -:  179:      vec.push_back(tmp);
+        -:  180:      i += 2;
+        -:  181:    } else if((uint8_t)str[i] <= 0xef && i + 2 < len) {
+        -:  182:      ch1 = ((uint8_t)str[i] << 4) | ((str[i+1] >> 2) & 0x0f );
+        -:  183:      ch2 = (((uint8_t)str[i+1]<<6) & 0xc0) | (str[i+2] & 0x3f);
+        -:  184:      tmp = (((uint16_t(ch1) & 0x00ff ) << 8) | (uint16_t(ch2) & 0x00ff));
+        -:  185:      vec.push_back(tmp);
+        -:  186:      i += 3;
+        -:  187:    } else {
+        -:  188:      return false;
+        -:  189:    }
+        -:  190:  }
+        -:  191:  return true;
+        -:  192:}
+        -:  193:
+        -:  194:template <class Uint16Container>
+        -:  195:bool Utf8ToUnicode(const string& str, Uint16Container& vec) {
+        -:  196:  return Utf8ToUnicode(str.c_str(), str.size(), vec);
+        -:  197:}
+        -:  198:
+        -:  199:template <class Uint32Container>
+        -:  200:bool Utf8ToUnicode32(const string& str, Uint32Container& vec) {
+        -:  201:  uint32_t tmp;
+        -:  202:  vec.clear();
+        -:  203:  for(size_t i = 0; i < str.size();) {
+        -:  204:    if(!(str[i] & 0x80)) { // 0xxxxxxx
+        -:  205:      // 7bit, total 7bit
+        -:  206:      tmp = (uint8_t)(str[i]) & 0x7f;
+        -:  207:      i++;
+        -:  208:    } else if ((uint8_t)str[i] <= 0xdf && i + 1 < str.size()) { // 110xxxxxx
+        -:  209:      // 5bit, total 5bit
+        -:  210:      tmp = (uint8_t)(str[i]) & 0x1f;
+        -:  211:
+        -:  212:      // 6bit, total 11bit
+        -:  213:      tmp <<= 6;
+        -:  214:      tmp |= (uint8_t)(str[i+1]) & 0x3f;
+        -:  215:      i += 2;
+        -:  216:    } else if((uint8_t)str[i] <= 0xef && i + 2 < str.size()) { // 1110xxxxxx
+        -:  217:      // 4bit, total 4bit
+        -:  218:      tmp = (uint8_t)(str[i]) & 0x0f;
+        -:  219:
+        -:  220:      // 6bit, total 10bit
+        -:  221:      tmp <<= 6;
+        -:  222:      tmp |= (uint8_t)(str[i+1]) & 0x3f;
+        -:  223:
+        -:  224:      // 6bit, total 16bit
+        -:  225:      tmp <<= 6;
+        -:  226:      tmp |= (uint8_t)(str[i+2]) & 0x3f;
+        -:  227:
+        -:  228:      i += 3;
+        -:  229:    } else if((uint8_t)str[i] <= 0xf7 && i + 3 < str.size()) { // 11110xxxx
+        -:  230:      // 3bit, total 3bit
+        -:  231:      tmp = (uint8_t)(str[i]) & 0x07;
+        -:  232:
+        -:  233:      // 6bit, total 9bit
+        -:  234:      tmp <<= 6;
+        -:  235:      tmp |= (uint8_t)(str[i+1]) & 0x3f;
+        -:  236:
+        -:  237:      // 6bit, total 15bit
+        -:  238:      tmp <<= 6;
+        -:  239:      tmp |= (uint8_t)(str[i+2]) & 0x3f;
+        -:  240:
+        -:  241:      // 6bit, total 21bit
+        -:  242:      tmp <<= 6;
+        -:  243:      tmp |= (uint8_t)(str[i+3]) & 0x3f;
+        -:  244:
+        -:  245:      i += 4;
+        -:  246:    } else {
+        -:  247:      return false;
+        -:  248:    }
+        -:  249:    vec.push_back(tmp);
+        -:  250:  }
+        -:  251:  return true;
+        -:  252:}
+        -:  253:
+        -:  254:template <class Uint32ContainerConIter>
+        -:  255:void Unicode32ToUtf8(Uint32ContainerConIter begin, Uint32ContainerConIter end, string& res) {
+        -:  256:  res.clear();
+        -:  257:  uint32_t ui;
+        -:  258:  while(begin != end) {
+        -:  259:    ui = *begin;
+        -:  260:    if(ui <= 0x7f) {
+        -:  261:      res += char(ui);
+        -:  262:    } else if(ui <= 0x7ff) {
+        -:  263:      res += char(((ui >> 6) & 0x1f) | 0xc0);
+        -:  264:      res += char((ui & 0x3f) | 0x80);
+        -:  265:    } else if(ui <= 0xffff) {
+        -:  266:      res += char(((ui >> 12) & 0x0f) | 0xe0);
+        -:  267:      res += char(((ui >> 6) & 0x3f) | 0x80);
+        -:  268:      res += char((ui & 0x3f) | 0x80);
+        -:  269:    } else {
+        -:  270:      res += char(((ui >> 18) & 0x03) | 0xf0);
+        -:  271:      res += char(((ui >> 12) & 0x3f) | 0x80);
+        -:  272:      res += char(((ui >> 6) & 0x3f) | 0x80);
+        -:  273:      res += char((ui & 0x3f) | 0x80);
+        -:  274:    }
+        -:  275:    begin ++;
+        -:  276:  }
+        -:  277:}
+        -:  278:
+        -:  279:template <class Uint16ContainerConIter>
+        -:  280:void UnicodeToUtf8(Uint16ContainerConIter begin, Uint16ContainerConIter end, string& res) {
+        -:  281:  res.clear();
+        -:  282:  uint16_t ui;
+        -:  283:  while(begin != end) {
+        -:  284:    ui = *begin;
+        -:  285:    if(ui <= 0x7f) {
+        -:  286:      res += char(ui);
+        -:  287:    } else if(ui <= 0x7ff) {
+        -:  288:      res += char(((ui>>6) & 0x1f) | 0xc0);
+        -:  289:      res += char((ui & 0x3f) | 0x80);
+        -:  290:    } else {
+        -:  291:      res += char(((ui >> 12) & 0x0f )| 0xe0);
+        -:  292:      res += char(((ui>>6) & 0x3f )| 0x80 );
+        -:  293:      res += char((ui & 0x3f) | 0x80);
+        -:  294:    }
+        -:  295:    begin ++;
+        -:  296:  }
+        -:  297:}
+        -:  298:
+        -:  299:
+        -:  300:template <class Uint16Container>
+        -:  301:bool GBKTrans(const char* const str, size_t len, Uint16Container& vec) {
+        -:  302:  vec.clear();
+        -:  303:  if(!str) {
+        -:  304:    return true;
+        -:  305:  }
+        -:  306:  size_t i = 0;
+        -:  307:  while(i < len) {
+        -:  308:    if(0 == (str[i] & 0x80)) {
+        -:  309:      vec.push_back(uint16_t(str[i]));
+        -:  310:      i++;
+        -:  311:    } else {
+        -:  312:      if(i + 1 < len) { //&& (str[i+1] & 0x80))
+        -:  313:        uint16_t tmp = (((uint16_t(str[i]) & 0x00ff ) << 8) | (uint16_t(str[i+1]) & 0x00ff));
+        -:  314:        vec.push_back(tmp);
+        -:  315:        i += 2;
+        -:  316:      } else {
+        -:  317:        return false;
+        -:  318:      }
+        -:  319:    }
+        -:  320:  }
+        -:  321:  return true;
+        -:  322:}
+        -:  323:
+        -:  324:template <class Uint16Container>
+        -:  325:bool GBKTrans(const string& str, Uint16Container& vec) {
+        -:  326:  return GBKTrans(str.c_str(), str.size(), vec);
+        -:  327:}
+        -:  328:
+        -:  329:template <class Uint16ContainerConIter>
+        -:  330:void GBKTrans(Uint16ContainerConIter begin, Uint16ContainerConIter end, string& res) {
+        -:  331:  res.clear();
+        -:  332:  //pair<char, char> pa;
+        -:  333:  char first, second;
+        -:  334:  while(begin != end) {
+        -:  335:    //pa = uint16ToChar2(*begin);
+        -:  336:    first = ((*begin)>>8) & 0x00ff;
+        -:  337:    second = (*begin) & 0x00ff;
+        -:  338:    if(first & 0x80) {
+        -:  339:      res += first;
+        -:  340:      res += second;
+        -:  341:    } else {
+        -:  342:      res += second;
+        -:  343:    }
+        -:  344:    begin++;
+        -:  345:  }
+        -:  346:}
+        -:  347:
+        -:  348:/*
+        -:  349: * format example: "%Y-%m-%d %H:%M:%S"
+        -:  350: */
+        -:  351:inline void GetTime(const string& format, string&  timeStr) {
+        -:  352:  time_t timeNow;
+        -:  353:  time(&timeNow);
+        -:  354:
+        -:  355:  struct tm tmNow;
+        -:  356:
+        -:  357:  #if defined(_WIN32) || defined(_WIN64)
+        -:  358:  errno_t e = localtime_s(&tmNow, &timeNow);
+        -:  359:  assert(e = 0);
+        -:  360:  #else
+        -:  361:  struct tm * tm_tmp = localtime_r(&timeNow, &tmNow);
+        -:  362:  assert(tm_tmp != nullptr);
+        -:  363:  #endif
+        -:  364:
+        -:  365:  timeStr.resize(64);
+        -:  366:  
+        -:  367:  size_t len = strftime((char*)timeStr.c_str(), timeStr.size(), format.c_str(), &tmNow);
+        -:  368:  
+        -:  369:  timeStr.resize(len);
+        -:  370:}
+        -:  371:
+        -:  372:inline string PathJoin(const string& path1, const string& path2) {
+        -:  373:  if(EndsWith(path1, "/")) {
+        -:  374:    return path1 + path2;
+        -:  375:  }
+        -:  376:  return path1 + "/" + path2;
+        -:  377:}
+        -:  378:
+        -:  379:}
+        -:  380:#endif

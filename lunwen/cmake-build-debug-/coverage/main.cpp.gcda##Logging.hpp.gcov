@@ -1,0 +1,162 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/limonp/Logging.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef LIMONP_LOGGING_HPP
+        -:    2:#define LIMONP_LOGGING_HPP
+        -:    3:
+        -:    4:#include <sstream>
+        -:    5:#include <iostream>
+        -:    6:#include <cassert>
+        -:    7:#include <cstdlib>
+        -:    8:#include <ctime>
+        -:    9:
+        -:   10:#ifdef XLOG
+        -:   11:#error "XLOG has been defined already"
+        -:   12:#endif // XLOG
+        -:   13:#ifdef XCHECK
+        -:   14:#error "XCHECK has been defined already"
+        -:   15:#endif // XCHECK
+        -:   16:
+        -:   17:#define XLOG(level) limonp::Logger(limonp::LL_##level, __FILE__, __LINE__).Stream() 
+        -:   18:#define XCHECK(exp) if(!(exp)) XLOG(FATAL) << "exp: ["#exp << "] false. "
+        -:   19:
+        -:   20:namespace limonp {
+        -:   21:
+        -:   22:enum {
+        -:   23:  LL_DEBUG = 0, 
+        -:   24:  LL_INFO = 1, 
+        -:   25:  LL_WARNING = 2, 
+        -:   26:  LL_ERROR = 3, 
+        -:   27:  LL_FATAL = 4,
+        -:   28:}; // enum
+        -:   29:
+        -:   30:static const char * LOG_LEVEL_ARRAY[] = {"DEBUG","INFO","WARN","ERROR","FATAL"};
+        -:   31:static const char * LOG_TIME_FORMAT = "%Y-%m-%d %H:%M:%S";
+        -:   32:
+        -:   33:class Logger {
+        -:   34: public:
+function _ZN6limonp6LoggerC1EyPKci called 0 returned 0% blocks executed 0%
+    #####:   35:  Logger(size_t level, const char* filename, int lineno)
+    #####:   36:   : level_(level) {
+    %%%%%:   36-block  0
+call    0 never executed
+        -:   37:#ifdef LOGGING_LEVEL
+        -:   38:     if (level_ < LOGGING_LEVEL) {
+        -:   39:       return;
+        -:   40:     }
+        -:   41:#endif
+    #####:   42:    assert(level_ <= sizeof(LOG_LEVEL_ARRAY)/sizeof(*LOG_LEVEL_ARRAY));
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   42-block  0
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:   42-block  1
+    %%%%%:   42-block  2
+        -:   43:    
+        -:   44:    char buf[32];
+        -:   45:    
+        -:   46:    time_t timeNow;
+    #####:   47:    time(&timeNow);
+    %%%%%:   47-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   48:
+        -:   49:    struct tm tmNow;
+        -:   50:
+        -:   51:    #if defined(_WIN32) || defined(_WIN64)
+    #####:   52:    errno_t e = localtime_s(&tmNow, &timeNow);
+    %%%%%:   52-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   53:    //assert(e = 0);
+        -:   54:    #else
+        -:   55:    struct tm * tm_tmp = localtime_r(&timeNow, &tmNow);
+        -:   56:    assert(tm_tmp != nullptr);
+        -:   57:    #endif
+        -:   58:
+    #####:   59:    strftime(buf, sizeof(buf), LOG_TIME_FORMAT, &tmNow);
+        -:   60:
+        -:   61:    stream_ << buf 
+        -:   62:      << " " << filename 
+    #####:   63:      << ":" << lineno 
+    %%%%%:   63-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   63-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   63-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:   63-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    #####:   64:      << " " << LOG_LEVEL_ARRAY[level_] 
+    #####:   65:      << " ";
+    %%%%%:   65-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   65-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   65-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:   65-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    #####:   66:  }
+    %%%%%:   66-block  0
+    $$$$$:   66-block  1
+call    0 never executed
+function _ZN6limonp6LoggerD1Ev called 0 returned 0% blocks executed 0%
+    #####:   67:  ~Logger() {
+        -:   68:#ifdef LOGGING_LEVEL
+        -:   69:     if (level_ < LOGGING_LEVEL) {
+        -:   70:       return;
+        -:   71:     }
+        -:   72:#endif
+    #####:   73:    std::cerr << stream_.str() << std::endl;
+    %%%%%:   73-block  0
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:   74:    if (level_ == LL_FATAL) {
+branch  0 never executed
+branch  1 never executed
+    #####:   75:      abort();
+    %%%%%:   75-block  0
+call    0 never executed
+        -:   76:    }
+    #####:   77:  }
+    %%%%%:   77-block  0
+call    0 never executed
+        -:   78:
+function _ZN6limonp6Logger6StreamEv called 0 returned 0% blocks executed 0%
+    #####:   79:  std::ostream& Stream() {
+    #####:   80:    return stream_;
+    %%%%%:   80-block  0
+        -:   81:  }
+        -:   82:
+        -:   83: private:
+        -:   84:  std::ostringstream stream_;
+        -:   85:  size_t level_;
+        -:   86:}; // class Logger
+        -:   87:
+        -:   88:} // namespace limonp
+        -:   89:
+        -:   90:#endif // LIMONP_LOGGING_HPP

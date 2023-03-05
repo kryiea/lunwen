@@ -1,0 +1,332 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/simhash/Simhasher.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef SIMHASH_SIMHASHER_HPP
+        -:    2:#define SIMHASH_SIMHASHER_HPP
+        -:    3:
+        -:    4:#include "cppjieba/KeywordExtractor.hpp"
+        -:    5:#include "jenkins.h"
+        -:    6:
+        -:    7:namespace simhash
+        -:    8:{
+        -:    9:    using namespace cppjieba;
+        -:   10:    class Simhasher
+        -:   11:    {
+        -:   12:        private:
+        -:   13:            enum{BITS_LENGTH = 64};
+        -:   14:            jenkins _hasher;
+        -:   15:            KeywordExtractor _extractor;
+        -:   16:        public:
+function _ZN7simhash9SimhasherC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_S8_S8_ called 1 returned 100% blocks executed 58%
+        1:   17:            Simhasher(const string& dictPath, const string& modelPath, const string& idfPath, const string& stopWords): _extractor(dictPath, modelPath, idfPath, stopWords)
+        1:   17-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   17-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   17-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   17-block  3
+call    9 never executed
+    $$$$$:   17-block  4
+    $$$$$:   17-block  5
+call   10 never executed
+        1:   18:            {}
+function _ZN7simhash9SimhasherD1Ev called 1 returned 100% blocks executed 100%
+        1:   19:            ~Simhasher(){};
+        1:   19-block  0
+call    0 returned 1
+        -:   20:
+function _ZNK7simhash9Simhasher7extractERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorISt4pairIS6_dESaISB_EEy called 4 returned 100% blocks executed 100%
+        4:   21:            bool extract(const string& text, vector<pair<string,double> > & res, size_t topN) const
+        -:   22:            {
+        4:   23:                return _extractor.Extract(text, res, topN);
+        4:   23-block  0
+call    0 returned 4
+        -:   24:            }
+function _ZNK7simhash9Simhasher4makeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEyRSt6vectorISt4pairIydESaISB_EE called 2 returned 100% blocks executed 69%
+        2:   25:            bool make(const string& text, size_t topN, vector<pair<uint64_t, double> >& res) const
+        -:   26:            {
+        2:   27:                vector<pair<string, double> > wordweights;
+        2:   27-block  0
+call    0 returned 2
+        2:   28:                if(!extract(text, wordweights, topN))
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:   28-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 2
+        -:   29:                {
+    #####:   30:                    XLOG(ERROR) << "extract failed";
+    %%%%%:   30-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   30-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:   30-block  2
+call    7 never executed
+    $$$$$:   30-block  3
+call    8 never executed
+    $$$$$:   30-block  4
+    #####:   31:                    return false;
+        -:   32:                }
+        2:   33:                res.resize(wordweights.size());
+        2:   33-block  0
+call    0 returned 2
+call    1 returned 2
+branch  2 taken 2 (fallthrough)
+branch  3 taken 0 (throw)
+     1003:   34:                for(size_t i = 0; i < res.size(); i++)
+        2:   34-block  0
+     1003:   34-block  1
+call    0 returned 1003
+branch  1 taken 1001
+branch  2 taken 2 (fallthrough)
+        -:   35:                {
+     1001:   36:                    res[i].first = _hasher(wordweights[i].first.c_str(), wordweights[i].first.size(), 0);
+     1001:   36-block  0
+call    0 returned 1001
+call    1 returned 1001
+call    2 returned 1001
+call    3 returned 1001
+call    4 returned 1001
+branch  5 taken 1001 (fallthrough)
+branch  6 taken 0 (throw)
+     1001:   36-block  1
+call    7 returned 1001
+     1001:   37:                    res[i].second = wordweights[i].second;
+call    0 returned 1001
+call    1 returned 1001
+        -:   38:                }
+        -:   39:
+        2:   40:                return true;
+        2:   40-block  0
+        2:   41:            }
+        2:   41-block  0
+call    0 returned 2
+    $$$$$:   41-block  1
+call    1 never executed
+        -:   42:
+function _ZNK7simhash9Simhasher4makeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEyRy called 2 returned 100% blocks executed 79%
+        2:   43:            bool make(const string& text, size_t topN, uint64_t& v64) const
+        -:   44:            {
+        2:   45:                vector<pair<uint64_t, double> > hashvalues;
+        2:   45-block  0
+call    0 returned 2
+        2:   46:                if(!make(text, topN, hashvalues))
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:   46-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 2
+        -:   47:                {
+    #####:   48:                    return false;
+    %%%%%:   48-block  0
+        -:   49:                }
+        2:   50:                vector<double> weights(BITS_LENGTH, 0.0);
+        2:   50-block  0
+call    0 returned 2
+call    1 returned 2
+branch  2 taken 2 (fallthrough)
+branch  3 taken 0 (throw)
+        2:   50-block  1
+call    4 returned 2
+    $$$$$:   50-block  2
+    $$$$$:   50-block  3
+        2:   51:                const uint64_t u64_1(1);
+     1003:   52:                for(size_t i = 0; i < hashvalues.size(); i++)
+     1001:   52-block  0
+     1003:   52-block  1
+call    0 returned 1003
+branch  1 taken 1001
+branch  2 taken 2 (fallthrough)
+        -:   53:                {
+    65065:   54:                    for(size_t j = 0; j < BITS_LENGTH; j++)
+     1001:   54-block  0
+    65065:   54-block  1
+branch  0 taken 64064
+branch  1 taken 1001 (fallthrough)
+        -:   55:                    {
+    64064:   56:                        weights [j] += (((u64_1 << j) & hashvalues[i].first) ? 1: -1) * hashvalues[i].second;
+    64064:   56-block  0
+call    0 returned 64064
+branch  1 taken 32234 (fallthrough)
+branch  2 taken 31830
+    32234:   56-block  1
+    31830:   56-block  2
+    64064:   56-block  3
+call    3 returned 64064
+call    4 returned 64064
+        -:   57:                    }
+        -:   58:                }
+        -:   59:
+        2:   60:                v64 = 0;
+      130:   61:                for(size_t j = 0; j < BITS_LENGTH; j++)
+        2:   61-block  0
+      128:   61-block  1
+      130:   61-block  2
+branch  0 taken 128
+branch  1 taken 2 (fallthrough)
+        -:   62:                {
+      128:   63:                    if(weights[j] > 0.0)
+      128:   63-block  0
+call    0 returned 128
+branch  1 taken 68 (fallthrough)
+branch  2 taken 60
+        -:   64:                    {
+       68:   65:                        v64 |= (u64_1 << j);
+       68:   65-block  0
+        -:   66:                    }
+        -:   67:                }
+        -:   68:                
+        2:   69:                return true;
+        2:   70:            }
+        2:   70-block  0
+call    0 returned 2
+        2:   70-block  1
+call    1 returned 2
+    $$$$$:   70-block  2
+call    2 never executed
+        -:   71:          
+        -:   72:            /**
+        -:   73:             * @brief
+        -:   74:             * Directly calculate weighted hash of pre-defined keywords.
+        -:   75:             */ 
+        -:   76:            static uint64_t make_from_predefined_keywords(const std::vector< std::pair<std::string, double> >& keywords) {
+        -:   77:                uint64_t v64 = 0;
+        -:   78:                std::vector< std::pair<uint64_t, double> > hashvalues;
+        -:   79:                jenkins _tmp_hasher;
+        -:   80:
+        -:   81:                hashvalues.resize(keywords.size());
+        -:   82:                for (int32_t i = 0; i < keywords.size(); ++i) {
+        -:   83:                    hashvalues[i].first = _tmp_hasher(keywords[i].first.c_str(), keywords[i].first.size(), 0);
+        -:   84:                    hashvalues[i].second = keywords[i].second;
+        -:   85:                }
+        -:   86:
+        -:   87:                vector<double> weights(BITS_LENGTH, 0.0);
+        -:   88:                const uint64_t u64_1(1);
+        -:   89:                for(size_t i = 0; i < hashvalues.size(); i++)
+        -:   90:                {
+        -:   91:                    for(size_t j = 0; j < BITS_LENGTH; j++)
+        -:   92:                    {
+        -:   93:                        weights [j] += (((u64_1 << j) & hashvalues[i].first) ? 1: -1) * hashvalues[i].second;
+        -:   94:                    }
+        -:   95:                }
+        -:   96:
+        -:   97:                for(size_t j = 0; j < BITS_LENGTH; j++)
+        -:   98:                {
+        -:   99:                    if(weights[j] > 0.0)
+        -:  100:                    {
+        -:  101:                        v64 |= (u64_1 << j);
+        -:  102:                    }
+        -:  103:                }
+        -:  104:
+        -:  105:                return v64;
+        -:  106:            }
+        -:  107:
+function _ZN7simhash9Simhasher7isEqualEyyt called 1 returned 100% blocks executed 75%
+        1:  108:            static long int isEqual(uint64_t lhs, uint64_t rhs, unsigned short n = 3)
+        -:  109:            {
+        1:  110:                unsigned short cnt = 0;
+        1:  111:                lhs ^= rhs;
+        -:  112:#if 	defined(__GNUC__) ||  defined(__clang__)
+        1:  113:                cnt = __builtin_popcountll(lhs);
+        -:  114:#else
+        -:  115:                /*
+        -:  116:                 * FIXME: There are actually also builtin_popcount-like functions
+        -:  117:                 * in other compilers..
+        -:  118:                 * Anyway..Here, we just roll back to look-up table (8bits).
+        -:  119:                 */
+        -:  120:                static const int pop_lut[256] = {
+        -:  121:                		0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
+        -:  122:                		1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        -:  123:                		1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        -:  124:                		2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        -:  125:                		1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        -:  126:                		2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        -:  127:                		2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        -:  128:                		3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        -:  129:                		1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        -:  130:                		2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        -:  131:                		2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        -:  132:                		3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        -:  133:                		2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        -:  134:                		3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        -:  135:                		3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        -:  136:                		4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
+        -:  137:                };
+        -:  138:
+        -:  139:                while(lhs && cnt <= n)
+        -:  140:                {
+        -:  141:                	cnt += pop_lut[lhs & 0xff];
+        -:  142:                	lhs >>= 8;
+        -:  143:                }
+        -:  144:#endif
+        1:  145:                if(cnt <= n)
+        1:  145-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+        -:  146:                {
+    #####:  147:                    return cnt;
+    %%%%%:  147-block  0
+        -:  148:                }
+        1:  149:                return cnt;
+        1:  149-block  0
+        -:  150:            }
+        -:  151:
+function _ZN7simhash9Simhasher14toBinaryStringEyRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 2 returned 100% blocks executed 100%
+        2:  152:            static void toBinaryString(uint64_t req, string& res)
+        -:  153:            {
+        2:  154:                res.resize(64);
+        2:  154-block  0
+call    0 returned 2
+      130:  155:                for(signed i = 63; i >= 0; i--)
+      130:  155-block  0
+branch  0 taken 128
+branch  1 taken 2 (fallthrough)
+        -:  156:                {
+      128:  157:                    req & 1 ? res[i] = '1' : res[i] = '0';
+      128:  157-block  0
+branch  0 taken 68 (fallthrough)
+branch  1 taken 60
+       68:  157-block  1
+call    2 returned 68
+       60:  157-block  2
+call    3 returned 60
+      128:  158:                    req >>= 1;
+      128:  158-block  0
+        -:  159:                }
+        2:  160:            }
+        -:  161:
+        -:  162:            static uint64_t binaryStringToUint64(const string& bin)
+        -:  163:            {
+        -:  164:                uint64_t res = 0;
+        -:  165:                for(size_t i = 0; i < bin.size(); i++)
+        -:  166:                {
+        -:  167:                    res <<= 1;
+        -:  168:                    if(bin[i] == '1')
+        -:  169:                    {
+        -:  170:                        res += 1;
+        -:  171:                    }
+        -:  172:                }
+        -:  173:                return res;
+        -:  174:            }
+        -:  175:
+        -:  176:    };
+        -:  177:}
+        -:  178:
+        -:  179:#endif
+        -:  180:
+        -:  181:

@@ -1,0 +1,633 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/limonp/LocalVector.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef LIMONP_LOCAL_VECTOR_HPP
+        -:    2:#define LIMONP_LOCAL_VECTOR_HPP
+        -:    3:
+        -:    4:#include <iostream>
+        -:    5:#include <stdlib.h>
+        -:    6:#include <assert.h>
+        -:    7:#include <string.h>
+        -:    8:
+        -:    9:namespace limonp {
+        -:   10:using namespace std;
+        -:   11:/*
+        -:   12: * LocalVector<T> : T must be primitive type (char , int, size_t), if T is struct or class, LocalVector<T> may be dangerous..
+        -:   13: * LocalVector<T> is simple and not well-tested.
+        -:   14: */
+        -:   15:const size_t LOCAL_VECTOR_BUFFER_SIZE = 16;
+        -:   16:template <class T>
+        -:   17:class LocalVector {
+        -:   18: public:
+        -:   19:  typedef const T* const_iterator ;
+        -:   20:  typedef T value_type;
+        -:   21:  typedef size_t size_type;
+        -:   22: private:
+        -:   23:  T buffer_[LOCAL_VECTOR_BUFFER_SIZE];
+        -:   24:  T * ptr_;
+        -:   25:  size_t size_;
+        -:   26:  size_t capacity_;
+        -:   27: public:
+  6984114:   28:  LocalVector() {
+   836706:   29:    init_();
+   836706:   30:  };
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEEC1Ev:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEEC1Ev called 452488 returned 100% blocks executed 100%
+   452488:   28:  LocalVector() {
+   452488:   29:    init_();
+   452488:   29-block  0
+call    0 returned 452488
+   452488:   30:  };
+------------------
+_ZN6limonp11LocalVectorIjEC1Ev:
+function _ZN6limonp11LocalVectorIjEC1Ev called 5 returned 100% blocks executed 100%
+        5:   28:  LocalVector() {
+        5:   29:    init_();
+        5:   29-block  0
+call    0 returned 5
+        5:   30:  };
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEEC1Ev:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEEC1Ev called 384213 returned 100% blocks executed 100%
+  6531621:   28:  LocalVector() {
+   384213:   28-block  0
+  6147408:   28-block  1
+call    0 returned 6147408
+  6531621:   28-block  2
+branch  1 taken 6147408
+branch  2 taken 384213 (fallthrough)
+   384213:   29:    init_();
+   384213:   29-block  0
+call    0 returned 384213
+   384213:   30:  };
+------------------
+ 4977898*:   31:  LocalVector(const LocalVector<T>& vec) {
+ 4977898*:   32:    init_();
+ 4977898*:   33:    *this = vec;
+ 4977898*:   34:  }
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEEC1ERKS7_:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEEC1ERKS7_ called 0 returned 0% blocks executed 0%
+    #####:   31:  LocalVector(const LocalVector<T>& vec) {
+    #####:   32:    init_();
+    %%%%%:   32-block  0
+call    0 never executed
+    #####:   33:    *this = vec;
+call    0 never executed
+    #####:   34:  }
+------------------
+_ZN6limonp11LocalVectorIjEC1ERKS1_:
+function _ZN6limonp11LocalVectorIjEC1ERKS1_ called 4977898 returned 100% blocks executed 100%
+  4977898:   31:  LocalVector(const LocalVector<T>& vec) {
+  4977898:   32:    init_();
+  4977898:   32-block  0
+call    0 returned 4977898
+  4977898:   33:    *this = vec;
+call    0 returned 4977898
+  4977898:   34:  }
+------------------
+        -:   35:  LocalVector(const_iterator  begin, const_iterator end) { // TODO: make it faster
+        -:   36:    init_();
+        -:   37:    while(begin != end) {
+        -:   38:      push_back(*begin++);
+        -:   39:    }
+        -:   40:  }
+        -:   41:  LocalVector(size_t size, const T& t) { // TODO: make it faster
+        -:   42:    init_();
+        -:   43:    while(size--) {
+        -:   44:      push_back(t);
+        -:   45:    }
+        -:   46:  }
+  5814604:   47:  ~LocalVector() {
+  5814604:   48:    if(ptr_ != buffer_) {
+      90*:   49:      free(ptr_);
+        -:   50:    }
+  5814604:   51:  };
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEED1Ev:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEED1Ev called 452488 returned 100% blocks executed 67%
+   452488:   47:  ~LocalVector() {
+   452488:   48:    if(ptr_ != buffer_) {
+   452488:   48-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 452488
+    #####:   49:      free(ptr_);
+    %%%%%:   49-block  0
+        -:   50:    }
+   452488:   51:  };
+------------------
+_ZN6limonp11LocalVectorIjED1Ev:
+function _ZN6limonp11LocalVectorIjED1Ev called 4977903 returned 100% blocks executed 67%
+  4977903:   47:  ~LocalVector() {
+  4977903:   48:    if(ptr_ != buffer_) {
+  4977903:   48-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 4977903
+    #####:   49:      free(ptr_);
+    %%%%%:   49-block  0
+        -:   50:    }
+  4977903:   51:  };
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEED1Ev:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEED1Ev called 384213 returned 100% blocks executed 100%
+   384213:   47:  ~LocalVector() {
+   384213:   48:    if(ptr_ != buffer_) {
+   384213:   48-block  0
+branch  0 taken 90 (fallthrough)
+branch  1 taken 384123
+       90:   49:      free(ptr_);
+       90:   49-block  0
+        -:   50:    }
+   384213:   51:  };
+------------------
+        -:   52: public:
+ 9727243*:   53:  LocalVector<T>& operator = (const LocalVector<T>& vec) {
+ 9727243*:   54:    clear();
+ 9727243*:   55:    size_ = vec.size();
+ 9727243*:   56:    capacity_ = vec.capacity();
+ 9727243*:   57:    if(vec.buffer_ == vec.ptr_) {
+ 9727243*:   58:      memcpy(static_cast<void*>(buffer_), vec.buffer_, sizeof(T) * size_);
+ 9727243*:   59:      ptr_ = buffer_;
+        -:   60:    } else {
+    #####:   61:      ptr_ = (T*) malloc(vec.capacity() * sizeof(T));
+    #####:   62:      assert(ptr_);
+    #####:   63:      memcpy(static_cast<void*>(ptr_), vec.ptr_, vec.size() * sizeof(T));
+        -:   64:    }
+ 9727243*:   65:    return *this;
+        -:   66:  }
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEEaSERKS7_:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEEaSERKS7_ called 0 returned 0% blocks executed 0%
+    #####:   53:  LocalVector<T>& operator = (const LocalVector<T>& vec) {
+    #####:   54:    clear();
+    %%%%%:   54-block  0
+call    0 never executed
+    #####:   55:    size_ = vec.size();
+call    0 never executed
+    #####:   56:    capacity_ = vec.capacity();
+call    0 never executed
+    #####:   57:    if(vec.buffer_ == vec.ptr_) {
+branch  0 never executed
+branch  1 never executed
+    #####:   58:      memcpy(static_cast<void*>(buffer_), vec.buffer_, sizeof(T) * size_);
+    #####:   59:      ptr_ = buffer_;
+    %%%%%:   59-block  0
+        -:   60:    } else {
+    #####:   61:      ptr_ = (T*) malloc(vec.capacity() * sizeof(T));
+    %%%%%:   61-block  0
+call    0 never executed
+    #####:   62:      assert(ptr_);
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   62-block  0
+call    2 never executed
+    %%%%%:   62-block  1
+    #####:   63:      memcpy(static_cast<void*>(ptr_), vec.ptr_, vec.size() * sizeof(T));
+    %%%%%:   63-block  0
+call    0 never executed
+        -:   64:    }
+    #####:   65:    return *this;
+    %%%%%:   65-block  0
+        -:   66:  }
+------------------
+_ZN6limonp11LocalVectorIjEaSERKS1_:
+function _ZN6limonp11LocalVectorIjEaSERKS1_ called 9727243 returned 100% blocks executed 50%
+  9727243:   53:  LocalVector<T>& operator = (const LocalVector<T>& vec) {
+  9727243:   54:    clear();
+  9727243:   54-block  0
+call    0 returned 9727243
+  9727243:   55:    size_ = vec.size();
+call    0 returned 9727243
+  9727243:   56:    capacity_ = vec.capacity();
+call    0 returned 9727243
+  9727243:   57:    if(vec.buffer_ == vec.ptr_) {
+branch  0 taken 9727243 (fallthrough)
+branch  1 taken 0
+  9727243:   58:      memcpy(static_cast<void*>(buffer_), vec.buffer_, sizeof(T) * size_);
+  9727243:   59:      ptr_ = buffer_;
+  9727243:   59-block  0
+        -:   60:    } else {
+    #####:   61:      ptr_ = (T*) malloc(vec.capacity() * sizeof(T));
+    %%%%%:   61-block  0
+call    0 never executed
+    #####:   62:      assert(ptr_);
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   62-block  0
+call    2 never executed
+    %%%%%:   62-block  1
+    #####:   63:      memcpy(static_cast<void*>(ptr_), vec.ptr_, vec.size() * sizeof(T));
+    %%%%%:   63-block  0
+call    0 never executed
+        -:   64:    }
+  9727243:   65:    return *this;
+  9727243:   65-block  0
+        -:   66:  }
+------------------
+        -:   67: private:
+ 16310266:   68:  void init_() {
+ 16310266:   69:    ptr_ = buffer_;
+ 16310266:   70:    size_ = 0;
+ 16310266:   71:    capacity_ = LOCAL_VECTOR_BUFFER_SIZE;
+ 16310266:   72:  }
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5init_Ev:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5init_Ev called 452488 returned 100% blocks executed 100%
+   452488:   68:  void init_() {
+   452488:   69:    ptr_ = buffer_;
+   452488:   70:    size_ = 0;
+   452488:   71:    capacity_ = LOCAL_VECTOR_BUFFER_SIZE;
+   452488:   72:  }
+------------------
+_ZN6limonp11LocalVectorIjE5init_Ev:
+function _ZN6limonp11LocalVectorIjE5init_Ev called 15089352 returned 100% blocks executed 100%
+ 15089352:   68:  void init_() {
+ 15089352:   69:    ptr_ = buffer_;
+ 15089352:   70:    size_ = 0;
+ 15089352:   71:    capacity_ = LOCAL_VECTOR_BUFFER_SIZE;
+ 15089352:   72:  }
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE5init_Ev:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE5init_Ev called 768426 returned 100% blocks executed 100%
+   768426:   68:  void init_() {
+   768426:   69:    ptr_ = buffer_;
+   768426:   70:    size_ = 0;
+   768426:   71:    capacity_ = LOCAL_VECTOR_BUFFER_SIZE;
+   768426:   72:  }
+------------------
+        -:   73: public:
+  1086548:   74:  T& operator [] (size_t i) {
+  1086548:   75:    return ptr_[i];
+        -:   76:  }
+------------------
+_ZN6limonp11LocalVectorIjEixEy:
+function _ZN6limonp11LocalVectorIjEixEy called 35224 returned 100% blocks executed 100%
+    35224:   74:  T& operator [] (size_t i) {
+    35224:   75:    return ptr_[i];
+    35224:   75-block  0
+        -:   76:  }
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEEixEy:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEEixEy called 1051324 returned 100% blocks executed 100%
+  1051324:   74:  T& operator [] (size_t i) {
+  1051324:   75:    return ptr_[i];
+  1051324:   75-block  0
+        -:   76:  }
+------------------
+function _ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEEixEy called 0 returned 0% blocks executed 0%
+    #####:   77:  const T& operator [] (size_t i) const {
+    #####:   78:    return ptr_[i];
+    %%%%%:   78-block  0
+        -:   79:  }
+  3047511:   80:  void push_back(const T& t) {
+  3047511:   81:    if(size_ == capacity_) {
+    #####:   82:      assert(capacity_);
+    #####:   83:      reserve(capacity_ * 2);
+        -:   84:    }
+  3047511:   85:    ptr_[size_ ++ ] = t;
+  3047511:   86:  }
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE9push_backERKS6_:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE9push_backERKS6_ called 492390 returned 100% blocks executed 38%
+   492390:   80:  void push_back(const T& t) {
+   492390:   81:    if(size_ == capacity_) {
+   492390:   81-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 492390
+    #####:   82:      assert(capacity_);
+    %%%%%:   82-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   82-block  1
+call    2 never executed
+    %%%%%:   82-block  2
+    #####:   83:      reserve(capacity_ * 2);
+    %%%%%:   83-block  0
+call    0 never executed
+        -:   84:    }
+   492390:   85:    ptr_[size_ ++ ] = t;
+   492390:   85-block  0
+call    0 returned 492390
+   492390:   86:  }
+------------------
+_ZN6limonp11LocalVectorIjE9push_backERKj:
+function _ZN6limonp11LocalVectorIjE9push_backERKj called 1051309 returned 100% blocks executed 29%
+  1051309:   80:  void push_back(const T& t) {
+  1051309:   81:    if(size_ == capacity_) {
+  1051309:   81-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1051309
+    #####:   82:      assert(capacity_);
+    %%%%%:   82-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   82-block  1
+call    2 never executed
+    %%%%%:   82-block  2
+    #####:   83:      reserve(capacity_ * 2);
+    %%%%%:   83-block  0
+call    0 never executed
+        -:   84:    }
+  1051309:   85:    ptr_[size_ ++ ] = t;
+  1051309:   86:  }
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE9push_backERKS2_:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE9push_backERKS2_ called 1503812 returned 100% blocks executed 29%
+  1503812:   80:  void push_back(const T& t) {
+  1503812:   81:    if(size_ == capacity_) {
+  1503812:   81-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1503812
+    #####:   82:      assert(capacity_);
+    %%%%%:   82-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   82-block  1
+call    2 never executed
+    %%%%%:   82-block  2
+    #####:   83:      reserve(capacity_ * 2);
+    %%%%%:   83-block  0
+call    0 never executed
+        -:   84:    }
+  1503812:   85:    ptr_[size_ ++ ] = t;
+  1503812:   86:  }
+------------------
+  768419*:   87:  void reserve(size_t size) {
+  768419*:   88:    if(size <= capacity_) {
+  768329*:   89:      return;
+        -:   90:    }
+      90*:   91:    T * next =  (T*)malloc(sizeof(T) * size);
+      90*:   92:    assert(next);
+      90*:   93:    T * old = ptr_;
+      90*:   94:    ptr_ = next;
+      90*:   95:    memcpy(static_cast<void*>(ptr_), old, sizeof(T) * capacity_);
+      90*:   96:    capacity_ = size;
+      90*:   97:    if(old != buffer_) {
+    #####:   98:      free(old);
+        -:   99:    }
+        -:  100:  }
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE7reserveEy:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE7reserveEy called 0 returned 0% blocks executed 0%
+    #####:   87:  void reserve(size_t size) {
+    #####:   88:    if(size <= capacity_) {
+    %%%%%:   88-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   89:      return;
+    %%%%%:   89-block  0
+        -:   90:    }
+    #####:   91:    T * next =  (T*)malloc(sizeof(T) * size);
+    #####:   92:    assert(next);
+    %%%%%:   92-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   92-block  1
+call    2 never executed
+    %%%%%:   92-block  2
+    #####:   93:    T * old = ptr_;
+    #####:   94:    ptr_ = next;
+    #####:   95:    memcpy(static_cast<void*>(ptr_), old, sizeof(T) * capacity_);
+    #####:   96:    capacity_ = size;
+    #####:   97:    if(old != buffer_) {
+    %%%%%:   97-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   98:      free(old);
+    %%%%%:   98-block  0
+        -:   99:    }
+        -:  100:  }
+------------------
+_ZN6limonp11LocalVectorIjE7reserveEy:
+function _ZN6limonp11LocalVectorIjE7reserveEy called 384206 returned 100% blocks executed 33%
+   384206:   87:  void reserve(size_t size) {
+   384206:   88:    if(size <= capacity_) {
+   384206:   88-block  0
+branch  0 taken 384206 (fallthrough)
+branch  1 taken 0
+   384206:   89:      return;
+   384206:   89-block  0
+        -:   90:    }
+    #####:   91:    T * next =  (T*)malloc(sizeof(T) * size);
+    #####:   92:    assert(next);
+    %%%%%:   92-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   92-block  1
+call    2 never executed
+    %%%%%:   92-block  2
+    #####:   93:    T * old = ptr_;
+    #####:   94:    ptr_ = next;
+    #####:   95:    memcpy(static_cast<void*>(ptr_), old, sizeof(T) * capacity_);
+    #####:   96:    capacity_ = size;
+    #####:   97:    if(old != buffer_) {
+    %%%%%:   97-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   98:      free(old);
+    %%%%%:   98-block  0
+        -:   99:    }
+        -:  100:  }
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE7reserveEy:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE7reserveEy called 384213 returned 100% blocks executed 67%
+   384213:   87:  void reserve(size_t size) {
+   384213:   88:    if(size <= capacity_) {
+   384213:   88-block  0
+branch  0 taken 384123 (fallthrough)
+branch  1 taken 90
+   384123:   89:      return;
+   384123:   89-block  0
+        -:   90:    }
+       90:   91:    T * next =  (T*)malloc(sizeof(T) * size);
+      90*:   92:    assert(next);
+       90:   92-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 90
+    %%%%%:   92-block  1
+call    2 never executed
+       90:   92-block  2
+       90:   93:    T * old = ptr_;
+       90:   94:    ptr_ = next;
+       90:   95:    memcpy(static_cast<void*>(ptr_), old, sizeof(T) * capacity_);
+       90:   96:    capacity_ = size;
+       90:   97:    if(old != buffer_) {
+       90:   97-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 90
+    #####:   98:      free(old);
+    %%%%%:   98-block  0
+        -:   99:    }
+        -:  100:  }
+------------------
+function _ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5emptyEv called 452488 returned 100% blocks executed 100%
+   452488:  101:  bool empty() const {
+   452488:  102:    return 0 == size();
+   452488:  102-block  0
+call    0 returned 452488
+        -:  103:  }
+ 13235594:  104:  size_t size() const {
+ 13235594:  105:    return size_;
+        -:  106:  }
+------------------
+_ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE4sizeEv:
+function _ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE4sizeEv called 452488 returned 100% blocks executed 100%
+   452488:  104:  size_t size() const {
+   452488:  105:    return size_;
+   452488:  105-block  0
+        -:  106:  }
+------------------
+_ZNK6limonp11LocalVectorIjE4sizeEv:
+function _ZNK6limonp11LocalVectorIjE4sizeEv called 10963367 returned 100% blocks executed 100%
+ 10963367:  104:  size_t size() const {
+ 10963367:  105:    return size_;
+ 10963367:  105-block  0
+        -:  106:  }
+------------------
+_ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEE4sizeEv:
+function _ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEE4sizeEv called 1819739 returned 100% blocks executed 100%
+  1819739:  104:  size_t size() const {
+  1819739:  105:    return size_;
+  1819739:  105-block  0
+        -:  106:  }
+------------------
+ 9727243*:  107:  size_t capacity() const {
+ 9727243*:  108:    return capacity_;
+        -:  109:  }
+------------------
+_ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE8capacityEv:
+function _ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE8capacityEv called 0 returned 0% blocks executed 0%
+    #####:  107:  size_t capacity() const {
+    #####:  108:    return capacity_;
+    %%%%%:  108-block  0
+        -:  109:  }
+------------------
+_ZNK6limonp11LocalVectorIjE8capacityEv:
+function _ZNK6limonp11LocalVectorIjE8capacityEv called 9727243 returned 100% blocks executed 100%
+  9727243:  107:  size_t capacity() const {
+  9727243:  108:    return capacity_;
+  9727243:  108-block  0
+        -:  109:  }
+------------------
+  1150456:  110:  const_iterator begin() const {
+  1150456:  111:    return ptr_;
+        -:  112:  }
+------------------
+_ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5beginEv:
+function _ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5beginEv called 452488 returned 100% blocks executed 100%
+   452488:  110:  const_iterator begin() const {
+   452488:  111:    return ptr_;
+   452488:  111-block  0
+        -:  112:  }
+------------------
+_ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEE5beginEv:
+function _ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEE5beginEv called 4 returned 100% blocks executed 100%
+        4:  110:  const_iterator begin() const {
+        4:  111:    return ptr_;
+        4:  111-block  0
+        -:  112:  }
+------------------
+_ZNK6limonp11LocalVectorIjE5beginEv:
+function _ZNK6limonp11LocalVectorIjE5beginEv called 697964 returned 100% blocks executed 100%
+   697964:  110:  const_iterator begin() const {
+   697964:  111:    return ptr_;
+   697964:  111-block  0
+        -:  112:  }
+------------------
+  3133829:  113:  const_iterator end() const {
+  3133829:  114:    return ptr_ + size_;
+        -:  115:  }
+------------------
+_ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE3endEv:
+function _ZNK6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE3endEv called 944878 returned 100% blocks executed 100%
+   944878:  113:  const_iterator end() const {
+   944878:  114:    return ptr_ + size_;
+   944878:  114-block  0
+        -:  115:  }
+------------------
+_ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEE3endEv:
+function _ZNK6limonp11LocalVectorIN8cppjieba7RuneStrEE3endEv called 474902 returned 100% blocks executed 100%
+   474902:  113:  const_iterator end() const {
+   474902:  114:    return ptr_ + size_;
+   474902:  114-block  0
+        -:  115:  }
+------------------
+_ZNK6limonp11LocalVectorIjE3endEv:
+function _ZNK6limonp11LocalVectorIjE3endEv called 1714049 returned 100% blocks executed 100%
+  1714049:  113:  const_iterator end() const {
+  1714049:  114:    return ptr_ + size_;
+  1714049:  114-block  0
+        -:  115:  }
+------------------
+10495662*:  116:  void clear() {
+10495662*:  117:    if(ptr_ != buffer_) {
+    #####:  118:      free(ptr_);
+        -:  119:    }
+10495662*:  120:    init_();
+10495662*:  121:  }
+------------------
+_ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5clearEv:
+function _ZN6limonp11LocalVectorISt4pairIyPKN8cppjieba8DictUnitEEE5clearEv called 0 returned 0% blocks executed 0%
+    #####:  116:  void clear() {
+    #####:  117:    if(ptr_ != buffer_) {
+    %%%%%:  117-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  118:      free(ptr_);
+    %%%%%:  118-block  0
+        -:  119:    }
+    #####:  120:    init_();
+    %%%%%:  120-block  0
+call    0 never executed
+    #####:  121:  }
+------------------
+_ZN6limonp11LocalVectorIjE5clearEv:
+function _ZN6limonp11LocalVectorIjE5clearEv called 10111449 returned 100% blocks executed 75%
+ 10111449:  116:  void clear() {
+ 10111449:  117:    if(ptr_ != buffer_) {
+ 10111449:  117-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 10111449
+    #####:  118:      free(ptr_);
+    %%%%%:  118-block  0
+        -:  119:    }
+ 10111449:  120:    init_();
+ 10111449:  120-block  0
+call    0 returned 10111449
+ 10111449:  121:  }
+------------------
+_ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE5clearEv:
+function _ZN6limonp11LocalVectorIN8cppjieba7RuneStrEE5clearEv called 384213 returned 100% blocks executed 75%
+   384213:  116:  void clear() {
+   384213:  117:    if(ptr_ != buffer_) {
+   384213:  117-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 384213
+    #####:  118:      free(ptr_);
+    %%%%%:  118-block  0
+        -:  119:    }
+   384213:  120:    init_();
+   384213:  120-block  0
+call    0 returned 384213
+   384213:  121:  }
+------------------
+        -:  122:};
+        -:  123:
+        -:  124:template <class T>
+        -:  125:ostream & operator << (ostream& os, const LocalVector<T>& vec) {
+        -:  126:  if(vec.empty()) {
+        -:  127:    return os << "[]";
+        -:  128:  }
+        -:  129:  os<<"[\""<<vec[0];
+        -:  130:  for(size_t i = 1; i < vec.size(); i++) {
+        -:  131:    os<<"\", \""<<vec[i];
+        -:  132:  }
+        -:  133:  os<<"\"]";
+        -:  134:  return os;
+        -:  135:}
+        -:  136:
+        -:  137:}
+        -:  138:
+        -:  139:#endif

@@ -1,0 +1,654 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/main.cpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:// clion
+        -:    2:// Created by 86195 on 2023/3/4.
+        -:    3:#include <iostream>
+        -:    4:#include <vector>
+        -:    5:#include <iomanip>
+        -:    6:#include "./include/cppjieba/Jieba.hpp"
+        -:    7:#include "./include/simhash/Simhasher.hpp"
+        -:    8:
+        -:    9:using namespace std;
+        -:   10:
+        -:   11:// 读写函数
+        -:   12:bool Loaded_context(string Path, string& context);
+        -:   13:bool Output_result(string Path,double res);
+        -:   14:
+        -:   15://重新实现海明距离
+        -:   16:unsigned hamdist( string str1,  string str2);
+        -:   17://基于海明距离的相似度计算
+        -:   18:bool cal_HamSim(double & res, int dis);
+        -:   19:
+        -:   20:// 字典、模型路径
+        -:   21:const char* const DICT_PATH = "include/dict/jieba.dict.utf8";
+        -:   22:const char* const HMM_PATH = "./include/dict/hmm_model.utf8";
+        -:   23:const char* const USER_DICT_PATH = "./include/dict/user.dict.utf8";
+        -:   24:const char* const IDF_PATH = "./include/dict/idf.utf8";
+        -:   25:const char* const STOP_WORD_PATH = "./include/dict/stop_words.utf8";
+        -:   26:const char* const HMM_MODEL_PATH = "./include/dict/hmm_model.utf8";
+        -:   27:const char* const KEYWORDS_1_PATH = "./keyword1.txt";
+        -:   28:const char* const KEYWORDS_2_PATH = "./keyword2.txt";
+        -:   29:
+        -:   30://文本数据
+        -:   31:string context_1;
+        -:   32:string context_2;
+        -:   33:vector<pair<string ,double>> result_1;
+        -:   34:vector<pair<string ,double>> result_2;
+        -:   35:
+        -:   36://simHash_key
+        -:   37:uint64_t simHashKey_contxt_1 = 0;
+        -:   38:uint64_t simHashKey_contxt_2 = 0;
+        -:   39://海明距离
+        -:   40:
+        -:   41:
+        -:   42://关键词top1000
+        -:   43:size_t topN = 1000;
+        -:   44:
+        -:   45:/*
+        -:   46: * main参数说明
+        -:   47: * argc的含义是argument count：它是一个int行变量，表示传递给main函数的参数数量
+        -:   48: * argv的含义是argument value：它是一个指向字符串的指针数组，每个指针元素指向各个具体的参数
+        -:   49: * argv[0] : main.exe 的首地址
+        -:   50: * argv[1] : 测试文本 1 的地址
+        -:   51: * argv[2] : 测试文本 2 的地址
+        -:   52: * argv[3] : 结果文本的地址
+        -:   53: * */
+function main called 1 returned 100% blocks executed 57%
+        1:   54:int main(int argc, char * argv[]){
+        -:   55:
+        -:   56:    //读取 argv[] 中的文本路径信息
+        -:   57:    /*const char* const SRC_1_PATH = argv[1];
+        -:   58:    const char* const SRC_2_PATH = argv[2];
+        -:   59:    const char* const RES_PATH = argv[3];*/
+        1:   60:    const char* const SRC_1_PATH = "src1.txt";
+        1:   61:    const char* const SRC_2_PATH = "src2.txt";
+        1:   62:    const char* const RES_PATH = "res.txt";
+        -:   63:
+        -:   64:    //加载文本数据
+        1:   65:    Loaded_context(SRC_1_PATH,context_1);
+        1:   65-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   65-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   65-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   65-block  3
+call    9 never executed
+    $$$$$:   65-block  4
+    $$$$$:   65-block  5
+call   10 never executed
+    $$$$$:   65-block  6
+        1:   66:    Loaded_context(SRC_2_PATH,context_2);
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   66-block  0
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   66-block  1
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   66-block  2
+call    9 never executed
+    $$$$$:   66-block  3
+    $$$$$:   66-block  4
+call   10 never executed
+    $$$$$:   66-block  5
+        -:   67:
+        -:   68:    //初始化simhash对象
+        2:   69:    simhash::Simhasher simhasher(DICT_PATH, HMM_MODEL_PATH, IDF_PATH, STOP_WORD_PATH);
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   69-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   69-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   69-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:   69-block  3
+call   16 returned 1
+branch 17 taken 1 (fallthrough)
+branch 18 taken 0 (throw)
+call   19 returned 1
+call   20 returned 1
+call   21 returned 1
+call   22 returned 1
+call   23 returned 1
+call   24 returned 1
+call   25 returned 1
+    $$$$$:   69-block  4
+    $$$$$:   69-block  5
+    $$$$$:   69-block  6
+    $$$$$:   69-block  7
+    $$$$$:   69-block  8
+    $$$$$:   69-block  9
+    $$$$$:   69-block 10
+    $$$$$:   69-block 11
+        -:   70:
+        -:   71:    //关键词序列
+        1:   72:    simhasher.extract(context_1, result_1, topN);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   73:    simhasher.extract(context_2, result_2, topN);
+        1:   73-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   74:
+        -:   75:    // 计算simhash
+        1:   76:    simhasher.make(context_1, topN, simHashKey_contxt_1);
+        1:   76-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   77:    simhasher.make(context_2, topN, simHashKey_contxt_2);
+        1:   77-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   78:
+        -:   79:    //unit_64（ll int）转 01 串
+        1:   80:    string s1;
+        1:   80-block  0
+call    0 returned 1
+        1:   81:    string s2;
+call    0 returned 1
+        1:   82:    simhash::Simhasher::toBinaryString(simHashKey_contxt_1,s1);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   83:    cout <<"Simhash_context_1: " << s1 << endl;
+        1:   83-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   83-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   83-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:   84:    simhash::Simhasher::toBinaryString(simHashKey_contxt_2,s2);
+        1:   84-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   85:    cout <<"Simhash_context_2: "<< s2 << endl;
+        1:   85-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   85-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   85-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        -:   86:
+        -:   87:    //重新实现hamdist（） 重新计算海明距离
+        -:   88:    //cout << hamdist(s1,s2) << endl;
+        -:   89:
+        -:   90:    //计算相似度和海明距离
+        1:   91:    int dis = simhash::Simhasher::isEqual(simHashKey_contxt_1, simHashKey_contxt_2);
+        1:   91-block  0
+call    0 returned 1
+        1:   92:    cout <<"hamming: "<< dis << endl;
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   92-block  0
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   92-block  1
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        -:   93:    double res;
+        1:   94:    cal_HamSim(res,dis);
+        1:   94-block  0
+call    0 returned 1
+        1:   95:    cout<<fixed<<setprecision(2);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   95-block  0
+call    3 returned 1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   96:    cout <<"similarity: " << res << endl;
+        1:   96-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   96-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   96-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        -:   97:
+        1:   98:    Output_result(RES_PATH, res);
+        1:   98-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   98-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   98-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   98-block  3
+call    9 never executed
+    $$$$$:   98-block  4
+    $$$$$:   98-block  5
+call   10 never executed
+    $$$$$:   98-block  6
+        -:   99:
+        -:  100:    //输出结果
+        -:  101:    //Output_result(RES_PATH);
+        -:  102:    //0.01 * (100 - distance * 100 / 128);
+        1:  103:    return 0;
+        -:  104:
+        1:  105:}
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+    $$$$$:  105-block  0
+call    3 never executed
+    $$$$$:  105-block  1
+call    4 never executed
+    $$$$$:  105-block  2
+call    5 never executed
+        -:  106:
+function _Z14Loaded_contextNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERS4_ called 2 returned 100% blocks executed 70%
+        2:  107:bool Loaded_context(string Path, string& Context){
+        2:  108:    ifstream context_ifs(Path);
+        2:  108-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  109:    if(context_ifs.fail()){
+        2:  109-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  109-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 2
+    #####:  110:        cout << "error: SRC_1_PATH null!" << endl;
+    %%%%%:  110-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  110-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    #####:  111:        context_ifs.close();
+    %%%%%:  111-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  112:        return false;
+    %%%%%:  112-block  0
+        -:  113:    }else{
+     1539:  114:        while(!context_ifs.eof()){
+        2:  114-block  0
+     1539:  114-block  1
+call    0 returned 1539
+branch  1 taken 1539 (fallthrough)
+branch  2 taken 0 (throw)
+     1539:  114-block  2
+branch  3 taken 1537
+branch  4 taken 2 (fallthrough)
+     1537:  115:            string temp;
+     1537:  115-block  0
+call    0 returned 1537
+     1537:  116:            context_ifs >> temp;
+call    0 returned 1537
+branch  1 taken 1537 (fallthrough)
+branch  2 taken 0 (throw)
+     1537:  117:            Context.append(temp);
+     1537:  117-block  0
+call    0 returned 1537
+branch  1 taken 1537 (fallthrough)
+branch  2 taken 0 (throw)
+     1537:  118:        }
+     1537:  118-block  0
+call    0 returned 1537
+    $$$$$:  118-block  1
+call    1 never executed
+        2:  119:        context_ifs.close();
+        2:  119-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  120:        cout << "File path: " << Path << " loaded " << endl;
+        2:  120-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  120-block  1
+call    3 returned 2
+branch  4 taken 2 (fallthrough)
+branch  5 taken 0 (throw)
+        2:  120-block  2
+call    6 returned 2
+branch  7 taken 2 (fallthrough)
+branch  8 taken 0 (throw)
+        2:  120-block  3
+call    9 returned 2
+branch 10 taken 2 (fallthrough)
+branch 11 taken 0 (throw)
+        2:  121:        return 1;
+        2:  121-block  0
+        -:  122:    };
+        -:  123:
+        -:  124:
+        2:  125:}
+        2:  125-block  0
+call    0 returned 2
+    $$$$$:  125-block  1
+call    1 never executed
+        -:  126:
+function _Z13Output_resultNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd called 1 returned 100% blocks executed 72%
+        1:  127:bool Output_result(string Path, double res){
+        1:  128:    ofstream of(Path,ios::app);
+        1:  128-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  129:    ofstream of_res_1(KEYWORDS_1_PATH);
+        1:  129-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  130:    ofstream of_res_2(KEYWORDS_2_PATH);
+        1:  130-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  131:
+       1*:  132:    if(of.fail() || of_res_1.fail() || of_res_2.fail()){
+        1:  132-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  132-block  1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0
+        1:  132-block  2
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  132-block  3
+branch  8 taken 1 (fallthrough)
+branch  9 taken 0
+        1:  132-block  4
+call   10 returned 1
+branch 11 taken 1 (fallthrough)
+branch 12 taken 0 (throw)
+        1:  132-block  5
+branch 13 taken 0 (fallthrough)
+branch 14 taken 1
+    %%%%%:  132-block  6
+        1:  132-block  7
+        1:  132-block  8
+branch 15 taken 0 (fallthrough)
+branch 16 taken 1
+    #####:  133:        cout << "error: RES_PATH null!" << endl;
+    %%%%%:  133-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  133-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    #####:  134:        of.close();
+    %%%%%:  134-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  135:        of_res_1.close();
+    %%%%%:  135-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  136:        of_res_2.close();
+    %%%%%:  136-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  137:        return false;
+    %%%%%:  137-block  0
+        -:  138:    }else{
+        -:  139:
+        1:  140:        of << "本次结果: " << res << endl;
+        1:  140-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  140-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  140-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:  141:        of_res_1 << "前1000个关键词: " <<result_1 << endl;
+        1:  141-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  141-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  141-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:  142:        of_res_2 << "前1000个关键词: " <<result_2 << endl;
+        1:  142-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  142-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  142-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:  143:        of.close();
+        1:  143-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  144:        of_res_1.close();
+        1:  144-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  145:        of_res_2.close();
+        1:  145-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  146:        cout << "File path: " << Path << " output " << endl;
+        1:  146-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  146-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  146-block  2
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:  146-block  3
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  147:        return 1;
+        1:  147-block  0
+        -:  148:    }
+        -:  149:
+        1:  150:}
+        1:  150-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+    $$$$$:  150-block  1
+call    3 never executed
+    $$$$$:  150-block  2
+call    4 never executed
+    $$$$$:  150-block  3
+call    5 never executed
+        -:  151:
+function _Z7hamdistNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES4_ called 0 returned 0% blocks executed 0%
+    #####:  152:unsigned hamdist(string str1, string str2)
+        -:  153:{
+    #####:  154:    if (str1.empty() || str2.empty()) {
+    %%%%%:  154-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  154-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  154-block  2
+    %%%%%:  154-block  3
+    %%%%%:  154-block  4
+branch  6 never executed
+branch  7 never executed
+    #####:  155:        return 0;
+    %%%%%:  155-block  0
+        -:  156:    }
+    #####:  157:    if (str1.length() != str2.length()){
+    %%%%%:  157-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:  158:        return 0;
+    %%%%%:  158-block  0
+        -:  159:    }
+    #####:  160:    unsigned dist = 0;
+    #####:  161:    unsigned i = 0;
+    #####:  162:    while(i < str1.length()){
+    %%%%%:  162-block  0
+    %%%%%:  162-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  163:        dist += (str1[i] != str2[i]) ? 1 : 0;
+    %%%%%:  163-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  163-block  1
+    %%%%%:  163-block  2
+    #####:  164:        i++;
+    %%%%%:  164-block  0
+        -:  165:    }
+    #####:  166:    return dist;
+    %%%%%:  166-block  0
+        -:  167:}
+        -:  168:
+        -:  169://基于海明距离的相似度计算
+function _Z10cal_HamSimRdi called 1 returned 100% blocks executed 100%
+        1:  170:bool cal_HamSim(double & res, int dis){
+        1:  171:    res = 0.01 * (100 - dis * 100 / 128.0);
+        1:  172:    return 1;
+        1:  172-block  0
+        -:  173:}
+        -:  174:
+        -:  175://余弦相似度计算
+function _Z7getMoldRKSt6vectorIdSaIdEE called 0 returned 0% blocks executed 0%
+    #####:  176:double getMold(const vector<double>& vec)
+        -:  177:{
+    #####:  178:    int n = vec.size();
+    %%%%%:  178-block  0
+call    0 never executed
+    #####:  179:    double sum = 0.0;
+    #####:  180:    for (int i = 0; i < n; ++i)
+    %%%%%:  180-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  181:        sum += vec[i] * vec[i];
+    %%%%%:  181-block  0
+call    0 never executed
+call    1 never executed
+    #####:  182:    return sqrt(sum);
+    %%%%%:  182-block  0
+        -:  183:}
+function _Z12cos_distanceRKSt6vectorIdSaIdEES3_ called 0 returned 0% blocks executed 0%
+    #####:  184:double cos_distance(const vector<double>& base, const vector<double>& target)
+        -:  185:{
+    #####:  186:    int n = base.size();
+    %%%%%:  186-block  0
+call    0 never executed
+    #####:  187:    assert(n == target.size());
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  187-block  0
+call    3 never executed
+    %%%%%:  187-block  1
+    #####:  188:    double tmp = 0.0;
+    #####:  189:    for (int i = 0; i < n; ++i)
+    %%%%%:  189-block  0
+    %%%%%:  189-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  190:        tmp += base[i] * target[i];
+    %%%%%:  190-block  0
+call    0 never executed
+call    1 never executed
+    #####:  191:    double simility =  tmp / (getMold(base)*getMold(target));
+    %%%%%:  191-block  0
+call    0 never executed
+call    1 never executed
+    #####:  192:    return simility;
+        -:  193:}

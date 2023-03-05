@@ -1,0 +1,257 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/PosTagger.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_POS_TAGGING_H
+        -:    2:#define CPPJIEBA_POS_TAGGING_H
+        -:    3:
+        -:    4:#include "limonp/StringUtil.hpp"
+        -:    5:#include "SegmentTagged.hpp"
+        -:    6:#include "DictTrie.hpp"
+        -:    7:
+        -:    8:namespace cppjieba {
+        -:    9:using namespace limonp;
+        -:   10:
+        -:   11:static const char* const POS_M = "m";
+        -:   12:static const char* const POS_ENG = "eng";
+        -:   13:static const char* const POS_X = "x";
+        -:   14:
+        -:   15:class PosTagger {
+        -:   16: public:
+function _ZN8cppjieba9PosTaggerC1Ev called 2 returned 100% blocks executed 100%
+        2:   17:  PosTagger() {
+        2:   18:  }
+function _ZN8cppjieba9PosTaggerD1Ev called 2 returned 100% blocks executed 100%
+        2:   19:  ~PosTagger() {
+        2:   20:  }
+        -:   21:
+function _ZNK8cppjieba9PosTagger3TagERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorISt4pairIS6_S6_ESaISB_EERKNS_13SegmentTaggedE called 0 returned 0% blocks executed 0%
+    #####:   22:  bool Tag(const string& src, vector<pair<string, string> >& res, const SegmentTagged& segment) const {
+    #####:   23:    vector<string> CutRes;
+    %%%%%:   23-block  0
+call    0 never executed
+    #####:   24:    segment.Cut(src, CutRes);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   25:
+    #####:   26:    for (vector<string>::iterator itr = CutRes.begin(); itr != CutRes.end(); ++itr) {
+    %%%%%:   26-block  0
+call    0 never executed
+    %%%%%:   26-block  1
+call    1 never executed
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:   27:      res.push_back(make_pair(*itr, LookupTag(*itr, segment)));
+    %%%%%:   27-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:   27-block  1
+call    4 never executed
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   27-block  2
+call    8 never executed
+branch  9 never executed
+branch 10 never executed
+    %%%%%:   27-block  3
+call   11 never executed
+call   12 never executed
+call   13 never executed
+    $$$$$:   27-block  4
+call   14 never executed
+    $$$$$:   27-block  5
+    $$$$$:   27-block  6
+call   15 never executed
+    $$$$$:   27-block  7
+        -:   28:    }
+    #####:   29:    return !res.empty();
+    %%%%%:   29-block  0
+call    0 never executed
+    %%%%%:   29-block  1
+    #####:   30:  }
+call    0 never executed
+    $$$$$:   30-block  0
+call    1 never executed
+        -:   31:
+function _ZNK8cppjieba9PosTagger9LookupTagERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_13SegmentTaggedE called 0 returned 0% blocks executed 0%
+    #####:   32:  string LookupTag(const string &str, const SegmentTagged& segment) const {
+    #####:   33:    const DictUnit *tmp = NULL;
+    #####:   34:    RuneStrArray runes;
+    %%%%%:   34-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   35:    const DictTrie * dict = segment.GetDictTrie();
+    %%%%%:   35-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   36:    assert(dict != NULL);
+    %%%%%:   36-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   36-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:   36-block  2
+    %%%%%:   36-block  3
+    #####:   37:      if (!DecodeRunesInString(str, runes)) {
+    %%%%%:   37-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   37-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:   38:        XLOG(ERROR) << "Decode failed.";
+    %%%%%:   38-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   38-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:   38-block  2
+call    7 never executed
+    $$$$$:   38-block  3
+call    8 never executed
+    $$$$$:   38-block  4
+    #####:   39:        return POS_X;
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:   39-block  0
+call    4 never executed
+    $$$$$:   39-block  1
+call    5 never executed
+    $$$$$:   39-block  2
+        -:   40:      }
+    #####:   41:      tmp = dict->Find(runes.begin(), runes.end());
+    %%%%%:   41-block  0
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:   42:      if (tmp == NULL || tmp->tag.empty()) {
+    %%%%%:   42-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   42-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:   42-block  2
+    %%%%%:   42-block  3
+    %%%%%:   42-block  4
+branch  5 never executed
+branch  6 never executed
+    #####:   43:        return SpecialRule(runes);
+    %%%%%:   43-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:   43-block  1
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:   43-block  2
+call    7 never executed
+    $$$$$:   43-block  3
+call    8 never executed
+    $$$$$:   43-block  4
+        -:   44:      } else {
+    #####:   45:        return tmp->tag;
+    %%%%%:   45-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   46:      }
+    #####:   47:  }
+    %%%%%:   47-block  0
+call    0 never executed
+    $$$$$:   47-block  1
+call    1 never executed
+        -:   48:
+        -:   49: private:
+function _ZNK8cppjieba9PosTagger11SpecialRuleERKN6limonp11LocalVectorINS_7RuneStrEEE called 0 returned 0% blocks executed 0%
+    #####:   50:  const char* SpecialRule(const RuneStrArray& unicode) const {
+    #####:   51:    size_t m = 0;
+    #####:   52:    size_t eng = 0;
+    #####:   53:    for (size_t i = 0; i < unicode.size() && eng < unicode.size() / 2; i++) {
+    %%%%%:   53-block  0
+    %%%%%:   53-block  1
+    %%%%%:   53-block  2
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   53-block  3
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   53-block  4
+    %%%%%:   53-block  5
+    %%%%%:   53-block  6
+branch  6 never executed
+branch  7 never executed
+    #####:   54:      if (unicode[i].rune < 0x80) {
+    %%%%%:   54-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   55:        eng ++;
+    #####:   56:        if ('0' <= unicode[i].rune && unicode[i].rune <= '9') {
+    %%%%%:   56-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   56-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   56-block  2
+    %%%%%:   56-block  3
+    %%%%%:   56-block  4
+branch  6 never executed
+branch  7 never executed
+    #####:   57:          m++;
+    %%%%%:   57-block  0
+        -:   58:        }
+        -:   59:      }
+        -:   60:    }
+        -:   61:    // ascii char is not found
+    #####:   62:    if (eng == 0) {
+    %%%%%:   62-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   63:      return POS_X;
+    %%%%%:   63-block  0
+        -:   64:    }
+        -:   65:    // all the ascii is number char
+    #####:   66:    if (m == eng) {
+    %%%%%:   66-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   67:      return POS_M;
+    %%%%%:   67-block  0
+        -:   68:    }
+        -:   69:    // the ascii chars contain english letter
+    #####:   70:    return POS_ENG;
+    %%%%%:   70-block  0
+        -:   71:  }
+        -:   72:
+        -:   73:}; // class PosTagger
+        -:   74:
+        -:   75:} // namespace cppjieba
+        -:   76:
+        -:   77:#endif

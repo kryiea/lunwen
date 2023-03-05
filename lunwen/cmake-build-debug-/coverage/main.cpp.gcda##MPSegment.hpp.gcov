@@ -1,0 +1,394 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/MPSegment.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_MPSEGMENT_H
+        -:    2:#define CPPJIEBA_MPSEGMENT_H
+        -:    3:
+        -:    4:#include <algorithm>
+        -:    5:#include <set>
+        -:    6:#include <cassert>
+        -:    7:#include "limonp/Logging.hpp"
+        -:    8:#include "DictTrie.hpp"
+        -:    9:#include "SegmentTagged.hpp"
+        -:   10:#include "PosTagger.hpp"
+        -:   11:
+        -:   12:namespace cppjieba {
+        -:   13:
+        -:   14:class MPSegment: public SegmentTagged {
+        -:   15: public:
+function _ZN8cppjieba9MPSegmentC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_ called 1 returned 100% blocks executed 67%
+        1:   16:  MPSegment(const string& dictPath, const string& userDictPath = "")
+        1:   17:    : dictTrie_(new DictTrie(dictPath, userDictPath)), isNeedDestroy_(true) {
+        1:   17-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   17-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   17-block  2
+call    7 returned 1
+    $$$$$:   17-block  3
+call    8 never executed
+        1:   18:  }
+    $$$$$:   18-block  0
+call    0 never executed
+        -:   19:  MPSegment(const DictTrie* dictTrie)
+        -:   20:    : dictTrie_(dictTrie), isNeedDestroy_(false) {
+        -:   21:    assert(dictTrie_);
+        -:   22:  }
+       1*:   23:  ~MPSegment() {
+        1:   24:    if (isNeedDestroy_) {
+        1:   25:      delete dictTrie_;
+        -:   26:    }
+       1*:   27:  }
+------------------
+_ZN8cppjieba9MPSegmentD0Ev:
+function _ZN8cppjieba9MPSegmentD0Ev called 0 returned 0% blocks executed 0%
+    #####:   23:  ~MPSegment() {
+        -:   24:    if (isNeedDestroy_) {
+        -:   25:      delete dictTrie_;
+        -:   26:    }
+    #####:   27:  }
+    %%%%%:   27-block  0
+call    0 never executed
+call    1 never executed
+------------------
+_ZN8cppjieba9MPSegmentD1Ev:
+function _ZN8cppjieba9MPSegmentD1Ev called 1 returned 100% blocks executed 100%
+        1:   23:  ~MPSegment() {
+        1:   24:    if (isNeedDestroy_) {
+        1:   24-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 0
+        1:   25:      delete dictTrie_;
+        1:   25-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 0
+        1:   25-block  1
+call    2 returned 1
+call    3 returned 1
+        -:   26:    }
+        1:   27:  }
+        1:   27-block  0
+call    0 returned 1
+call    1 returned 1
+------------------
+        -:   28:
+function _ZNK8cppjieba9MPSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorIS6_SaIS6_EE called 0 returned 0% blocks executed 0%
+    #####:   29:  void Cut(const string& sentence, vector<string>& words) const {
+    #####:   30:    Cut(sentence, words, MAX_WORD_LENGTH);
+    %%%%%:   30-block  0
+call    0 never executed
+    #####:   31:  }
+        -:   32:
+function _ZNK8cppjieba9MPSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorIS6_SaIS6_EEy called 0 returned 0% blocks executed 0%
+    #####:   33:  void Cut(const string& sentence,
+        -:   34:        vector<string>& words,
+        -:   35:        size_t max_word_len) const {
+    #####:   36:    vector<Word> tmp;
+    %%%%%:   36-block  0
+call    0 never executed
+    #####:   37:    Cut(sentence, tmp, max_word_len);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   38:    GetStringsFromWords(tmp, words);
+    %%%%%:   38-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   39:  }
+    %%%%%:   39-block  0
+call    0 never executed
+    $$$$$:   39-block  1
+call    1 never executed
+function _ZNK8cppjieba9MPSegment3CutERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorINS_4WordESaISA_EEy called 0 returned 0% blocks executed 0%
+    #####:   40:  void Cut(const string& sentence, 
+        -:   41:        vector<Word>& words, 
+        -:   42:        size_t max_word_len = MAX_WORD_LENGTH) const {
+    #####:   43:    PreFilter pre_filter(symbols_, sentence);
+    %%%%%:   43-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   44:    PreFilter::Range range;
+    #####:   45:    vector<WordRange> wrs;
+    %%%%%:   45-block  0
+call    0 never executed
+    #####:   46:    wrs.reserve(sentence.size()/2);
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   47:    while (pre_filter.HasNext()) {
+    %%%%%:   47-block  0
+    %%%%%:   47-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   47-block  2
+branch  3 never executed
+branch  4 never executed
+    #####:   48:      range = pre_filter.Next();
+    %%%%%:   48-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   49:      Cut(range.begin, range.end, wrs, max_word_len);
+    %%%%%:   49-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   50:    }
+    #####:   51:    words.clear();
+    %%%%%:   51-block  0
+call    0 never executed
+    #####:   52:    words.reserve(wrs.size());
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   53:    GetWordsFromWordRanges(sentence, wrs, words);
+    %%%%%:   53-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   54:  }
+    %%%%%:   54-block  0
+call    0 never executed
+call    1 never executed
+    $$$$$:   54-block  1
+call    2 never executed
+    $$$$$:   54-block  2
+call    3 never executed
+function _ZNK8cppjieba9MPSegment3CutEPKNS_7RuneStrES3_RSt6vectorINS_9WordRangeESaIS5_EEy called 14936 returned 100% blocks executed 78%
+    14936:   55:  void Cut(RuneStrArray::const_iterator begin,
+        -:   56:           RuneStrArray::const_iterator end,
+        -:   57:           vector<WordRange>& words,
+        -:   58:           size_t max_word_len = MAX_WORD_LENGTH) const {
+    14936:   59:    vector<Dag> dags;
+    14936:   59-block  0
+call    0 returned 14936
+    14936:   60:    dictTrie_->Find(begin, 
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   61:          end, 
+        -:   62:          dags,
+        -:   63:          max_word_len);
+    14936:   64:    CalcDP(dags);
+    14936:   64-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+    14936:   65:    CutByDag(begin, end, dags, words);
+    14936:   65-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+    14936:   66:  }
+    14936:   66-block  0
+call    0 returned 14936
+    $$$$$:   66-block  1
+call    1 never executed
+        -:   67:
+function _ZNK8cppjieba9MPSegment11GetDictTrieEv called 0 returned 0% blocks executed 0%
+    #####:   68:  const DictTrie* GetDictTrie() const {
+    #####:   69:    return dictTrie_;
+    %%%%%:   69-block  0
+        -:   70:  }
+        -:   71:
+function _ZNK8cppjieba9MPSegment3TagERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorISt4pairIS6_S6_ESaISB_EE called 0 returned 0% blocks executed 0%
+    #####:   72:  bool Tag(const string& src, vector<pair<string, string> >& res) const {
+    #####:   73:    return tagger_.Tag(src, res, *this);
+    %%%%%:   73-block  0
+call    0 never executed
+        -:   74:  }
+        -:   75:
+function _ZNK8cppjieba9MPSegment27IsUserDictSingleChineseWordERKj called 409134 returned 100% blocks executed 100%
+   409134:   76:  bool IsUserDictSingleChineseWord(const Rune& value) const {
+   409134:   77:    return dictTrie_->IsUserDictSingleChineseWord(value);
+   409134:   77-block  0
+call    0 returned 409134
+        -:   78:  }
+        -:   79: private:
+function _ZNK8cppjieba9MPSegment6CalcDPERSt6vectorINS_3DagESaIS2_EE called 14936 returned 100% blocks executed 92%
+    14936:   80:  void CalcDP(vector<Dag>& dags) const {
+        -:   81:    size_t nextPos;
+        -:   82:    const DictUnit* p;
+        -:   83:    double val;
+        -:   84:
+   467424:   85:    for (vector<Dag>::reverse_iterator rit = dags.rbegin(); rit != dags.rend(); rit++) {
+    14936:   85-block  0
+call    0 returned 14936
+   452488:   85-block  1
+call    1 returned 452488
+branch  2 taken 452488 (fallthrough)
+branch  3 taken 0 (throw)
+   452488:   85-block  2
+   467424:   85-block  3
+call    4 returned 467424
+call    5 returned 467424
+branch  6 taken 467424 (fallthrough)
+branch  7 taken 0 (throw)
+   467424:   85-block  4
+branch  8 taken 452488
+branch  9 taken 14936 (fallthrough)
+    $$$$$:   85-block  5
+   452488:   86:      rit->pInfo = NULL;
+   452488:   86-block  0
+call    0 returned 452488
+branch  1 taken 452488 (fallthrough)
+branch  2 taken 0 (throw)
+   452488:   87:      rit->weight = MIN_DOUBLE;
+   452488:   87-block  0
+call    0 returned 452488
+branch  1 taken 452488 (fallthrough)
+branch  2 taken 0 (throw)
+  452488*:   88:      assert(!rit->nexts.empty());
+   452488:   88-block  0
+call    0 returned 452488
+branch  1 taken 452488 (fallthrough)
+branch  2 taken 0 (throw)
+   452488:   88-block  1
+call    3 returned 452488
+branch  4 taken 0 (fallthrough)
+branch  5 taken 452488
+    %%%%%:   88-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+   452488:   88-block  3
+    %%%%%:   88-block  4
+   944878:   89:      for (LocalVector<pair<size_t, const DictUnit*> >::const_iterator it = rit->nexts.begin(); it != rit->nexts.end(); it++) {
+   452488:   89-block  0
+call    0 returned 452488
+branch  1 taken 452488 (fallthrough)
+branch  2 taken 0 (throw)
+   452488:   89-block  1
+call    3 returned 452488
+   492390:   89-block  2
+   944878:   89-block  3
+call    4 returned 944878
+branch  5 taken 944878 (fallthrough)
+branch  6 taken 0 (throw)
+   944878:   89-block  4
+call    7 returned 944878
+branch  8 taken 492390
+branch  9 taken 452488 (fallthrough)
+   492390:   90:        nextPos = it->first;
+   492390:   91:        p = it->second;
+   492390:   92:        val = 0.0;
+   492390:   93:        if (nextPos + 1 < dags.size()) {
+   492390:   93-block  0
+call    0 returned 492390
+branch  1 taken 471560 (fallthrough)
+branch  2 taken 20830
+   471560:   94:          val += dags[nextPos + 1].weight;
+   471560:   94-block  0
+call    0 returned 471560
+        -:   95:        }
+        -:   96:
+   492390:   97:        if (p) {
+   492390:   97-block  0
+branch  0 taken 476686 (fallthrough)
+branch  1 taken 15704
+   476686:   98:          val += p->weight;
+   476686:   98-block  0
+        -:   99:        } else {
+    15704:  100:          val += dictTrie_->GetMinWeight();
+    15704:  100-block  0
+call    0 returned 15704
+        -:  101:        }
+   492390:  102:        if (val > rit->weight) {
+   492390:  102-block  0
+call    0 returned 492390
+branch  1 taken 492390 (fallthrough)
+branch  2 taken 0 (throw)
+   492390:  102-block  1
+branch  3 taken 489444 (fallthrough)
+branch  4 taken 2946
+   489444:  103:          rit->pInfo = p;
+   489444:  103-block  0
+call    0 returned 489444
+branch  1 taken 489444 (fallthrough)
+branch  2 taken 0 (throw)
+   489444:  104:          rit->weight = val;
+   489444:  104-block  0
+call    0 returned 489444
+branch  1 taken 489444 (fallthrough)
+branch  2 taken 0 (throw)
+   489444:  104-block  1
+        -:  105:        }
+        -:  106:      }
+        -:  107:    }
+    14936:  108:  }
+    14936:  108-block  0
+function _ZNK8cppjieba9MPSegment8CutByDagEPKNS_7RuneStrES3_RKSt6vectorINS_3DagESaIS5_EERS4_INS_9WordRangeESaISA_EE called 14936 returned 100% blocks executed 86%
+    14936:  109:  void CutByDag(RuneStrArray::const_iterator begin, 
+        -:  110:        RuneStrArray::const_iterator end, 
+        -:  111:        const vector<Dag>& dags, 
+        -:  112:        vector<WordRange>& words) const {
+    14936:  113:    size_t i = 0;
+   430932:  114:    while (i < dags.size()) {
+    14936:  114-block  0
+   430932:  114-block  1
+call    0 returned 430932
+branch  1 taken 415996
+branch  2 taken 14936 (fallthrough)
+   415996:  115:      const DictUnit* p = dags[i].pInfo;
+   415996:  115-block  0
+call    0 returned 415996
+   415996:  116:      if (p) {
+branch  0 taken 400300 (fallthrough)
+branch  1 taken 15696
+  400300*:  117:        assert(p->word.size() >= 1);
+   400300:  117-block  0
+call    0 returned 400300
+branch  1 taken 0 (fallthrough)
+branch  2 taken 400300
+    %%%%%:  117-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+   400300:  117-block  2
+    %%%%%:  117-block  3
+   400300:  118:        WordRange wr(begin + i, begin + i + p->word.size() - 1);
+   400300:  118-block  0
+call    0 returned 400300
+call    1 returned 400300
+   400300:  119:        words.push_back(wr);
+call    0 returned 400300
+branch  1 taken 400300 (fallthrough)
+branch  2 taken 0 (throw)
+   400300:  120:        i += p->word.size();
+   400300:  120-block  0
+call    0 returned 400300
+        -:  121:      } else { //single chinese word
+    15696:  122:        WordRange wr(begin + i, begin + i);
+    15696:  122-block  0
+call    0 returned 15696
+    15696:  123:        words.push_back(wr);
+call    0 returned 15696
+branch  1 taken 15696 (fallthrough)
+branch  2 taken 0 (throw)
+    15696:  124:        i++;
+    15696:  124-block  0
+        -:  125:      }
+        -:  126:    }
+    14936:  127:  }
+    14936:  127-block  0
+        -:  128:
+        -:  129:  const DictTrie* dictTrie_;
+        -:  130:  bool isNeedDestroy_;
+        -:  131:  PosTagger tagger_;
+        -:  132:
+        -:  133:}; // class MPSegment
+        -:  134:
+        -:  135:} // namespace cppjieba
+        -:  136:
+        -:  137:#endif

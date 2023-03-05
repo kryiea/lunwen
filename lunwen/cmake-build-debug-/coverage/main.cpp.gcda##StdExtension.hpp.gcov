@@ -1,0 +1,192 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/limonp/StdExtension.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef LIMONP_STD_EXTEMSION_HPP
+        -:    2:#define LIMONP_STD_EXTEMSION_HPP
+        -:    3:
+        -:    4:#include <map>
+        -:    5:
+        -:    6:#ifdef __APPLE__
+        -:    7:#include <unordered_map>
+        -:    8:#include <unordered_set>
+        -:    9:#elif(__cplusplus >= 201103L)
+        -:   10:#include <unordered_map>
+        -:   11:#include <unordered_set>
+        -:   12:#elif defined _MSC_VER
+        -:   13:#include <unordered_map>
+        -:   14:#include <unordered_set>
+        -:   15:#else
+        -:   16:#include <tr1/unordered_map>
+        -:   17:#include <tr1/unordered_set>
+        -:   18:namespace std {
+        -:   19:using std::tr1::unordered_map;
+        -:   20:using std::tr1::unordered_set;
+        -:   21:}
+        -:   22:
+        -:   23:#endif
+        -:   24:
+        -:   25:#include <set>
+        -:   26:#include <string>
+        -:   27:#include <vector>
+        -:   28:#include <deque>
+        -:   29:#include <fstream>
+        -:   30:#include <sstream>
+        -:   31:
+        -:   32:namespace std {
+        -:   33:
+        -:   34:template<typename T>
+function _ZStlsISt4pairINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEdEERSoS8_RKSt6vectorIT_SaISA_EE called 2 returned 100% blocks executed 88%
+        2:   35:ostream& operator << (ostream& os, const vector<T>& v) {
+        2:   36:  if(v.empty()) {
+        2:   36-block  0
+call    0 returned 2
+branch  1 taken 0 (fallthrough)
+branch  2 taken 2
+    #####:   37:    return os << "[]";
+    %%%%%:   37-block  0
+call    0 never executed
+        -:   38:  }
+        2:   39:  os<<"["<<v[0];
+        2:   39-block  0
+call    0 returned 2
+call    1 returned 2
+call    2 returned 2
+     1001:   40:  for(size_t i = 1; i < v.size(); i++) {
+     1001:   40-block  0
+call    0 returned 1001
+branch  1 taken 999
+branch  2 taken 2 (fallthrough)
+      999:   41:    os<<", "<<v[i];
+      999:   41-block  0
+call    0 returned 999
+call    1 returned 999
+call    2 returned 999
+        -:   42:  }
+        2:   43:  os<<"]";
+        2:   43-block  0
+call    0 returned 2
+        2:   44:  return os;
+        -:   45:}
+        -:   46:
+        -:   47:template<>
+        -:   48:inline ostream& operator << (ostream& os, const vector<string>& v) {
+        -:   49:  if(v.empty()) {
+        -:   50:    return os << "[]";
+        -:   51:  }
+        -:   52:  os<<"[\""<<v[0];
+        -:   53:  for(size_t i = 1; i < v.size(); i++) {
+        -:   54:    os<<"\", \""<<v[i];
+        -:   55:  }
+        -:   56:  os<<"\"]";
+        -:   57:  return os;
+        -:   58:}
+        -:   59:
+        -:   60:template<typename T>
+        -:   61:ostream& operator << (ostream& os, const deque<T>& dq) {
+        -:   62:  if(dq.empty()) {
+        -:   63:    return os << "[]";
+        -:   64:  }
+        -:   65:  os<<"[\""<<dq[0];
+        -:   66:  for(size_t i = 1; i < dq.size(); i++) {
+        -:   67:    os<<"\", \""<<dq[i];
+        -:   68:  }
+        -:   69:  os<<"\"]";
+        -:   70:  return os;
+        -:   71:}
+        -:   72:
+        -:   73:
+        -:   74:template<class T1, class T2>
+function _ZStlsINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEdERSoS6_RKSt4pairIT_T0_E called 1001 returned 100% blocks executed 100%
+     1001:   75:ostream& operator << (ostream& os, const pair<T1, T2>& pr) {
+     1001:   76:  os << pr.first << ":" << pr.second ;
+     1001:   76-block  0
+call    0 returned 1001
+call    1 returned 1001
+call    2 returned 1001
+     1001:   77:  return os;
+        -:   78:}
+        -:   79:
+        -:   80:
+        -:   81:template<class T>
+        -:   82:string& operator << (string& str, const T& obj) {
+        -:   83:  stringstream ss;
+        -:   84:  ss << obj; // call ostream& operator << (ostream& os,
+        -:   85:  return str = ss.str();
+        -:   86:}
+        -:   87:
+        -:   88:template<class T1, class T2>
+        -:   89:ostream& operator << (ostream& os, const map<T1, T2>& mp) {
+        -:   90:  if(mp.empty()) {
+        -:   91:    os<<"{}";
+        -:   92:    return os;
+        -:   93:  }
+        -:   94:  os<<'{';
+        -:   95:  typename map<T1, T2>::const_iterator it = mp.begin();
+        -:   96:  os<<*it;
+        -:   97:  it++;
+        -:   98:  while(it != mp.end()) {
+        -:   99:    os<<", "<<*it;
+        -:  100:    it++;
+        -:  101:  }
+        -:  102:  os<<'}';
+        -:  103:  return os;
+        -:  104:}
+        -:  105:template<class T1, class T2>
+        -:  106:ostream& operator << (ostream& os, const std::unordered_map<T1, T2>& mp) {
+        -:  107:  if(mp.empty()) {
+        -:  108:    return os << "{}";
+        -:  109:  }
+        -:  110:  os<<'{';
+        -:  111:  typename std::unordered_map<T1, T2>::const_iterator it = mp.begin();
+        -:  112:  os<<*it;
+        -:  113:  it++;
+        -:  114:  while(it != mp.end()) {
+        -:  115:    os<<", "<<*it++;
+        -:  116:  }
+        -:  117:  return os<<'}';
+        -:  118:}
+        -:  119:
+        -:  120:template<class T>
+        -:  121:ostream& operator << (ostream& os, const set<T>& st) {
+        -:  122:  if(st.empty()) {
+        -:  123:    os << "{}";
+        -:  124:    return os;
+        -:  125:  }
+        -:  126:  os<<'{';
+        -:  127:  typename set<T>::const_iterator it = st.begin();
+        -:  128:  os<<*it;
+        -:  129:  it++;
+        -:  130:  while(it != st.end()) {
+        -:  131:    os<<", "<<*it;
+        -:  132:    it++;
+        -:  133:  }
+        -:  134:  os<<'}';
+        -:  135:  return os;
+        -:  136:}
+        -:  137:
+        -:  138:template<class KeyType, class ContainType>
+function _ZSt4IsInIjSt13unordered_setIjSt4hashIjESt8equal_toIjESaIjEEEbRKT0_RKT_ called 869088 returned 100% blocks executed 100%
+   869088:  139:bool IsIn(const ContainType& contain, const KeyType& key) {
+   869088:  140:  return contain.end() != contain.find(key);
+   869088:  140-block  0
+call    0 returned 869088
+call    1 returned 869088
+call    2 returned 869088
+        -:  141:}
+        -:  142:
+        -:  143:template<class T>
+        -:  144:basic_string<T> & operator << (basic_string<T> & s, ifstream & ifs) {
+        -:  145:  return s.assign((istreambuf_iterator<T>(ifs)), istreambuf_iterator<T>());
+        -:  146:}
+        -:  147:
+        -:  148:template<class T>
+        -:  149:ofstream & operator << (ofstream & ofs, const basic_string<T>& s) {
+        -:  150:  ostreambuf_iterator<T> itr (ofs);
+        -:  151:  copy(s.begin(), s.end(), itr);
+        -:  152:  return ofs;
+        -:  153:}
+        -:  154:
+        -:  155:} // namespace std
+        -:  156:
+        -:  157:#endif

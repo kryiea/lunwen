@@ -1,0 +1,484 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/Trie.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_TRIE_HPP
+        -:    2:#define CPPJIEBA_TRIE_HPP
+        -:    3:
+        -:    4:#include <vector>
+        -:    5:#include <queue>
+        -:    6:#include "limonp/StdExtension.hpp"
+        -:    7:#include "Unicode.hpp"
+        -:    8:
+        -:    9:namespace cppjieba {
+        -:   10:
+        -:   11:using namespace std;
+        -:   12:
+        -:   13:const size_t MAX_WORD_LENGTH = 512;
+        -:   14:
+        -:   15:struct DictUnit {
+        -:   16:  Unicode word;
+        -:   17:  double weight;
+        -:   18:  string tag;
+        -:   19:}; // struct DictUnit
+        -:   20:
+        -:   21:// for debugging
+        -:   22:// inline ostream & operator << (ostream& os, const DictUnit& unit) {
+        -:   23://   string s;
+        -:   24://   s << unit.word;
+        -:   25://   return os << StringFormat("%s %s %.3lf", s.c_str(), unit.tag.c_str(), unit.weight);
+        -:   26:// }
+        -:   27:
+        -:   28:struct Dag {
+        -:   29:  RuneStr runestr;
+        -:   30:  // [offset, nexts.first]
+        -:   31:  limonp::LocalVector<pair<size_t, const DictUnit*> > nexts;
+        -:   32:  const DictUnit * pInfo;
+        -:   33:  double weight;
+        -:   34:  size_t nextPos; // TODO
+function _ZN8cppjieba3DagC1Ev called 452488 returned 100% blocks executed 100%
+   452488:   35:  Dag():runestr(), pInfo(NULL), weight(0.0), nextPos(0) {
+   452488:   35-block  0
+call    0 returned 452488
+call    1 returned 452488
+   452488:   36:  }
+        -:   37:}; // struct Dag
+        -:   38:
+        -:   39:typedef Rune TrieKey;
+        -:   40:
+        -:   41:class TrieNode {
+        -:   42: public :
+function _ZN8cppjieba8TrieNodeC1Ev called 497990 returned 100% blocks executed 100%
+   497990:   43:  TrieNode(): next(NULL), ptValue(NULL) {
+   497990:   44:  }
+        -:   45: public:
+        -:   46:  typedef unordered_map<TrieKey, TrieNode*> NextMap;
+        -:   47:  NextMap *next;
+        -:   48:  const DictUnit *ptValue;
+        -:   49:};
+        -:   50:
+        -:   51:class Trie {
+        -:   52: public:
+function _ZN8cppjieba4TrieC1ERKSt6vectorIN6limonp11LocalVectorIjEESaIS4_EERKS1_IPKNS_8DictUnitESaISB_EE called 1 returned 100% blocks executed 100%
+        1:   53:  Trie(const vector<Unicode>& keys, const vector<const DictUnit*>& valuePointers)
+        1:   54:   : root_(new TrieNode) {
+        1:   54-block  0
+call    0 returned 1
+call    1 returned 1
+        1:   55:    CreateTrie(keys, valuePointers);
+call    0 returned 1
+        1:   56:  }
+function _ZN8cppjieba4TrieD1Ev called 1 returned 100% blocks executed 100%
+        1:   57:  ~Trie() {
+        1:   58:    DeleteNode(root_);
+        1:   58-block  0
+call    0 returned 1
+        1:   59:  }
+        -:   60:
+function _ZNK8cppjieba4Trie4FindEPKNS_7RuneStrES3_ called 0 returned 0% blocks executed 0%
+    #####:   61:  const DictUnit* Find(RuneStrArray::const_iterator begin, RuneStrArray::const_iterator end) const {
+    #####:   62:    if (begin == end) {
+    %%%%%:   62-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   63:      return NULL;
+    %%%%%:   63-block  0
+        -:   64:    }
+        -:   65:
+    #####:   66:    const TrieNode* ptNode = root_;
+    #####:   67:    TrieNode::NextMap::const_iterator citer;
+    %%%%%:   67-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   68:    for (RuneStrArray::const_iterator it = begin; it != end; it++) {
+    %%%%%:   68-block  0
+    %%%%%:   68-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   69:      if (NULL == ptNode->next) {
+    %%%%%:   69-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   70:        return NULL;
+    %%%%%:   70-block  0
+        -:   71:      }
+    #####:   72:      citer = ptNode->next->find(it->rune);
+    %%%%%:   72-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   72-block  1
+call    3 never executed
+    #####:   73:      if (ptNode->next->end() == citer) {
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   74:        return NULL;
+    %%%%%:   74-block  0
+        -:   75:      }
+    #####:   76:      ptNode = citer->second;
+    %%%%%:   76-block  0
+call    0 never executed
+        -:   77:    }
+    #####:   78:    return ptNode->ptValue;
+    %%%%%:   78-block  0
+        -:   79:  }
+        -:   80:
+function _ZNK8cppjieba4Trie4FindEPKNS_7RuneStrES3_RSt6vectorINS_3DagESaIS5_EEy called 14936 returned 100% blocks executed 82%
+    14936:   81:  void Find(RuneStrArray::const_iterator begin, 
+        -:   82:        RuneStrArray::const_iterator end, 
+        -:   83:        vector<struct Dag>&res, 
+        -:   84:        size_t max_word_len = MAX_WORD_LENGTH) const {
+   14936*:   85:    assert(root_ != NULL);
+    14936:   85-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 14936
+    %%%%%:   85-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    14936:   85-block  2
+    %%%%%:   85-block  3
+    14936:   86:    res.resize(end - begin);
+    14936:   86-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   87:
+    14936:   88:    const TrieNode *ptNode = NULL;
+    14936:   89:    TrieNode::NextMap::const_iterator citer;
+    14936:   89-block  0
+call    0 returned 14936
+branch  1 taken 14936 (fallthrough)
+branch  2 taken 0 (throw)
+   467424:   90:    for (size_t i = 0; i < size_t(end - begin); i++) {
+    14936:   90-block  0
+   452488:   90-block  1
+   467424:   90-block  2
+branch  0 taken 452488
+branch  1 taken 14936 (fallthrough)
+   452488:   91:      res[i].runestr = *(begin + i);
+   452488:   91-block  0
+call    0 returned 452488
+        -:   92:
+   452488:   93:      if (root_->next != NULL && root_->next->end() != (citer = root_->next->find(res[i].runestr.rune))) {
+branch  0 taken 452488 (fallthrough)
+branch  1 taken 0
+   452488:   93-block  0
+call    2 returned 452488
+call    3 returned 452488
+branch  4 taken 452488 (fallthrough)
+branch  5 taken 0 (throw)
+   452488:   93-block  1
+call    6 returned 452488
+call    7 returned 452488
+call    8 returned 452488
+branch  9 taken 436812 (fallthrough)
+branch 10 taken 15676
+   436812:   93-block  2
+    15676:   93-block  3
+   452488:   93-block  4
+branch 11 taken 436812 (fallthrough)
+branch 12 taken 15676
+    $$$$$:   93-block  5
+    $$$$$:   93-block  6
+    $$$$$:   93-block  7
+   436812:   94:        ptNode = citer->second;
+   436812:   94-block  0
+call    0 returned 436812
+        -:   95:      } else {
+    15676:   96:        ptNode = NULL;
+    15676:   96-block  0
+        -:   97:      }
+   452488:   98:      if (ptNode != NULL) {
+   452488:   98-block  0
+branch  0 taken 436812 (fallthrough)
+branch  1 taken 15676
+   436812:   99:        res[i].nexts.push_back(pair<size_t, const DictUnit*>(i, ptNode->ptValue));
+   436812:   99-block  0
+call    0 returned 436812
+call    1 returned 436812
+call    2 returned 436812
+branch  3 taken 436812 (fallthrough)
+branch  4 taken 0 (throw)
+   436812:   99-block  1
+    $$$$$:   99-block  2
+        -:  100:      } else {
+    15676:  101:        res[i].nexts.push_back(pair<size_t, const DictUnit*>(i, static_cast<const DictUnit*>(NULL)));
+    15676:  101-block  0
+call    0 returned 15676
+call    1 returned 15676
+call    2 returned 15676
+branch  3 taken 15676 (fallthrough)
+branch  4 taken 0 (throw)
+    15676:  101-block  1
+    $$$$$:  101-block  2
+    $$$$$:  101-block  3
+        -:  102:      }
+        -:  103:
+   567592:  104:      for (size_t j = i + 1; j < size_t(end - begin) && (j - i + 1) <= max_word_len; j++) {
+   452488:  104-block  0
+   115104:  104-block  1
+   567592:  104-block  2
+branch  0 taken 546524 (fallthrough)
+branch  1 taken 21068
+   546524:  104-block  3
+branch  2 taken 546524
+branch  3 taken 0 (fallthrough)
+   546524:  105:        if (ptNode == NULL || ptNode->next == NULL) {
+   546524:  105-block  0
+branch  0 taken 538474 (fallthrough)
+branch  1 taken 8050
+   538474:  105-block  1
+branch  2 taken 527748 (fallthrough)
+branch  3 taken 10726
+        -:  106:          break;
+        -:  107:        }
+   527748:  108:        citer = ptNode->next->find((begin + j)->rune);
+   527748:  108-block  0
+call    0 returned 527748
+branch  1 taken 527748 (fallthrough)
+branch  2 taken 0 (throw)
+   527748:  108-block  1
+call    3 returned 527748
+   527748:  109:        if (ptNode->next->end() == citer) {
+call    0 returned 527748
+call    1 returned 527748
+branch  2 taken 412644 (fallthrough)
+branch  3 taken 115104
+   412644:  110:          break;
+   412644:  110-block  0
+        -:  111:        }
+   115104:  112:        ptNode = citer->second;
+   115104:  112-block  0
+call    0 returned 115104
+   115104:  113:        if (NULL != ptNode->ptValue) {
+branch  0 taken 39902 (fallthrough)
+branch  1 taken 75202
+    39902:  114:          res[i].nexts.push_back(pair<size_t, const DictUnit*>(j, ptNode->ptValue));
+    39902:  114-block  0
+call    0 returned 39902
+call    1 returned 39902
+call    2 returned 39902
+branch  3 taken 39902 (fallthrough)
+branch  4 taken 0 (throw)
+    39902:  114-block  1
+    $$$$$:  114-block  2
+        -:  115:        }
+        -:  116:      }
+        -:  117:    }
+    14936:  118:  }
+    14936:  118-block  0
+        -:  119:
+function _ZN8cppjieba4Trie10InsertNodeERKN6limonp11LocalVectorIjEEPKNS_8DictUnitE called 348982 returned 100% blocks executed 85%
+   348982:  120:  void InsertNode(const Unicode& key, const DictUnit* ptValue) {
+   348982:  121:    if (key.begin() == key.end()) {
+   348982:  121-block  0
+call    0 returned 348982
+call    1 returned 348982
+branch  2 taken 0 (fallthrough)
+branch  3 taken 348982
+    #####:  122:      return;
+    %%%%%:  122-block  0
+        -:  123:    }
+        -:  124:
+   348982:  125:    TrieNode::NextMap::const_iterator kmIter;
+   348982:  125-block  0
+call    0 returned 348982
+branch  1 taken 348982 (fallthrough)
+branch  2 taken 0 (throw)
+   348982:  126:    TrieNode *ptNode = root_;
+  1365067:  127:    for (Unicode::const_iterator citer = key.begin(); citer != key.end(); ++citer) {
+   348982:  127-block  0
+call    0 returned 348982
+  1016085:  127-block  1
+  1365067:  127-block  2
+call    1 returned 1365067
+branch  2 taken 1016085
+branch  3 taken 348982 (fallthrough)
+  1016085:  128:      if (NULL == ptNode->next) {
+  1016085:  128-block  0
+branch  0 taken 201008 (fallthrough)
+branch  1 taken 815077
+   201008:  129:        ptNode->next = new TrieNode::NextMap;
+   201008:  129-block  0
+call    0 returned 201008
+branch  1 taken 201008 (fallthrough)
+branch  2 taken 0 (throw)
+   201008:  129-block  1
+call    3 returned 201008
+        -:  130:      }
+  1016085:  131:      kmIter = ptNode->next->find(*citer);
+  1016085:  131-block  0
+call    0 returned 1016085
+branch  1 taken 1016085 (fallthrough)
+branch  2 taken 0 (throw)
+  1016085:  131-block  1
+call    3 returned 1016085
+  1016085:  132:      if (ptNode->next->end() == kmIter) {
+call    0 returned 1016085
+call    1 returned 1016085
+branch  2 taken 497989 (fallthrough)
+branch  3 taken 518096
+   497989:  133:        TrieNode *nextNode = new TrieNode;
+   497989:  133-block  0
+call    0 returned 497989
+branch  1 taken 497989 (fallthrough)
+branch  2 taken 0 (throw)
+   497989:  133-block  1
+call    3 returned 497989
+        -:  134:
+   497989:  135:        ptNode->next->insert(make_pair(*citer, nextNode));
+call    0 returned 497989
+branch  1 taken 497989 (fallthrough)
+branch  2 taken 0 (throw)
+   497989:  135-block  0
+call    3 returned 497989
+branch  4 taken 497989 (fallthrough)
+branch  5 taken 0 (throw)
+    $$$$$:  135-block  1
+   497989:  136:        ptNode = nextNode;
+   497989:  136-block  0
+        -:  137:      } else {
+   518096:  138:        ptNode = kmIter->second;
+   518096:  138-block  0
+call    0 returned 518096
+        -:  139:      }
+        -:  140:    }
+  348982*:  141:    assert(ptNode != NULL);
+   348982:  141-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 348982
+    %%%%%:  141-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+   348982:  141-block  2
+    %%%%%:  141-block  3
+   348982:  142:    ptNode->ptValue = ptValue;
+   348982:  142-block  0
+        -:  143:  }
+        -:  144:  void DeleteNode(const Unicode& key, const DictUnit* ptValue) {
+        -:  145:      if (key.begin() == key.end()) {
+        -:  146:        return;
+        -:  147:      }
+        -:  148:      //定义一个NextMap迭代器
+        -:  149:      TrieNode::NextMap::const_iterator kmIter;
+        -:  150:      //定义一个指向root的TrieNode指针
+        -:  151:      TrieNode *ptNode = root_;
+        -:  152:      for (Unicode::const_iterator citer = key.begin(); citer != key.end(); ++citer) {
+        -:  153:        //链表不存在元素
+        -:  154:        if (NULL == ptNode->next) {
+        -:  155:          return;
+        -:  156:        }
+        -:  157:        kmIter = ptNode->next->find(*citer);
+        -:  158:        //如果map中不存在,跳出循环
+        -:  159:        if (ptNode->next->end() == kmIter) {
+        -:  160:              break;
+        -:  161:        }
+        -:  162:        //从unordered_map中擦除该项
+        -:  163:        ptNode->next->erase(*citer);
+        -:  164:        //删除该node
+        -:  165:        ptNode = kmIter->second;
+        -:  166:        delete ptNode;
+        -:  167:        break;
+        -:  168:      }
+        -:  169:      return;
+        -:  170: }
+        -:  171: private:
+function _ZN8cppjieba4Trie10CreateTrieERKSt6vectorIN6limonp11LocalVectorIjEESaIS4_EERKS1_IPKNS_8DictUnitESaISB_EE called 1 returned 100% blocks executed 82%
+        1:  172:  void CreateTrie(const vector<Unicode>& keys, const vector<const DictUnit*>& valuePointers) {
+       1*:  173:    if (valuePointers.empty() || keys.empty()) {
+        1:  173-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:  173-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  173-block  2
+        1:  173-block  3
+        1:  173-block  4
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    #####:  174:      return;
+    %%%%%:  174-block  0
+        -:  175:    }
+       1*:  176:    assert(keys.size() == valuePointers.size());
+        1:  176-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 0 (fallthrough)
+branch  3 taken 1
+    %%%%%:  176-block  1
+call    4 never executed
+        1:  176-block  2
+        -:  177:
+   348983:  178:    for (size_t i = 0; i < keys.size(); i++) {
+        1:  178-block  0
+   348983:  178-block  1
+call    0 returned 348983
+branch  1 taken 348982
+branch  2 taken 1 (fallthrough)
+   348982:  179:      InsertNode(keys[i], valuePointers[i]);
+   348982:  179-block  0
+call    0 returned 348982
+call    1 returned 348982
+call    2 returned 348982
+        -:  180:    }
+        -:  181:  }
+        -:  182:
+function _ZN8cppjieba4Trie10DeleteNodeEPNS_8TrieNodeE called 497990 returned 100% blocks executed 94%
+   497990:  183:  void DeleteNode(TrieNode* node) {
+   497990:  184:    if (NULL == node) {
+   497990:  184-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 497990
+    #####:  185:      return;
+    %%%%%:  185-block  0
+        -:  186:    }
+   497990:  187:    if (NULL != node->next) {
+   497990:  187-block  0
+branch  0 taken 201008 (fallthrough)
+branch  1 taken 296982
+   698997:  188:      for (TrieNode::NextMap::iterator it = node->next->begin(); it != node->next->end(); ++it) {
+   201008:  188-block  0
+call    0 returned 201008
+   497989:  188-block  1
+call    1 returned 497989
+   698997:  188-block  2
+call    2 returned 698997
+call    3 returned 698997
+branch  4 taken 497989
+branch  5 taken 201008 (fallthrough)
+   497989:  189:        DeleteNode(it->second);
+   497989:  189-block  0
+call    0 returned 497989
+call    1 returned 497989
+branch  2 taken 497989 (fallthrough)
+branch  3 taken 0 (throw)
+        -:  190:      }
+   201008:  191:      delete node->next;
+   201008:  191-block  0
+branch  0 taken 201008 (fallthrough)
+branch  1 taken 0
+   201008:  191-block  1
+call    2 returned 201008
+call    3 returned 201008
+        -:  192:    }
+   497990:  193:    delete node;
+   497990:  193-block  0
+branch  0 taken 497990 (fallthrough)
+branch  1 taken 0
+   497990:  193-block  1
+call    2 returned 497990
+        -:  194:  }
+        -:  195:
+        -:  196:  TrieNode* root_;
+        -:  197:}; // class Trie
+        -:  198:} // namespace cppjieba
+        -:  199:
+        -:  200:#endif // CPPJIEBA_TRIE_HPP

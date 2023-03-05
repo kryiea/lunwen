@@ -1,0 +1,398 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/Unicode.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_UNICODE_H
+        -:    2:#define CPPJIEBA_UNICODE_H
+        -:    3:
+        -:    4:#include <stdint.h>
+        -:    5:#include <stdlib.h>
+        -:    6:#include <string>
+        -:    7:#include <vector>
+        -:    8:#include <ostream>
+        -:    9:#include "limonp/LocalVector.hpp"
+        -:   10:
+        -:   11:namespace cppjieba {
+        -:   12:
+        -:   13:using std::string;
+        -:   14:using std::vector;
+        -:   15:
+        -:   16:typedef uint32_t Rune;
+        -:   17:
+        -:   18:struct Word {
+        -:   19:  string word;
+        -:   20:  uint32_t offset;
+        -:   21:  uint32_t unicode_offset;
+        -:   22:  uint32_t unicode_length;
+        -:   23:  Word(const string& w, uint32_t o)
+        -:   24:   : word(w), offset(o) {
+        -:   25:  }
+function _ZN8cppjieba4WordC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEjjj called 344610 returned 100% blocks executed 100%
+   344610:   26:  Word(const string& w, uint32_t o, uint32_t unicode_offset, uint32_t unicode_length)
+   344610:   27:          : word(w), offset(o), unicode_offset(unicode_offset), unicode_length(unicode_length) {
+   344610:   27-block  0
+call    0 returned 344610
+   344610:   28:  }
+        -:   29:}; // struct Word
+        -:   30:
+        -:   31:inline std::ostream& operator << (std::ostream& os, const Word& w) {
+        -:   32:  return os << "{\"word\": \"" << w.word << "\", \"offset\": " << w.offset << "}";
+        -:   33:}
+        -:   34:
+        -:   35:struct RuneStr {
+        -:   36:  Rune rune;
+        -:   37:  uint32_t offset;
+        -:   38:  uint32_t len;
+        -:   39:  uint32_t unicode_offset;
+        -:   40:  uint32_t unicode_length;
+function _ZN8cppjieba7RuneStrC1Ev called 6599896 returned 100% blocks executed 100%
+  6599896:   41:  RuneStr(): rune(0), offset(0), len(0), unicode_offset(0), unicode_length(0) {
+  6599896:   42:  }
+        -:   43:  RuneStr(Rune r, uint32_t o, uint32_t l)
+        -:   44:    : rune(r), offset(o), len(l), unicode_offset(0), unicode_length(0) {
+        -:   45:  }
+function _ZN8cppjieba7RuneStrC1Ejjjjj called 1503812 returned 100% blocks executed 100%
+  1503812:   46:  RuneStr(Rune r, uint32_t o, uint32_t l, uint32_t unicode_offset, uint32_t unicode_length)
+  1503812:   47:          : rune(r), offset(o), len(l), unicode_offset(unicode_offset), unicode_length(unicode_length) {
+  1503812:   48:  }
+        -:   49:}; // struct RuneStr
+        -:   50:
+        -:   51:inline std::ostream& operator << (std::ostream& os, const RuneStr& r) {
+        -:   52:  return os << "{\"rune\": \"" << r.rune << "\", \"offset\": " << r.offset << ", \"len\": " << r.len << "}";
+        -:   53:}
+        -:   54:
+        -:   55:typedef limonp::LocalVector<Rune> Unicode;
+        -:   56:typedef limonp::LocalVector<struct RuneStr> RuneStrArray;
+        -:   57:
+        -:   58:// [left, right]
+        -:   59:struct WordRange {
+        -:   60:  RuneStrArray::const_iterator left;
+        -:   61:  RuneStrArray::const_iterator right;
+function _ZN8cppjieba9WordRangeC1EPKNS_7RuneStrES3_ called 728104 returned 100% blocks executed 100%
+   728104:   62:  WordRange(RuneStrArray::const_iterator l, RuneStrArray::const_iterator r)
+   728104:   63:   : left(l), right(r) {
+   728104:   64:  }
+        -:   65:  size_t Length() const {
+        -:   66:    return right - left + 1;
+        -:   67:  }
+        -:   68:  bool IsAllAscii() const {
+        -:   69:    for (RuneStrArray::const_iterator iter = left; iter <= right; ++iter) {
+        -:   70:      if (iter->rune >= 0x80) {
+        -:   71:        return false;
+        -:   72:      }
+        -:   73:    }
+        -:   74:    return true;
+        -:   75:  }
+        -:   76:}; // struct WordRange
+        -:   77:
+        -:   78:struct RuneStrLite {
+        -:   79:  uint32_t rune;
+        -:   80:  uint32_t len;
+        -:   81:  RuneStrLite(): rune(0), len(0) {
+        -:   82:  }
+function _ZN8cppjieba11RuneStrLiteC1Ejj called 1848422 returned 100% blocks executed 100%
+  1848422:   83:  RuneStrLite(uint32_t r, uint32_t l): rune(r), len(l) {
+  1848422:   84:  }
+        -:   85:}; // struct RuneStrLite
+        -:   86:
+function _ZN8cppjieba18DecodeRuneInStringEPKcy called 1848422 returned 100% blocks executed 63%
+  1848422:   87:inline RuneStrLite DecodeRuneInString(const char* str, size_t len) {
+  1848422:   88:  RuneStrLite rp(0, 0);
+  1848422:   88-block  0
+call    0 returned 1848422
+  1848422:   89:  if (str == NULL || len == 0) {
+branch  0 taken 1848422 (fallthrough)
+branch  1 taken 0
+  1848422:   89-block  0
+branch  2 taken 0 (fallthrough)
+branch  3 taken 1848422
+    #####:   90:    return rp;
+    %%%%%:   90-block  0
+        -:   91:  }
+  1848422:   92:  if (!(str[0] & 0x80)) { // 0xxxxxxx
+  1848422:   92-block  0
+branch  0 taken 4433 (fallthrough)
+branch  1 taken 1843989
+        -:   93:    // 7bit, total 7bit
+     4433:   94:    rp.rune = (uint8_t)(str[0]) & 0x7f;
+     4433:   95:    rp.len = 1;
+     4433:   95-block  0
+ 1843989*:   96:  } else if ((uint8_t)str[0] <= 0xdf &&  1 < len) { 
+  1843989:   96-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1843989
+    %%%%%:   96-block  1
+branch  2 never executed
+branch  3 never executed
+        -:   97:    // 110xxxxxx
+        -:   98:    // 5bit, total 5bit
+    #####:   99:    rp.rune = (uint8_t)(str[0]) & 0x1f;
+        -:  100:
+        -:  101:    // 6bit, total 11bit
+    #####:  102:    rp.rune <<= 6;
+    #####:  103:    rp.rune |= (uint8_t)(str[1]) & 0x3f;
+    #####:  104:    rp.len = 2;
+    %%%%%:  104-block  0
+  1843989:  105:  } else if((uint8_t)str[0] <= 0xef && 2 < len) { // 1110xxxxxx
+  1843989:  105-block  0
+branch  0 taken 1843989 (fallthrough)
+branch  1 taken 0
+  1843989:  105-block  1
+branch  2 taken 1843989 (fallthrough)
+branch  3 taken 0
+        -:  106:    // 4bit, total 4bit
+  1843989:  107:    rp.rune = (uint8_t)(str[0]) & 0x0f;
+        -:  108:
+        -:  109:    // 6bit, total 10bit
+  1843989:  110:    rp.rune <<= 6;
+  1843989:  111:    rp.rune |= (uint8_t)(str[1]) & 0x3f;
+        -:  112:
+        -:  113:    // 6bit, total 16bit
+  1843989:  114:    rp.rune <<= 6;
+  1843989:  115:    rp.rune |= (uint8_t)(str[2]) & 0x3f;
+        -:  116:
+  1843989:  117:    rp.len = 3;
+  1843989:  117-block  0
+    #####:  118:  } else if((uint8_t)str[0] <= 0xf7 && 3 < len) { // 11110xxxx
+    %%%%%:  118-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  118-block  1
+branch  2 never executed
+branch  3 never executed
+        -:  119:    // 3bit, total 3bit
+    #####:  120:    rp.rune = (uint8_t)(str[0]) & 0x07;
+        -:  121:
+        -:  122:    // 6bit, total 9bit
+    #####:  123:    rp.rune <<= 6;
+    #####:  124:    rp.rune |= (uint8_t)(str[1]) & 0x3f;
+        -:  125:
+        -:  126:    // 6bit, total 15bit
+    #####:  127:    rp.rune <<= 6;
+    #####:  128:    rp.rune |= (uint8_t)(str[2]) & 0x3f;
+        -:  129:
+        -:  130:    // 6bit, total 21bit
+    #####:  131:    rp.rune <<= 6;
+    #####:  132:    rp.rune |= (uint8_t)(str[3]) & 0x3f;
+        -:  133:
+    #####:  134:    rp.len = 4;
+    %%%%%:  134-block  0
+        -:  135:  } else {
+    #####:  136:    rp.rune = 0;
+    #####:  137:    rp.len = 0;
+    %%%%%:  137-block  0
+        -:  138:  }
+  1848422:  139:  return rp;
+  1848422:  139-block  0
+        -:  140:}
+        -:  141:
+function _ZN8cppjieba19DecodeRunesInStringEPKcyRN6limonp11LocalVectorINS_7RuneStrEEE called 384213 returned 100% blocks executed 86%
+   384213:  142:inline bool DecodeRunesInString(const char* s, size_t len, RuneStrArray& runes) {
+   384213:  143:  runes.clear();
+   384213:  143-block  0
+call    0 returned 384213
+   384213:  144:  runes.reserve(len / 2);
+call    0 returned 384213
+  1888025:  145:  for (uint32_t i = 0, j = 0; i < len;) {
+  1888025:  145-block  0
+branch  0 taken 1503812
+branch  1 taken 384213 (fallthrough)
+  1503812:  146:    RuneStrLite rp = DecodeRuneInString(s + i, len - i);
+  1503812:  146-block  0
+call    0 returned 1503812
+  1503812:  147:    if (rp.len == 0) {
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1503812
+    #####:  148:      runes.clear();
+    %%%%%:  148-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  149:      return false;
+    %%%%%:  149-block  0
+        -:  150:    }
+  1503812:  151:    RuneStr x(rp.rune, i, rp.len, j, 1);
+  1503812:  151-block  0
+call    0 returned 1503812
+  1503812:  152:    runes.push_back(x);
+call    0 returned 1503812
+branch  1 taken 1503812 (fallthrough)
+branch  2 taken 0 (throw)
+  1503812:  153:    i += rp.len;
+  1503812:  154:    ++j;
+  1503812:  154-block  0
+        -:  155:  }
+   384213:  156:  return true;
+   384213:  156-block  0
+        -:  157:}
+        -:  158:
+function _ZN8cppjieba19DecodeRunesInStringERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERN6limonp11LocalVectorINS_7RuneStrEEE called 7 returned 100% blocks executed 100%
+        7:  159:inline bool DecodeRunesInString(const string& s, RuneStrArray& runes) {
+        7:  160:  return DecodeRunesInString(s.c_str(), s.size(), runes);
+        7:  160-block  0
+call    0 returned 7
+call    1 returned 7
+call    2 returned 7
+        -:  161:}
+        -:  162:
+function _ZN8cppjieba19DecodeRunesInStringEPKcyRN6limonp11LocalVectorIjEE called 384206 returned 100% blocks executed 85%
+   384206:  163:inline bool DecodeRunesInString(const char* s, size_t len, Unicode& unicode) {
+   384206:  164:  unicode.clear();
+   384206:  164-block  0
+call    0 returned 384206
+branch  1 taken 384206 (fallthrough)
+branch  2 taken 0 (throw)
+   384206:  165:  RuneStrArray runes;
+   384206:  165-block  0
+call    0 returned 384206
+branch  1 taken 384206 (fallthrough)
+branch  2 taken 0 (throw)
+   384206:  166:  if (!DecodeRunesInString(s, len, runes)) {
+   384206:  166-block  0
+call    0 returned 384206
+branch  1 taken 384206 (fallthrough)
+branch  2 taken 0 (throw)
+   384206:  166-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 384206
+    #####:  167:    return false;
+    %%%%%:  167-block  0
+        -:  168:  }
+   384206:  169:  unicode.reserve(runes.size());
+   384206:  169-block  0
+call    0 returned 384206
+call    1 returned 384206
+branch  2 taken 384206 (fallthrough)
+branch  3 taken 0 (throw)
+  1435515:  170:  for (size_t i = 0; i < runes.size(); i++) {
+   384206:  170-block  0
+  1051309:  170-block  1
+  1435515:  170-block  2
+call    0 returned 1435515
+branch  1 taken 1051309
+branch  2 taken 384206 (fallthrough)
+  1051309:  171:    unicode.push_back(runes[i].rune);
+  1051309:  171-block  0
+call    0 returned 1051309
+call    1 returned 1051309
+branch  2 taken 1051309 (fallthrough)
+branch  3 taken 0 (throw)
+        -:  172:  }
+   384206:  173:  return true;
+   384206:  173-block  0
+   384206:  174:}
+   384206:  174-block  0
+call    0 returned 384206
+    $$$$$:  174-block  1
+call    1 never executed
+        -:  175:
+function _ZN8cppjieba12IsSingleWordERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 344610 returned 100% blocks executed 100%
+   344610:  176:inline bool IsSingleWord(const string& str) {
+   344610:  177:  RuneStrLite rp = DecodeRuneInString(str.c_str(), str.size());
+   344610:  177-block  0
+call    0 returned 344610
+call    1 returned 344610
+call    2 returned 344610
+   344610:  178:  return rp.len == str.size();
+call    0 returned 344610
+        -:  179:}
+        -:  180:
+function _ZN8cppjieba19DecodeRunesInStringERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERN6limonp11LocalVectorIjEE called 384206 returned 100% blocks executed 100%
+   384206:  181:inline bool DecodeRunesInString(const string& s, Unicode& unicode) {
+   384206:  182:  return DecodeRunesInString(s.c_str(), s.size(), unicode);
+   384206:  182-block  0
+call    0 returned 384206
+call    1 returned 384206
+call    2 returned 384206
+        -:  183:}
+        -:  184:
+        -:  185:inline Unicode DecodeRunesInString(const string& s) {
+        -:  186:  Unicode result;
+        -:  187:  DecodeRunesInString(s, result);
+        -:  188:  return result;
+        -:  189:}
+        -:  190:
+        -:  191:
+        -:  192:// [left, right]
+function _ZN8cppjieba16GetWordFromRunesERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPKNS_7RuneStrESA_ called 344610 returned 100% blocks executed 69%
+   344610:  193:inline Word GetWordFromRunes(const string& s, RuneStrArray::const_iterator left, RuneStrArray::const_iterator right) {
+  344610*:  194:  assert(right->offset >= left->offset);
+   344610:  194-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 344610
+    %%%%%:  194-block  1
+call    2 never executed
+   344610:  194-block  2
+   344610:  195:  uint32_t len = right->offset - left->offset + right->len;
+   344610:  196:  uint32_t unicode_length = right->unicode_offset - left->unicode_offset + right->unicode_length;
+   689220:  197:  return Word(s.substr(left->offset, len), left->offset, left->unicode_offset, unicode_length);
+   344610:  197-block  0
+call    0 returned 344610
+call    1 returned 344610
+branch  2 taken 344610 (fallthrough)
+branch  3 taken 0 (throw)
+   344610:  197-block  1
+call    4 returned 344610
+   344610:  197-block  2
+    $$$$$:  197-block  3
+call    5 never executed
+        -:  198:}
+        -:  199:
+        -:  200:inline string GetStringFromRunes(const string& s, RuneStrArray::const_iterator left, RuneStrArray::const_iterator right) {
+        -:  201:  assert(right->offset >= left->offset);
+        -:  202:  uint32_t len = right->offset - left->offset + right->len;
+        -:  203:  return s.substr(left->offset, len);
+        -:  204:}
+        -:  205:
+function _ZN8cppjieba22GetWordsFromWordRangesERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_9WordRangeESaIS9_EERS8_INS_4WordESaISE_EE called 4 returned 100% blocks executed 85%
+        4:  206:inline void GetWordsFromWordRanges(const string& s, const vector<WordRange>& wrs, vector<Word>& words) {
+   344614:  207:  for (size_t i = 0; i < wrs.size(); i++) {
+        4:  207-block  0
+   344614:  207-block  1
+call    0 returned 344614
+branch  1 taken 344610
+branch  2 taken 4 (fallthrough)
+   344610:  208:    words.push_back(GetWordFromRunes(s, wrs[i].left, wrs[i].right));
+   344610:  208-block  0
+call    0 returned 344610
+call    1 returned 344610
+call    2 returned 344610
+call    3 returned 344610
+branch  4 taken 344610 (fallthrough)
+branch  5 taken 0 (throw)
+   344610:  208-block  1
+call    6 returned 344610
+    $$$$$:  208-block  2
+call    7 never executed
+        -:  209:  }
+        4:  210:}
+        4:  210-block  0
+        -:  211:
+        -:  212:inline vector<Word> GetWordsFromWordRanges(const string& s, const vector<WordRange>& wrs) {
+        -:  213:  vector<Word> result;
+        -:  214:  GetWordsFromWordRanges(s, wrs, result);
+        -:  215:  return result;
+        -:  216:}
+        -:  217:
+function _ZN8cppjieba19GetStringsFromWordsERKSt6vectorINS_4WordESaIS1_EERS0_INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaISB_EE called 4 returned 100% blocks executed 100%
+        4:  218:inline void GetStringsFromWords(const vector<Word>& words, vector<string>& strs) {
+        4:  219:  strs.resize(words.size());
+        4:  219-block  0
+call    0 returned 4
+call    1 returned 4
+   344614:  220:  for (size_t i = 0; i < words.size(); ++i) {
+   344614:  220-block  0
+call    0 returned 344614
+branch  1 taken 344610
+branch  2 taken 4 (fallthrough)
+   344610:  221:    strs[i] = words[i].word;
+   344610:  221-block  0
+call    0 returned 344610
+call    1 returned 344610
+call    2 returned 344610
+        -:  222:  }
+        4:  223:}
+        -:  224:
+        -:  225:} // namespace cppjieba
+        -:  226:
+        -:  227:#endif // CPPJIEBA_UNICODE_H

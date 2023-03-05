@@ -1,0 +1,607 @@
+        -:    0:Source:C:/Users/86195/Desktop/lunwen/include/cppjieba/KeywordExtractor.hpp
+        -:    0:Graph:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\86195\Desktop\lunwen\cmake-build-debug-\CMakeFiles\lunwen.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef CPPJIEBA_KEYWORD_EXTRACTOR_H
+        -:    2:#define CPPJIEBA_KEYWORD_EXTRACTOR_H
+        -:    3:
+        -:    4:#include <cmath>
+        -:    5:#include <set>
+        -:    6:#include "MixSegment.hpp"
+        -:    7:
+        -:    8:namespace cppjieba {
+        -:    9:
+        -:   10:using namespace limonp;
+        -:   11:using namespace std;
+        -:   12:
+        -:   13:/*utf8*/
+        -:   14:class KeywordExtractor {
+        -:   15: public:
+        -:   16:  struct Word {
+        -:   17:    string word;
+        -:   18:    vector<size_t> offsets;
+        -:   19:    double weight;
+        -:   20:  }; // struct Word
+        -:   21:
+function _ZN8cppjieba16KeywordExtractorC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_S8_S8_S8_ called 1 returned 100% blocks executed 58%
+        1:   22:  KeywordExtractor(const string& dictPath, 
+        -:   23:        const string& hmmFilePath, 
+        -:   24:        const string& idfPath, 
+        -:   25:        const string& stopWordPath, 
+        -:   26:        const string& userDict = "") 
+        1:   27:    : segment_(dictPath, hmmFilePath, userDict) {
+        1:   27-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+        1:   28:    LoadIdfDict(idfPath);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   29:    LoadStopWordDict(stopWordPath);
+        1:   29-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   30:  }
+        1:   30-block  0
+    $$$$$:   30-block  1
+call    0 never executed
+    $$$$$:   30-block  2
+call    1 never executed
+    $$$$$:   30-block  3
+call    2 never executed
+        -:   31:  KeywordExtractor(const DictTrie* dictTrie, 
+        -:   32:        const HMMModel* model,
+        -:   33:        const string& idfPath, 
+        -:   34:        const string& stopWordPath) 
+        -:   35:    : segment_(dictTrie, model) {
+        -:   36:    LoadIdfDict(idfPath);
+        -:   37:    LoadStopWordDict(stopWordPath);
+        -:   38:  }
+function _ZN8cppjieba16KeywordExtractorD1Ev called 1 returned 100% blocks executed 100%
+        1:   39:  ~KeywordExtractor() {
+        1:   40:  }
+        1:   40-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+        -:   41:
+        -:   42:  void Extract(const string& sentence, vector<string>& keywords, size_t topN) const {
+        -:   43:    vector<Word> topWords;
+        -:   44:    Extract(sentence, topWords, topN);
+        -:   45:    for (size_t i = 0; i < topWords.size(); i++) {
+        -:   46:      keywords.push_back(topWords[i].word);
+        -:   47:    }
+        -:   48:  }
+        -:   49:
+function _ZNK8cppjieba16KeywordExtractor7ExtractERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorISt4pairIS6_dESaISB_EEy called 4 returned 100% blocks executed 75%
+        4:   50:  const bool Extract(const string& sentence, vector<pair<string, double> >& keywords, size_t topN) const {
+        4:   51:    vector<Word> topWords;
+        4:   51-block  0
+call    0 returned 4
+        4:   52:    Extract(sentence, topWords, topN);
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+     2006:   53:    for (size_t i = 0; i < topWords.size(); i++) {
+        4:   53-block  0
+     2006:   53-block  1
+call    0 returned 2006
+branch  1 taken 2002
+branch  2 taken 4 (fallthrough)
+     2002:   54:      keywords.push_back(pair<string, double>(topWords[i].word, topWords[i].weight));
+     2002:   54-block  0
+call    0 returned 2002
+call    1 returned 2002
+call    2 returned 2002
+branch  3 taken 2002 (fallthrough)
+branch  4 taken 0 (throw)
+     2002:   54-block  1
+call    5 returned 2002
+branch  6 taken 2002 (fallthrough)
+branch  7 taken 0 (throw)
+     2002:   54-block  2
+call    8 returned 2002
+    $$$$$:   54-block  3
+call    9 never executed
+    $$$$$:   54-block  4
+        -:   55:    }
+        4:   56:      return 1;
+        4:   56-block  0
+        4:   57:  }
+        4:   57-block  0
+call    0 returned 4
+    $$$$$:   57-block  1
+call    1 never executed
+        -:   58:
+function _ZNK8cppjieba16KeywordExtractor7ExtractERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt6vectorINS0_4WordESaISA_EEy called 4 returned 100% blocks executed 78%
+        4:   59:  void Extract(const string& sentence, vector<Word>& keywords, size_t topN) const {
+        4:   60:    vector<string> words;
+        4:   60-block  0
+call    0 returned 4
+        4:   61:    segment_.Cut(sentence, words);
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   62:
+        4:   63:    map<string, Word> wordmap;
+        4:   63-block  0
+call    0 returned 4
+        4:   64:    size_t offset = 0;
+   344614:   65:    for (size_t i = 0; i < words.size(); ++i) {
+   344610:   65-block  0
+   344614:   65-block  1
+call    0 returned 344614
+branch  1 taken 344610
+branch  2 taken 4 (fallthrough)
+   344610:   66:      size_t t = offset;
+   344610:   67:      offset += words[i].size();
+   344610:   67-block  0
+call    0 returned 344610
+call    1 returned 344610
+   344610:   68:      if (IsSingleWord(words[i]) || stopWords_.find(words[i]) != stopWords_.end()) {
+call    0 returned 344610
+call    1 returned 344610
+branch  2 taken 103218 (fallthrough)
+branch  3 taken 241392
+   103218:   68-block  0
+call    4 returned 103218
+call    5 returned 103218
+call    6 returned 103218
+branch  7 taken 103218 (fallthrough)
+branch  8 taken 0 (throw)
+   103218:   68-block  1
+call    9 returned 103218
+branch 10 taken 7548 (fallthrough)
+branch 11 taken 95670
+   248940:   68-block  2
+    95670:   68-block  3
+   344610:   68-block  4
+branch 12 taken 248940 (fallthrough)
+branch 13 taken 95670
+    $$$$$:   68-block  5
+    $$$$$:   68-block  6
+   248940:   69:        continue;
+   248940:   69-block  0
+        -:   70:      }
+    95670:   71:      wordmap[words[i]].offsets.push_back(t);
+    95670:   71-block  0
+call    0 returned 95670
+call    1 returned 95670
+branch  2 taken 95670 (fallthrough)
+branch  3 taken 0 (throw)
+    95670:   71-block  1
+call    4 returned 95670
+branch  5 taken 95670 (fallthrough)
+branch  6 taken 0 (throw)
+    95670:   72:      wordmap[words[i]].weight += 1.0;
+    95670:   72-block  0
+call    0 returned 95670
+call    1 returned 95670
+branch  2 taken 95670 (fallthrough)
+branch  3 taken 0 (throw)
+    95670:   72-block  1
+        -:   73:    }
+        4:   74:    if (offset != sentence.size()) {
+        4:   74-block  0
+call    0 returned 4
+branch  1 taken 0 (fallthrough)
+branch  2 taken 4
+    #####:   75:      XLOG(ERROR) << "words illegal";
+    %%%%%:   75-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   75-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:   75-block  2
+call    7 never executed
+    $$$$$:   75-block  3
+call    8 never executed
+    $$$$$:   75-block  4
+    #####:   76:      return;
+        -:   77:    }
+        -:   78:
+        4:   79:    keywords.clear();
+        4:   79-block  0
+call    0 returned 4
+        4:   80:    keywords.reserve(wordmap.size());
+call    0 returned 4
+call    1 returned 4
+branch  2 taken 4 (fallthrough)
+branch  3 taken 0 (throw)
+     5742:   81:    for (map<string, Word>::iterator itr = wordmap.begin(); itr != wordmap.end(); ++itr) {
+        4:   81-block  0
+call    0 returned 4
+     5738:   81-block  1
+call    1 returned 5738
+     5742:   81-block  2
+call    2 returned 5742
+call    3 returned 5742
+branch  4 taken 5738
+branch  5 taken 4 (fallthrough)
+     5738:   82:      unordered_map<string, double>::const_iterator cit = idfMap_.find(itr->first);
+     5738:   82-block  0
+call    0 returned 5738
+call    1 returned 5738
+branch  2 taken 5738 (fallthrough)
+branch  3 taken 0 (throw)
+     5738:   83:      if (cit != idfMap_.end()) {
+     5738:   83-block  0
+call    0 returned 5738
+call    1 returned 5738
+branch  2 taken 5222 (fallthrough)
+branch  3 taken 516
+     5222:   84:        itr->second.weight *= cit->second;
+     5222:   84-block  0
+call    0 returned 5222
+call    1 returned 5222
+        -:   85:      } else {
+      516:   86:        itr->second.weight *= idfAverage_;
+      516:   86-block  0
+call    0 returned 516
+        -:   87:      }
+     5738:   88:      itr->second.word = itr->first;
+     5738:   88-block  0
+call    0 returned 5738
+call    1 returned 5738
+call    2 returned 5738
+branch  3 taken 5738 (fallthrough)
+branch  4 taken 0 (throw)
+     5738:   89:      keywords.push_back(itr->second);
+     5738:   89-block  0
+call    0 returned 5738
+call    1 returned 5738
+branch  2 taken 5738 (fallthrough)
+branch  3 taken 0 (throw)
+        -:   90:    }
+        4:   91:    topN = min(topN, keywords.size());
+        4:   91-block  0
+call    0 returned 4
+call    1 returned 4
+        4:   92:    partial_sort(keywords.begin(), keywords.begin() + topN, keywords.end(), Compare);
+call    0 returned 4
+call    1 returned 4
+call    2 returned 4
+call    3 returned 4
+call    4 returned 4
+branch  5 taken 4 (fallthrough)
+branch  6 taken 0 (throw)
+    $$$$$:   92-block  0
+        4:   93:    keywords.resize(topN);
+        4:   93-block  0
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   94:  }
+        4:   94-block  0
+        4:   94-block  1
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0
+        4:   94-block  2
+        4:   94-block  3
+call    3 returned 4
+branch  4 taken 4 (fallthrough)
+branch  5 taken 0
+    $$$$$:   94-block  4
+call    6 never executed
+    $$$$$:   94-block  5
+call    7 never executed
+        -:   95: private:
+function _ZN8cppjieba16KeywordExtractor11LoadIdfDictERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 42%
+        1:   96:  void LoadIdfDict(const string& idfPath) {
+        1:   97:    ifstream ifs(idfPath.c_str());
+        1:   97-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+       1*:   98:    XCHECK(ifs.is_open()) << "open " << idfPath << " failed";
+        1:   98-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   98-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   98-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:   98-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   98-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   98-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:   98-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:   98-block  7
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+    %%%%%:   98-block  8
+call   24 never executed
+    $$$$$:   98-block  9
+call   25 never executed
+    $$$$$:   98-block 10
+        1:   99:    string line ;
+        1:   99-block  0
+call    0 returned 1
+        1:  100:    vector<string> buf;
+call    0 returned 1
+        1:  101:    double idf = 0.0;
+        1:  102:    double idfSum = 0.0;
+        1:  103:    size_t lineno = 0;
+   258827:  104:    for (; getline(ifs, line); lineno++) {
+   258826:  104-block  0
+   258827:  104-block  1
+call    0 returned 258827
+branch  1 taken 258827 (fallthrough)
+branch  2 taken 0 (throw)
+   258827:  104-block  2
+call    3 returned 258827
+branch  4 taken 258827 (fallthrough)
+branch  5 taken 0 (throw)
+   258827:  104-block  3
+branch  6 taken 258826
+branch  7 taken 1 (fallthrough)
+   258826:  105:      buf.clear();
+   258826:  105-block  0
+call    0 returned 258826
+  258826*:  106:      if (line.empty()) {
+call    0 returned 258826
+branch  1 taken 0 (fallthrough)
+branch  2 taken 258826
+    #####:  107:        XLOG(ERROR) << "lineno: " << lineno << " empty. skipped.";
+    %%%%%:  107-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  107-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  107-block  2
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:  107-block  3
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:  107-block  4
+call   13 never executed
+    $$$$$:  107-block  5
+call   14 never executed
+    $$$$$:  107-block  6
+    #####:  108:        continue;
+        -:  109:      }
+   258826:  110:      Split(line, buf, " ");
+   258826:  110-block  0
+call    0 returned 258826
+call    1 returned 258826
+branch  2 taken 258826 (fallthrough)
+branch  3 taken 0 (throw)
+   258826:  110-block  1
+call    4 returned 258826
+branch  5 taken 258826 (fallthrough)
+branch  6 taken 0 (throw)
+   258826:  110-block  2
+call    7 returned 258826
+call    8 returned 258826
+    $$$$$:  110-block  3
+call    9 never executed
+    $$$$$:  110-block  4
+    $$$$$:  110-block  5
+call   10 never executed
+    $$$$$:  110-block  6
+  258826*:  111:      if (buf.size() != 2) {
+call    0 returned 258826
+branch  1 taken 0 (fallthrough)
+branch  2 taken 258826
+    #####:  112:        XLOG(ERROR) << "line: " << line << ", lineno: " << lineno << " empty. skipped.";
+    %%%%%:  112-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  112-block  1
+call    3 never executed
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  112-block  2
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:  112-block  3
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:  112-block  4
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:  112-block  5
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:  112-block  6
+call   19 never executed
+    $$$$$:  112-block  7
+call   20 never executed
+    $$$$$:  112-block  8
+    #####:  113:        continue;
+        -:  114:      }
+   258826:  115:      idf = atof(buf[1].c_str());
+   258826:  115-block  0
+call    0 returned 258826
+call    1 returned 258826
+call    2 returned 258826
+   258826:  116:      idfMap_[buf[0]] = idf;
+call    0 returned 258826
+call    1 returned 258826
+branch  2 taken 258826 (fallthrough)
+branch  3 taken 0 (throw)
+   258826:  117:      idfSum += idf;
+   258826:  117-block  0
+        -:  118:
+        -:  119:    }
+        -:  120:
+       1*:  121:    assert(lineno);
+        1:  121-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:  121-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+        1:  121-block  2
+    %%%%%:  121-block  3
+        1:  122:    idfAverage_ = idfSum / lineno;
+       1*:  123:    assert(idfAverage_ > 0.0);
+        1:  123-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:  123-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+        1:  123-block  2
+    %%%%%:  123-block  3
+        1:  124:  }
+        1:  124-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+    $$$$$:  124-block  1
+call    3 never executed
+    $$$$$:  124-block  2
+call    4 never executed
+    $$$$$:  124-block  3
+call    5 never executed
+function _ZN8cppjieba16KeywordExtractor16LoadStopWordDictERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 50%
+        1:  125:  void LoadStopWordDict(const string& filePath) {
+        1:  126:    ifstream ifs(filePath.c_str());
+        1:  126-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+       1*:  127:    XCHECK(ifs.is_open()) << "open " << filePath << " failed";
+        1:  127-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  127-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:  127-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+    %%%%%:  127-block  3
+call    8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  127-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  127-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  127-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  127-block  7
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+    %%%%%:  127-block  8
+call   24 never executed
+    $$$$$:  127-block  9
+call   25 never executed
+    $$$$$:  127-block 10
+        1:  128:    string line ;
+        1:  128-block  0
+call    0 returned 1
+     1535:  129:    while (getline(ifs, line)) {
+     1535:  129-block  0
+call    0 returned 1535
+branch  1 taken 1535 (fallthrough)
+branch  2 taken 0 (throw)
+     1535:  129-block  1
+call    3 returned 1535
+branch  4 taken 1535 (fallthrough)
+branch  5 taken 0 (throw)
+     1535:  129-block  2
+branch  6 taken 1534
+branch  7 taken 1 (fallthrough)
+     1534:  130:      stopWords_.insert(line);
+     1534:  130-block  0
+call    0 returned 1534
+branch  1 taken 1534 (fallthrough)
+branch  2 taken 0 (throw)
+     1534:  130-block  1
+        -:  131:    }
+       1*:  132:    assert(stopWords_.size());
+        1:  132-block  0
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:  132-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        1:  132-block  2
+    %%%%%:  132-block  3
+        1:  133:  }
+        1:  133-block  0
+call    0 returned 1
+call    1 returned 1
+    $$$$$:  133-block  1
+call    2 never executed
+    $$$$$:  133-block  2
+call    3 never executed
+        -:  134:
+function _ZN8cppjieba16KeywordExtractor7CompareERKNS0_4WordES3_ called 47034 returned 100% blocks executed 100%
+    47034:  135:  static bool Compare(const Word& lhs, const Word& rhs) {
+    47034:  136:    return lhs.weight > rhs.weight;
+    47034:  136-block  0
+        -:  137:  }
+        -:  138:
+        -:  139:  MixSegment segment_;
+        -:  140:  unordered_map<string, double> idfMap_;
+        -:  141:  double idfAverage_;
+        -:  142:
+        -:  143:  unordered_set<string> stopWords_;
+        -:  144:}; // class KeywordExtractor
+        -:  145:
+        -:  146:inline ostream& operator << (ostream& os, const KeywordExtractor::Word& word) {
+        -:  147:  return os << "{\"word\": \"" << word.word << "\", \"offset\": " << word.offsets << ", \"weight\": " << word.weight << "}"; 
+        -:  148:}
+        -:  149:
+        -:  150:} // namespace cppjieba
+        -:  151:
+        -:  152:#endif
+        -:  153:
+        -:  154:
